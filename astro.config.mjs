@@ -9,6 +9,7 @@ export default defineConfig({
   site: SITE,
   output: 'static',
   trailingSlash: 'always',
+  build: { inlineStylesheets: 'always' },
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
   redirects: {

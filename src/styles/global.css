@@ -7,8 +7,8 @@
   --color-paper: #f5f3ec;
   --color-ink: #13201b;
   --color-dim: #7f9a8d;
-  --font-serif: "Newsreader", Georgia, serif;
-  --font-sans: "Geist", system-ui, sans-serif;
+  --font-serif: "Newsreader Variable", Georgia, serif;
+  --font-sans: "Geist Variable", system-ui, sans-serif;
 }
 
 @layer base {
