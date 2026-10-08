@@ -32,17 +32,17 @@ const jsonLd = faq.length
   </PageHero>
 
   <Section id="herken" n="01" label="Wat we vaak horen" title="Wat we vaak horen">
-    <ul class="border-b border-ink/15">
-      {problems.map((p) => <li class="border-t border-ink/15 py-5 font-serif text-2xl md:text-3xl">"{p}"</li>)}
+    <ul class="border-b border-paper/15">
+      {problems.map((p) => <li class="border-t border-paper/15 py-5 font-serif text-2xl md:text-3xl">"{p}"</li>)}
     </ul>
   </Section>
 
   <Section id="woordenlijst" n="02" label="Woordenlijst" title="Jouw woorden, in het systeem" intro="Elk begrip uit je vak wordt een trigger. Dit zijn voorbeelden, geen vaste regels.">
-    <dl class="border-b border-ink/15">
+    <dl class="border-b border-paper/15">
       {glossary.map((g) => (
-        <div class="grid gap-2 border-t border-ink/15 py-6 md:grid-cols-[16rem_1fr] md:gap-8">
+        <div class="grid gap-2 border-t border-paper/15 py-6 md:grid-cols-[16rem_1fr] md:gap-8">
           <dt class="font-serif text-3xl">{g.term}</dt>
-          <dd class="text-ink/80 md:text-lg">{g.becomes}</dd>
+          <dd class="text-paper/80 md:text-lg">{g.becomes}</dd>
         </div>
       ))}
     </dl>

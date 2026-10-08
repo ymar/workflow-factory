@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  --color-night: #0a1c16;
   --color-forest: #0f2e23;
   --color-mint: #5ff0b8;
   --color-sage: #a9c4b6;
@@ -13,14 +14,15 @@
 
 @layer base {
   html {
-    background: var(--color-paper);
-    color: var(--color-ink);
+    background: var(--color-night);
+    color: var(--color-paper);
+    color-scheme: dark;
     font-family: var(--font-sans);
     -webkit-text-size-adjust: 100%;
   }
   body {
-    background: var(--color-paper);
-    color: var(--color-ink);
+    background: var(--color-night);
+    color: var(--color-paper);
     min-width: 320px;
     overflow-x: hidden;
   }
@@ -35,7 +37,7 @@
     text-wrap: balance;
   }
   :focus-visible {
-    outline: 3px solid var(--color-ink);
+    outline: 3px solid var(--color-mint);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -43,7 +45,7 @@
     background: var(--color-forest);
     color: var(--color-paper);
   }
-  .on-dark :focus-visible {
+  .on-dark :focus-visible, header :focus-visible {
     outline-color: var(--color-mint);
   }
 }
@@ -99,4 +101,15 @@
 .check-item:has(input:checked) .check-text {
   color: var(--color-mint);
   text-shadow: 0 0 4px rgba(95, 240, 184, 0.55), 0 0 14px rgba(95, 240, 184, 0.3);
+}
+
+/* Dark theme: page tops sit on the deepest tone with a faint mint spill, like light from a sign. */
+.hero-glow {
+  background:
+    radial-gradient(55% 60% at 80% 10%, rgba(95, 240, 184, 0.09), transparent 70%),
+    var(--color-night);
+  color: var(--color-paper);
+}
+.hero-glow :focus-visible {
+  outline-color: var(--color-mint);
 }

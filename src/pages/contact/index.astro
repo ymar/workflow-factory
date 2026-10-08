@@ -12,7 +12,7 @@ import { site } from '../../lib/site';
   path="/contact/"
 >
   <PageHero kicker="Contact" title="Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst" accent="je verhaal moet fixen." />
-  <div class="on-dark">
+  <div>
     <div class="mx-auto max-w-6xl px-4 pb-24 md:px-8 md:pb-32">
       <div class="grid gap-8 border-t border-paper/15 pt-8 md:grid-cols-3">
         <div>
@@ -32,15 +32,15 @@ import { site } from '../../lib/site';
   </div>
 
   <Section id="gesprek" n="01" label="Het gesprek" title="Wat er in 30 minuten gebeurt">
-    <ol class="border-b border-ink/15">
+    <ol class="border-b border-paper/15">
       {[
         'Je vertelt wat je verkoopt, aan wie, en wat er nu misgaat.',
         'Ik kijk mee naar je homepage en je opvolging.',
         'Je hoort van mij of je klaar bent voor campagnes. Zo niet, dan zeg ik wat eerst moet.',
       ].map((s, i) => (
-        <li class="grid grid-cols-[3rem_1fr] border-t border-ink/15 py-6 text-lg md:text-2xl"><span class="text-ink/70">0{i + 1}</span>{s}</li>
+        <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-6 text-lg md:text-2xl"><span class="text-paper/70">0{i + 1}</span>{s}</li>
       ))}
     </ol>
-    <p class="mt-10 text-ink/80">Geen verkooppraatje. Als het niet past, zeg ik dat.</p>
+    <p class="mt-10 text-paper/80">Geen verkooppraatje. Als het niet past, zeg ik dat.</p>
   </Section>
 </Base>

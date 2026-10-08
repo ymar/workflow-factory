@@ -21,7 +21,7 @@ const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', ye
     title="Kapotte letters."
     intro="Ik zet de woorden die iedereen gebruikt uit. Wat blijft branden, is wat alleen dit bedrijf kan zeggen. Vaak is dat weinig."
   />
-  <div class="on-dark">
+  <div>
     <div class="mx-auto max-w-6xl px-4 pb-24 md:px-8 md:pb-32">
       <div class="border-t border-paper/15 pt-10">
         <KapotteLetters
@@ -37,20 +37,20 @@ const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', ye
   </div>
 
   <Section id="lijst" n="01" label="Archief" title="Alle teardowns">
-    <ul class="border-b border-ink/15">
+    <ul class="border-b border-paper/15">
       {teardowns.length > 0
         ? teardowns.map((t) => (
-            <li class="border-t border-ink/15">
+            <li class="border-t border-paper/15">
               <a href={`/teardowns/${t.id}/`} class="group grid gap-2 py-6 md:grid-cols-[12rem_1fr_auto] md:items-baseline md:gap-8">
-                <span class="text-sm text-ink/70">{fmt.format(t.data.date)}</span>
+                <span class="text-sm text-paper/70">{fmt.format(t.data.date)}</span>
                 <span class="font-serif text-2xl group-hover:underline md:text-3xl">{t.data.title}</span>
-                <span class="text-sm text-ink/70">{t.data.type}</span>
+                <span class="text-sm text-paper/70">{t.data.type}</span>
               </a>
             </li>
           ))
         : [1, 2, 3].map((n) => (
-            <li class="grid gap-2 border-t border-ink/15 py-6 md:grid-cols-[12rem_1fr_auto] md:gap-8">
-              <span class="text-sm text-ink/70">Nog niet gepubliceerd</span>
+            <li class="grid gap-2 border-t border-paper/15 py-6 md:grid-cols-[12rem_1fr_auto] md:gap-8">
+              <span class="text-sm text-paper/70">Nog niet gepubliceerd</span>
               <span class="font-serif text-2xl md:text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></span>
             </li>
           ))}

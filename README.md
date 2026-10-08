@@ -23,7 +23,7 @@ Cloudflare Pages settings: build command `npm run build`, output directory `dist
 | Segment page | `src/content/segments/installatie-onderhoud.json` |
 | Teardowns | `src/content/teardowns/*.md` |
 | Redirects | `astro.config.mjs` and `public/_redirects` (the `/en/*` wildcard only works in `_redirects`) |
-| Brand tokens | `src/styles/global.css` |
+| Brand tokens (dark theme: `night` base, `forest` for highlighted blocks) | `src/styles/global.css` |
 
 An empty value in `src/lib/site.ts` shows up on the site as a visible `[placeholder]`.
 

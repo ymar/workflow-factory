@@ -18,12 +18,12 @@ import ServicePage from '../../components/ServicePage.astro';
   <div slot="after-deliverables" class="mt-16 grid gap-8 md:grid-cols-[16rem_1fr]">
     <h3 class="text-3xl">De vier checks</h3>
     <div>
-      <ol class="border-b border-ink/15">
+      <ol class="border-b border-paper/15">
         {['Klopt het?', 'Maakt het verschil voor de koper?', 'Kan een concurrent het zeggen?', 'Wint het ook de tweede order?'].map((q, i) => (
-          <li class="grid grid-cols-[3rem_1fr] border-t border-ink/15 py-4 text-lg"><span class="text-ink/70">0{i + 1}</span>{q}</li>
+          <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-4 text-lg"><span class="text-paper/70">0{i + 1}</span>{q}</li>
         ))}
       </ol>
-      <p class="mt-6 text-ink/80">Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.</p>
+      <p class="mt-6 text-paper/80">Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.</p>
     </div>
   </div>
 </ServicePage>

@@ -63,7 +63,7 @@ const nots = [
 ---
 <Base title={title} description={description} path="/" jsonLd={jsonLd}>
   <!-- Hero -->
-  <section class="on-dark">
+  <section class="hero-glow">
     <div class="mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-between px-4 pb-10 pt-16 md:px-8 md:pt-28">
       <div>
         <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Voor traditionele B2B-bedrijven</p>
@@ -111,11 +111,11 @@ const nots = [
   </Section>
 
   <Section id="neon" n="03" label="Waarom neon" title="Neongas is onzichtbaar. Tot er stroom doorheen gaat.">
-    <ol class="grid gap-px overflow-hidden rounded-3xl border border-ink/15 bg-ink/15 md:grid-cols-3">
+    <ol class="grid gap-px overflow-hidden rounded-3xl border border-paper/15 bg-paper/15 md:grid-cols-3">
       {story.map((s) => (
-        <li class="flex flex-col bg-paper p-8 md:p-10">
+        <li class="flex flex-col bg-night p-8 md:p-10">
           <p class="font-serif text-5xl tracking-[-0.02em] md:text-6xl">{s.word}</p>
-          <p class="mt-8 text-ink/80">{s.text}</p>
+          <p class="mt-8 text-paper/80">{s.text}</p>
           <p class="mt-auto flex items-center gap-2 pt-10 text-sm font-medium"><MediaIcon id={s.id} class="size-5" /> {s.product}</p>
         </li>
       ))}
@@ -126,11 +126,11 @@ const nots = [
   <Section id="bewijs" n="04" label="Uit 10 jaar" title="Drie korte voorbeelden" intro="Geanonimiseerd. Vul hier echte cases met cijfers in, zodra je ze mag delen.">
     <ul class="grid gap-6 md:grid-cols-3">
       {[1, 2, 3].map((n) => (
-        <li class="border-t border-ink pt-6">
-          <p class="font-serif text-5xl text-ink/70">0{n}</p>
+        <li class="border-t border-paper pt-6">
+          <p class="font-serif text-5xl text-paper/70">0{n}</p>
           <p class="mt-6 font-medium"><Placeholder label="Sector en uitgangssituatie" /></p>
-          <p class="mt-3 text-ink/80"><Placeholder label="Wat we veranderden" /></p>
-          <p class="mt-3 text-ink/80"><Placeholder label="Resultaat in cijfers, na X weken" /></p>
+          <p class="mt-3 text-paper/80"><Placeholder label="Wat we veranderden" /></p>
+          <p class="mt-3 text-paper/80"><Placeholder label="Resultaat in cijfers, na X weken" /></p>
         </li>
       ))}
     </ul>
@@ -141,21 +141,21 @@ const nots = [
       {services.map((s) => {
         const start = s.id === 'rewind';
         return (
-          <li class={`flex flex-col rounded-3xl p-8 ${start ? 'on-dark' : 'border border-ink/15'}`}>
+          <li class={`flex flex-col rounded-3xl p-8 ${start ? 'on-dark' : 'border border-paper/15'}`}>
             <div class="flex items-center justify-between">
-              <MediaIcon id={s.id} class={`size-8 ${start ? 'text-mint' : 'text-ink'}`} />
+              <MediaIcon id={s.id} class={`size-8 ${start ? 'text-mint' : 'text-paper'}`} />
               {start && <span class="rounded-full bg-mint px-3 py-1 text-xs font-semibold text-forest">Startpunt</span>}
             </div>
             <h3 class="mt-10 text-4xl">{s.data.name}</h3>
-            <p class={`mt-4 ${start ? 'text-paper/80' : 'text-ink/80'}`}>{s.data.summary}</p>
-            <dl class={`mt-8 space-y-2 border-t pt-6 text-sm ${start ? 'border-paper/15' : 'border-ink/15'}`}>
-              <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-ink/70'}>Doorlooptijd</dt><dd>{s.data.duration}</dd></div>
+            <p class={`mt-4 ${start ? 'text-paper/80' : 'text-paper/80'}`}>{s.data.summary}</p>
+            <dl class={`mt-8 space-y-2 border-t pt-6 text-sm ${start ? 'border-paper/15' : 'border-paper/15'}`}>
+              <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-paper/70'}>Doorlooptijd</dt><dd>{s.data.duration}</dd></div>
               {s.data.prices.map((p) => (
-                <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-ink/70'}>{p.label}</dt><dd class="text-right font-medium">{priceLabel(p)}</dd></div>
+                <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-paper/70'}>{p.label}</dt><dd class="text-right font-medium">{priceLabel(p)}</dd></div>
               ))}
             </dl>
-            <p class={`mt-3 text-xs ${start ? 'text-sage' : 'text-ink/70'}`}>Voorstel{s.data.priceNote && `. ${s.data.priceNote}`}</p>
-            <a href={`/${s.id}/`} class={`group mt-auto inline-flex items-center gap-2 pt-10 font-medium ${start ? 'text-mint' : 'text-ink'}`}>
+            <p class={`mt-3 text-xs ${start ? 'text-sage' : 'text-paper/70'}`}>Voorstel{s.data.priceNote && `. ${s.data.priceNote}`}</p>
+            <a href={`/${s.id}/`} class={`group mt-auto inline-flex items-center gap-2 pt-10 font-medium ${start ? 'text-mint' : 'text-paper'}`}>
               Meer over {s.data.name} <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span>
             </a>
           </li>
@@ -166,33 +166,33 @@ const nots = [
 
   <Section id="krijg" n="06" label="Rewind" title="Wat je van Rewind krijgt">
     <div class="grid gap-12 md:grid-cols-2">
-      <ol class="border-b border-ink/15">
+      <ol class="border-b border-paper/15">
         {rewind?.data.deliverables.map((d, i) => (
-          <li class="grid grid-cols-[3rem_1fr] border-t border-ink/15 py-6">
-            <span class="font-serif text-2xl text-ink/70">0{i + 1}</span>
+          <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-6">
+            <span class="font-serif text-2xl text-paper/70">0{i + 1}</span>
             <div>
               <p class="font-serif text-3xl">{d.name}</p>
-              <p class="mt-2 text-ink/80">{d.format}. {d.size}.</p>
+              <p class="mt-2 text-paper/80">{d.format}. {d.size}.</p>
             </div>
           </li>
         ))}
       </ol>
       <figure>
-        <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-ink/5 p-8 text-center text-ink/75">
+        <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-paper/5 p-8 text-center text-paper/75">
           <Placeholder label="Voorbeeldafbeelding: een pagina van het kernverhaal" />
         </div>
-        <figcaption class="mt-3 text-sm text-ink/70">Vervang door een echt voorbeeld, zodra die er is.</figcaption>
+        <figcaption class="mt-3 text-sm text-paper/70">Vervang door een echt voorbeeld, zodra die er is.</figcaption>
       </figure>
     </div>
   </Section>
 
   <Section id="dag" n="07" label="Proces" title="Rewind, dag voor dag" intro="Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.">
-    <ol class="border-b border-ink/15">
+    <ol class="border-b border-paper/15">
       {rewind?.data.process.map((step) => (
-        <li class="grid gap-1 border-t border-ink/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
+        <li class="grid gap-1 border-t border-paper/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
           <span class="font-medium">{step.when}</span>
-          <span class="text-ink/80">{step.what}</span>
-          <span class="text-sm text-ink/70 md:text-right">Jouw tijd: {step.clientTime}</span>
+          <span class="text-paper/80">{step.what}</span>
+          <span class="text-sm text-paper/70 md:text-right">Jouw tijd: {step.clientTime}</span>
         </li>
       ))}
     </ol>
@@ -209,15 +209,15 @@ const nots = [
       {teardowns.length > 0
         ? teardowns.map((t) => (
             <li>
-              <a href={`/teardowns/${t.id}/`} class="block h-full rounded-3xl border border-ink/15 p-8 hover:border-ink">
-                <p class="text-sm text-ink/70">{t.data.company} · {t.data.type}</p>
+              <a href={`/teardowns/${t.id}/`} class="block h-full rounded-3xl border border-paper/15 p-8 hover:border-paper">
+                <p class="text-sm text-paper/70">{t.data.company} · {t.data.type}</p>
                 <p class="mt-6 font-serif text-3xl">{t.data.title}</p>
               </a>
             </li>
           ))
         : [1, 2, 3].map((n) => (
-            <li class="rounded-3xl border border-dashed border-ink/30 p-8">
-              <p class="text-sm text-ink/70">Nog geen gepubliceerde teardown</p>
+            <li class="rounded-3xl border border-dashed border-paper/30 p-8">
+              <p class="text-sm text-paper/70">Nog geen gepubliceerde teardown</p>
               <p class="mt-6 font-serif text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
             </li>
           ))}

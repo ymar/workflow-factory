@@ -9,7 +9,7 @@ const { href, variant = 'primary', arrow = true, class: className = '' } = Astro
 const styles = {
   primary: 'bg-mint text-forest hover:bg-paper',
   'ghost-dark': 'border border-paper/30 text-paper hover:border-mint hover:text-mint',
-  'ghost-light': 'border border-ink/25 text-ink hover:border-ink',
+  'ghost-light': 'border border-paper/30 text-paper hover:border-mint hover:text-mint',
 };
 ---
 <a href={href} class={`group inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[15px] font-medium transition-colors ${styles[variant]} ${className}`}>
