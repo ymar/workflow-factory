@@ -1,0 +1,24 @@
+{
+  "name": "Installatie en onderhoud",
+  "problems": [
+    "We concurreren op uurtarief, terwijl we beter werk leveren.",
+    "Offertes gaan de deur uit en daarna horen we niets meer.",
+    "Onderhoudscontracten lopen af zonder dat iemand belt.",
+    "Klanten bellen alleen als er iets kapot is.",
+    "Op onze site staat kwaliteit en service. Net als bij iedereen."
+  ],
+  "journeys": [
+    "Opvolging van aanvragen en storingsmeldingen",
+    "Offerteopvolging",
+    "Nazorg na oplevering",
+    "Verlenging van onderhoudscontracten",
+    "Planning van de jaarlijkse keuring"
+  ],
+  "glossary": [
+    { "term": "Opleverdatum", "becomes": "De start van de nazorg. Stel: 30 dagen na oplevering een korte check en de vraag of er een onderhoudscontract bij hoort." },
+    { "term": "Onderhoudscontract", "becomes": "Een deal met een einddatum. Stel: 90 dagen voor die datum start de verlengingsjourney, met een taak voor de accountmanager." },
+    { "term": "Jaarlijkse keuring", "becomes": "Een terugkerende datum. Stel: 6 weken vooraf een uitnodiging om in te plannen, en een belactie als er geen reactie komt." },
+    { "term": "MJOP", "becomes": "Een lijst met geplande vervangingen per jaar. Stel: elke regel wordt 6 maanden vooraf een offertevoorstel." },
+    { "term": "Storingsmelding", "becomes": "Een ticket met een datum. Stel: na de derde storing in een jaar een taak voor een gesprek over vervanging of een contract." }
+  ]
+}

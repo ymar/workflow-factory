@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { site } from '../../lib/site';
+---
+<Base
+  title="Contact · Plan 30 minuten | Neeeon"
+  description="Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst je verhaal moet fixen."
+  path="/contact/"
+>
+  <section class="on-dark pb-16 pt-14 md:pb-20 md:pt-20">
+    <div class="mx-auto max-w-3xl px-4 md:px-6">
+      <p class="text-sm font-medium uppercase tracking-widest text-sage">Contact</p>
+      <h1 class="mt-4 text-4xl font-medium md:text-5xl">Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst je verhaal moet fixen.</h1>
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        {site.bookingUrl ? (
+          <a href={site.bookingUrl} class="rounded-md bg-mint px-5 py-3 font-semibold text-forest hover:brightness-110">Kies een moment</a>
+        ) : (
+          <span class="text-paper"><Placeholder label="Boekingslink volgt" /></span>
+        )}
+        {site.email ? (
+          <a href={`mailto:${site.email}?subject=Kennismaking`} class="rounded-md border border-paper/60 px-5 py-3 font-semibold text-paper hover:border-mint hover:text-mint">Mail {site.email}</a>
+        ) : (
+          <span class="text-paper"><Placeholder label="e-mailadres" /></span>
+        )}
+      </div>
+      <p class="mt-6 text-sage">Beschikbaarheid: {site.availability || <Placeholder label="bijvoorbeeld: eerste sprint vanaf januari" />}</p>
+    </div>
+  </section>
+  <section class="py-16 md:py-20" aria-labelledby="gesprek">
+    <div class="mx-auto max-w-3xl px-4 md:px-6">
+      <h2 id="gesprek" class="text-3xl md:text-4xl">Wat er in 30 minuten gebeurt</h2>
+      <ol class="mt-8 list-decimal space-y-3 pl-6 text-lg">
+        <li>Je vertelt wat je verkoopt, aan wie, en wat er nu misgaat.</li>
+        <li>Ik kijk mee naar je homepage en je opvolging.</li>
+        <li>Je hoort van mij of je klaar bent voor campagnes. Zo niet, dan zeg ik wat eerst moet.</li>
+      </ol>
+      <p class="mt-8 text-ink/80">Geen verkooppraatje. Als het niet past, zeg ik dat.</p>
+    </div>
+  </section>
+</Base>

@@ -1,10 +1,16 @@
 ---
 import Placeholder from './Placeholder.astro';
+import { site } from '../lib/site';
 ---
 <footer class="on-dark mt-24">
   <div class="mx-auto max-w-5xl px-4 py-10 text-sm md:px-6">
     <p class="font-serif text-lg">Je verhaal is er al. Wij zetten er stroom op.</p>
-    <p class="mt-4 text-sage">Neeeon · Marketing automation op Revenue Architecture · <Placeholder label="KvK-nummer" /></p>
-    <p class="mt-2 text-sage"><a class="underline underline-offset-4 hover:text-mint" href="/privacy/">Privacy</a> · <Placeholder label="e-mailadres" /></p>
+    <p class="mt-4 text-sage">
+      Neeeon · Marketing automation op Revenue Architecture · KvK {site.kvk || <Placeholder label="KvK-nummer" />}
+    </p>
+    <p class="mt-2 text-sage">
+      <a class="underline underline-offset-4 hover:text-mint" href="/privacy/">Privacy</a> ·
+      {site.email ? <a class="underline underline-offset-4 hover:text-mint" href={`mailto:${site.email}`}>{site.email}</a> : <Placeholder label="e-mailadres" />}
+    </p>
   </div>
 </footer>

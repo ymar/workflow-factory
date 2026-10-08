@@ -1,0 +1,31 @@
+---
+import ServicePage from '../../components/ServicePage.astro';
+---
+<ServicePage
+  id="autoplay"
+  headline="Autoplay. Het verhaal, elke dag, tot de tweede order."
+  title="Autoplay · Marketing automation in HubSpot of ActiveCampaign | Neeeon"
+  description="Autoplay: journeys in HubSpot of ActiveCampaign voor leadopvolging, offerteopvolging, onboarding, contractverlenging en nabestellingen. 3 weken per journey."
+  signals={[
+    'Aanvragen en offertes blijven liggen.',
+    'Je hebt HubSpot, maar weet niet wat je erin moet zetten.',
+    'Contracten lopen af zonder dat iemand belt.',
+    'Je weet niet hoeveel aanvragen een order worden, of hoe lang dat duurt.',
+  ]}
+>
+  <div slot="after-deliverables" class="mt-10 max-w-2xl">
+    <h3 class="text-2xl">Voorbeelden van journeys</h3>
+    <ul class="mt-4 list-disc space-y-2 pl-6 text-lg">
+      <li>Leadopvolging</li>
+      <li>Offerteopvolging</li>
+      <li>Onboarding</li>
+      <li>Contractverlenging</li>
+      <li>Nabestellingen</li>
+    </ul>
+    <p class="mt-4 text-ink/85">Ik werk in HubSpot of ActiveCampaign. Geen Salesforce.</p>
+  </div>
+  <div slot="after-price" class="mt-8 max-w-2xl rounded-lg border border-ink p-6">
+    <p class="font-semibold">Pilot</p>
+    <p class="mt-2 text-ink/85">De eerste drie klanten betalen de helft. In ruil daarvoor maken we samen een case met cijfers.</p>
+  </div>
+</ServicePage>

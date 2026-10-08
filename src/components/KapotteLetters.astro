@@ -1,8 +1,10 @@
 ---
 // A sentence as a neon sign. Generic words are switched off (dimmed), what stays lit is distinct.
+// Parts without lit or plain are switched off. plain parts are neutral connector text.
 interface Part {
   text: string;
   lit?: boolean;
+  plain?: boolean;
 }
 interface Props {
   parts: Part[];
@@ -12,6 +14,6 @@ const { parts, label = 'Voorbeeld van een kapot bord' } = Astro.props;
 ---
 <p class="font-serif text-2xl leading-snug md:text-3xl" aria-label={label}>
   {parts.map((p) => (
-    <span class={p.lit ? 'neon-text' : 'text-dim line-through decoration-1'}>{p.text}</span>
+    <span class={p.lit ? 'neon-text' : p.plain ? 'text-paper' : 'text-dim'}>{p.text}</span>
   ))}
 </p>

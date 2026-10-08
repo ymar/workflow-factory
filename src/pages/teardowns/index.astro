@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import KapotteLetters from '../../components/KapotteLetters.astro';
+import Placeholder from '../../components/Placeholder.astro';
+
+const teardowns = (await getCollection('teardowns', (t) => !t.data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base
+  title="Teardowns · Kapotte letters | Neeeon"
+  description="Kapotte letters: teardowns van B2B-websites. Welke woorden zegt iedereen, en wat blijft er over dat alleen dit bedrijf kan zeggen?"
+  path="/teardowns/"
+>
+  <section class="on-dark pb-16 pt-14 md:pb-20 md:pt-20">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <p class="text-sm font-medium uppercase tracking-widest text-sage">Teardowns</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-medium md:text-6xl">Kapotte letters</h1>
+      <p class="mt-6 max-w-2xl text-lg text-paper/90">
+        Ik zet de woorden die iedereen gebruikt uit. Wat blijft branden, is wat alleen dit bedrijf kan zeggen. Vaak is dat weinig.
+      </p>
+      <div class="mt-10 max-w-3xl">
+        <KapotteLetters
+          parts={[
+            { text: 'Wij leveren ' }, { text: 'kwaliteit' }, { text: ' en ' }, { text: 'betrouwbare' }, { text: ' ' },
+            { text: 'oplossingen' }, { text: '. We ' }, { text: 'ontzorgen' }, { text: ' je. ' },
+            { text: 'Wat blijft er over?', lit: true },
+          ]}
+          label="Voorbeeld: een zin met uitgeschakelde woorden"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20" aria-labelledby="lijst">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <h2 id="lijst" class="text-3xl md:text-4xl">Alle teardowns</h2>
+      {teardowns.length > 0 ? (
+        <ul class="mt-10 grid gap-6 md:grid-cols-3">
+          {teardowns.map((t) => (
+            <li class="rounded-lg border border-ink/20 p-6">
+              <p class="text-sm text-ink/70">{fmt.format(t.data.date)} · {t.data.type}</p>
+              <a href={`/teardowns/${t.id}/`} class="mt-2 block font-serif text-2xl underline-offset-4 hover:underline">{t.data.title}</a>
+              <p class="mt-2 text-sm text-ink/70">{t.data.company}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul class="mt-10 grid gap-6 md:grid-cols-3">
+          {[1, 2, 3].map((n) => (
+            <li class="rounded-lg border border-dashed border-ink/40 p-6">
+              <p class="font-serif text-2xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
+              <p class="mt-2 text-sm text-ink/70">Nog geen gepubliceerde teardown.</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+</Base>
