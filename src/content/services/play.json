@@ -1,0 +1,23 @@
+{
+  "name": "Play",
+  "icon": "▶",
+  "order": 2,
+  "summary": "Landingspagina's op het nieuwe verhaal. Elke set heeft een formulier en een bedankpagina met een vervolgstap.",
+  "duration": "2 weken per set",
+  "priceStatus": "proposal",
+  "prices": [{ "label": "Per set", "from": 2500, "to": 4500 }],
+  "requires": "Eerst Rewind, of een bestaand verhaal dat de vier checks doorstaat.",
+  "deliverables": [
+    { "name": "De pagina", "format": "Landingspagina op het verhaal", "size": "1 pagina" },
+    { "name": "Het formulier", "format": "Formulier met opvolging", "size": "1 formulier" },
+    { "name": "De bedankpagina", "format": "Met een duidelijke vervolgstap", "size": "1 pagina" }
+  ],
+  "process": [
+    { "when": "Week 1", "what": "Pagina en formulier bouwen op het verhaal", "clientTime": "60 min review" },
+    { "when": "Week 2", "what": "Live zetten, testen en overdragen", "clientTime": "60 min" }
+  ],
+  "notIncluded": [
+    "Advertenties",
+    "Een volledige websiteredesign"
+  ]
+}

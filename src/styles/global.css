@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #0f2e23;
+  --color-mint: #5ff0b8;
+  --color-sage: #a9c4b6;
+  --color-paper: #f5f3ec;
+  --color-ink: #13201b;
+  --color-dim: #7f9a8d;
+  --font-serif: "Newsreader", Georgia, serif;
+  --font-sans: "Geist", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    min-width: 320px;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-dark {
+    background: var(--color-forest);
+    color: var(--color-paper);
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-mint);
+  }
+}
+
+/* Neon: mint glowing on forest. Only on dark backgrounds. */
+.neon-text {
+  color: var(--color-mint);
+  text-shadow: 0 0 4px rgba(95, 240, 184, 0.55), 0 0 14px rgba(95, 240, 184, 0.3);
+}
+
+.neon-tube {
+  filter: drop-shadow(0 0 3px rgba(95, 240, 184, 0.6)) drop-shadow(0 0 10px rgba(95, 240, 184, 0.35));
+}
+
+/* Single flicker when the hero loads. Off for reduced motion. */
+@keyframes neon-flicker {
+  0%, 100% { opacity: 1; }
+  8% { opacity: 0.35; }
+  12% { opacity: 1; }
+  18% { opacity: 0.55; }
+  22% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flicker-once {
+    animation: neon-flicker 1.2s linear 0.2s 1 both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Checklist: a ticked item lights up. */
+.check-item:has(input:checked) {
+  border-color: var(--color-mint);
+  background: var(--color-forest);
+}
+.check-item:has(input:checked) .check-text {
+  color: var(--color-mint);
+  text-shadow: 0 0 4px rgba(95, 240, 184, 0.55), 0 0 14px rgba(95, 240, 184, 0.3);
+}

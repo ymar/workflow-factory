@@ -1,0 +1,18 @@
+---
+// Native details/summary: works with keyboard and without JavaScript.
+interface Props {
+  items: { question: string; answer: string }[];
+}
+const { items } = Astro.props;
+---
+<div class="divide-y divide-ink/20 border-y border-ink/20">
+  {items.map((item) => (
+    <details class="group py-4">
+      <summary class="flex cursor-pointer list-none items-start justify-between gap-4 rounded font-medium">
+        <span>{item.question}</span>
+        <span aria-hidden="true" class="shrink-0 text-xl leading-none transition-transform group-open:rotate-45">+</span>
+      </summary>
+      <p class="mt-3 max-w-prose text-ink/85">{item.answer}</p>
+    </details>
+  ))}
+</div>

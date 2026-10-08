@@ -1,0 +1,46 @@
+---
+// The only script on the site. Native checkboxes: keyboard and screen readers work without it.
+const items = [
+  'We concurreren vooral op prijs.',
+  'Onze website zegt hetzelfde als die van de concurrent.',
+  'We sturen campagnes, maar de reacties blijven uit.',
+  'Aanvragen en offertes blijven liggen.',
+  'We hebben HubSpot, maar weten niet wat we erin moeten zetten.',
+];
+const verdicts = [
+  'Niets aangevinkt. Lees toch even verder. Misschien herken je het later.',
+  'Een paar dingen herken je. Begin dan bij het verhaal, niet bij de campagnes.',
+  'Een paar dingen herken je. Begin dan bij het verhaal, niet bij de campagnes.',
+  'Dan ligt het niet aan je campagnes. Het ligt aan het verhaal.',
+  'Dan ligt het niet aan je campagnes. Het ligt aan het verhaal.',
+  'Dan ligt het niet aan je campagnes. Het ligt aan het verhaal.',
+];
+---
+<div data-checklist class="max-w-2xl">
+  <fieldset>
+    <legend class="sr-only">Herken je dit?</legend>
+    <ul class="space-y-3">
+      {items.map((text, i) => (
+        <li>
+          <label class="check-item flex cursor-pointer items-start gap-3 rounded-md border border-sage/40 bg-forest/40 px-4 py-3">
+            <input type="checkbox" name="herken" value={String(i)} class="mt-1 size-5 shrink-0 accent-[#5ff0b8]" />
+            <span class="check-text text-lg text-paper">{text}</span>
+          </label>
+        </li>
+      ))}
+    </ul>
+  </fieldset>
+  <p data-verdict aria-live="polite" class="mt-5 text-sage">Vink aan wat klopt.</p>
+</div>
+
+<script define:vars={{ verdicts }}>
+  const root = document.querySelector('[data-checklist]');
+  const out = root.querySelector('[data-verdict]');
+  const boxes = root.querySelectorAll('input[type="checkbox"]');
+  const update = () => {
+    const n = [...boxes].filter((b) => b.checked).length;
+    out.textContent = `${n} van ${boxes.length} aangevinkt. ${verdicts[n]}`;
+  };
+  boxes.forEach((b) => b.addEventListener('change', update));
+  update();
+</script>

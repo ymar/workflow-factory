@@ -1,0 +1,140 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import Faq from '../../components/Faq.astro';
+import { priceLabel } from '../../lib/format';
+
+const service = await getEntry('services', 'rewind');
+if (!service) throw new Error('Missing services/rewind.json');
+const faq = (await getCollection('faq'))
+  .filter((f) => f.data.page === 'rewind')
+  .sort((a, b) => a.data.order - b.data.order);
+
+const { name, summary, duration, prices, deliverables, process, notIncluded } = service.data;
+const title = 'Rewind · Positionering en homepage in 2 weken | Neeeon';
+const description =
+  'Rewind: terug naar waar je bedrijf begon, om te vinden wat geen concurrent kan kopiëren. Daarna herschrijven we je homepage. 2 weken.';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${name}: positionering en homepage`,
+    description: summary,
+    provider: { '@type': 'ProfessionalService', name: 'Neeeon' },
+    areaServed: 'NL',
+    offers: prices.map((p) => ({
+      '@type': 'Offer',
+      name: p.label,
+      price: p.from,
+      priceCurrency: 'EUR',
+      description: 'Voorstel, bevestigd in de kennismaking',
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.data.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.data.answer },
+    })),
+  },
+];
+
+const signals = [
+  'Je concurreert vooral op prijs.',
+  'Je website klinkt als die van de concurrent.',
+  'Je weet niet wat je als verhaal moet vertellen.',
+  'Aanvragen en offertes blijven liggen.',
+];
+---
+<Base title={title} description={description} path="/rewind/" jsonLd={jsonLd}>
+  <section class="on-dark pb-16 pt-14 md:pb-20 md:pt-20">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <p class="text-sm font-medium uppercase tracking-widest text-sage"><span aria-hidden="true">⏪</span> Startpunt · {duration}</p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-medium md:text-6xl">Rewind. Vind het verhaal dat er al is.</h1>
+      <p class="mt-6 max-w-2xl text-lg text-paper/90 md:text-xl">{summary}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/contact/" class="rounded-md bg-mint px-5 py-3 font-semibold text-forest hover:brightness-110">Plan een kennismaking</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20" aria-labelledby="signalen">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <h2 id="signalen" class="text-3xl md:text-4xl">Dit is er misschien aan de hand</h2>
+      <ul class="mt-8 max-w-2xl space-y-3 text-lg">
+        {signals.map((s) => <li class="border-l-2 border-ink pl-4">{s}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="lever">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <h2 id="lever" class="text-3xl md:text-4xl">Wat je krijgt</h2>
+      <ol class="mt-10 grid gap-6 md:grid-cols-3">
+        {deliverables.map((d, i) => (
+          <li class="rounded-lg border border-ink/20 p-6">
+            <p class="text-sm text-ink/70">{i + 1}. {d.size}</p>
+            <h3 class="mt-2 text-2xl">{d.name}</h3>
+            <p class="mt-3 text-ink/85">{d.format}.</p>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-8 max-w-2xl text-ink/85">
+        Het kernverhaal toets je aan vier checks: <em>klopt het?</em> <em>maakt het verschil voor de koper?</em> <em>kan een concurrent het zeggen?</em> <em>wint het ook de tweede order?</em>
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="proces">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <h2 id="proces" class="text-3xl md:text-4xl">Het proces</h2>
+      <ol class="mt-10 divide-y divide-ink/20 border-y border-ink/20">
+        {process.map((step) => (
+          <li class="grid gap-1 py-4 md:grid-cols-[14rem_1fr_9rem] md:gap-6">
+            <span class="font-medium">{step.when}</span>
+            <span class="text-ink/85">{step.what}</span>
+            <span class="text-sm text-ink/70 md:text-right">Jouw tijd: {step.clientTime}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="prijs">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <h2 id="prijs" class="text-3xl md:text-4xl">Prijs</h2>
+      <p class="mt-3 max-w-2xl text-ink/80">Voorstel. We bevestigen de prijs in de kennismaking.</p>
+      <ul class="mt-8 grid gap-4 md:grid-cols-3">
+        {prices.map((p) => (
+          <li class="rounded-lg border border-ink/20 p-6">
+            <p class="text-sm text-ink/70">{p.label}</p>
+            <p class="mt-2 font-serif text-3xl">{priceLabel(p)}</p>
+            <p class="mt-1 text-sm text-ink/70">Voorstel</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="on-dark py-16 md:py-20" aria-labelledby="niet">
+    <div class="mx-auto max-w-5xl px-4 md:px-6">
+      <h2 id="niet" class="text-3xl md:text-4xl">Niet inbegrepen</h2>
+      <ul class="mt-8 max-w-2xl space-y-3 text-lg">
+        {notIncluded.map((n) => <li>{n}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="vragen">
+    <div class="mx-auto max-w-3xl px-4 md:px-6">
+      <h2 id="vragen" class="text-3xl md:text-4xl">Vragen over Rewind</h2>
+      <div class="mt-8">
+        <Faq items={faq.map((f) => ({ question: f.data.question, answer: f.data.answer }))} />
+      </div>
+    </div>
+  </section>
+</Base>

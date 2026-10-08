@@ -1,0 +1,17 @@
+---
+// A sentence as a neon sign. Generic words are switched off (dimmed), what stays lit is distinct.
+interface Part {
+  text: string;
+  lit?: boolean;
+}
+interface Props {
+  parts: Part[];
+  label?: string;
+}
+const { parts, label = 'Voorbeeld van een kapot bord' } = Astro.props;
+---
+<p class="font-serif text-2xl leading-snug md:text-3xl" aria-label={label}>
+  {parts.map((p) => (
+    <span class={p.lit ? 'neon-text' : 'text-dim line-through decoration-1'}>{p.text}</span>
+  ))}
+</p>

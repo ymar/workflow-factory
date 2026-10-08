@@ -1,0 +1,24 @@
+---
+// Wordmark as an outline drawn with a single neon stroke colour.
+// On dark backgrounds it glows. On light backgrounds it is plain forest.
+interface Props {
+  tone?: 'dark' | 'light';
+  class?: string;
+}
+const { tone = 'dark', class: className = '' } = Astro.props;
+const stroke = tone === 'dark' ? '#5ff0b8' : '#0f2e23';
+const glow = tone === 'dark' ? 'neon-tube' : '';
+---
+<svg
+  class={`h-10 w-auto ${glow} ${className}`}
+  viewBox="0 0 260 72"
+  role="img"
+  aria-label="Neeeon"
+  fill="none"
+  stroke={stroke}
+  stroke-width="3"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <text x="4" y="54" font-family="Newsreader, Georgia, serif" font-size="60" font-weight="500" letter-spacing="-1" stroke={stroke}>neeeon</text>
+</svg>
