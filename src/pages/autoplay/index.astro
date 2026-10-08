@@ -3,8 +3,9 @@ import ServicePage from '../../components/ServicePage.astro';
 ---
 <ServicePage
   id="autoplay"
-  headline="Autoplay. Het verhaal, elke dag, tot de tweede order."
-  title="Autoplay · Marketing automation in HubSpot of ActiveCampaign | Neeeon"
+  headline="Autoplay. Het verhaal, elke dag,"
+  accent="tot de tweede order."
+  title="Autoplay · Marketing automation in HubSpot of ActiveCampaign | neon"
   description="Autoplay: journeys in HubSpot of ActiveCampaign voor leadopvolging, offerteopvolging, onboarding, contractverlenging en nabestellingen. 3 weken per journey."
   signals={[
     'Aanvragen en offertes blijven liggen.',
@@ -13,19 +14,19 @@ import ServicePage from '../../components/ServicePage.astro';
     'Je weet niet hoeveel aanvragen een order worden, of hoe lang dat duurt.',
   ]}
 >
-  <div slot="after-deliverables" class="mt-10 max-w-2xl">
-    <h3 class="text-2xl">Voorbeelden van journeys</h3>
-    <ul class="mt-4 list-disc space-y-2 pl-6 text-lg">
-      <li>Leadopvolging</li>
-      <li>Offerteopvolging</li>
-      <li>Onboarding</li>
-      <li>Contractverlenging</li>
-      <li>Nabestellingen</li>
-    </ul>
-    <p class="mt-4 text-ink/85">Ik werk in HubSpot of ActiveCampaign. Geen Salesforce.</p>
+  <div slot="after-deliverables" class="mt-16 grid gap-8 md:grid-cols-[16rem_1fr]">
+    <h3 class="text-3xl">Voorbeelden van journeys</h3>
+    <div>
+      <ul class="border-b border-ink/15">
+        {['Leadopvolging', 'Offerteopvolging', 'Onboarding', 'Contractverlenging', 'Nabestellingen'].map((j) => (
+          <li class="border-t border-ink/15 py-4 text-lg">{j}</li>
+        ))}
+      </ul>
+      <p class="mt-6 text-ink/80">Ik werk in HubSpot of ActiveCampaign. Geen Salesforce.</p>
+    </div>
   </div>
-  <div slot="after-price" class="mt-8 max-w-2xl rounded-lg border border-ink p-6">
-    <p class="font-semibold">Pilot</p>
-    <p class="mt-2 text-ink/85">De eerste drie klanten betalen de helft. In ruil daarvoor maken we samen een case met cijfers.</p>
+  <div slot="after-price" class="mt-10 flex flex-col gap-4 rounded-3xl bg-mint/25 p-8 md:flex-row md:items-center md:justify-between">
+    <p class="font-serif text-3xl">Pilot</p>
+    <p class="max-w-xl text-ink/85">De eerste drie klanten betalen de helft. In ruil daarvoor maken we samen een case met cijfers.</p>
   </div>
 </ServicePage>

@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
 import KapotteLetters from '../../components/KapotteLetters.astro';
 import { toParts } from '../../lib/kapot';
 
@@ -15,35 +17,40 @@ const { Content } = await render(teardown);
 const total = scorecard.reduce((sum, s) => sum + s.score, 0);
 const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
-<Base title={`${title} · Teardown | Neeeon`} description={lesson} path={`/teardowns/${teardown.id}/`}>
+<Base title={`${title} · Teardown | neon`} description={lesson} path={`/teardowns/${teardown.id}/`}>
   <article>
-    <header class="on-dark pb-16 pt-14 md:pb-20 md:pt-20">
-      <div class="mx-auto max-w-3xl px-4 md:px-6">
-        <p class="text-sm text-sage">{fmt.format(date)} · {type} · {company}</p>
-        <h1 class="mt-4 text-4xl font-medium md:text-5xl">{title}</h1>
-        <div class="mt-10">
-          <p class="text-sm font-medium uppercase tracking-widest text-sage">Voor</p>
-          <div class="mt-3"><KapotteLetters parts={toParts(before)} label={before.replace(/[~*]/g, '')} /></div>
+    <header class="on-dark">
+      <div class="mx-auto max-w-6xl px-4 pb-20 pt-16 md:px-8 md:pb-28 md:pt-28">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">{fmt.format(date)} · {type}</p>
+        <h1 class="mt-6 max-w-5xl text-[2.6rem] leading-[1.03] tracking-[-0.02em] md:text-7xl">{title}</h1>
+        <p class="mt-6 text-sage">{company}</p>
+        <div class="mt-16 border-t border-paper/15 pt-8">
+          <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Voor</p>
+          <div class="mt-6 max-w-5xl"><KapotteLetters parts={toParts(before)} label={before.replace(/[~*]/g, '')} /></div>
         </div>
       </div>
     </header>
-    <div class="mx-auto max-w-3xl px-4 py-16 md:px-6">
-      <h2 class="text-3xl">Scorekaart</h2>
-      <table class="mt-6 w-full text-left">
+
+    <Section id="score" n="01" label="Scorekaart" title={`${total} van 25`}>
+      <table class="w-full text-left">
         <caption class="sr-only">Score per criterium, van 0 tot 5</caption>
-        <thead><tr class="border-b border-ink/30 text-sm text-ink/70"><th class="py-2 font-medium">Criterium</th><th class="py-2 text-right font-medium">Score</th></tr></thead>
+        <thead><tr class="text-sm text-ink/70"><th class="pb-3 font-medium">Criterium</th><th class="pb-3 text-right font-medium">Score</th></tr></thead>
         <tbody>
           {scorecard.map((s) => (
-            <tr class="border-b border-ink/15"><td class="py-3 pr-4">{s.criterion}</td><td class="py-3 text-right font-semibold">{s.score} / 5</td></tr>
+            <tr class="border-t border-ink/15"><td class="py-5 pr-4 text-lg">{s.criterion}</td><td class="py-5 text-right font-serif text-2xl">{s.score}/5</td></tr>
           ))}
         </tbody>
-        <tfoot><tr><td class="py-3 font-semibold">Totaal</td><td class="py-3 text-right font-semibold">{total} / 25</td></tr></tfoot>
       </table>
-      <h2 class="mt-14 text-3xl">Na</h2>
-      <p class="mt-4 font-serif text-2xl">{after}</p>
-      <h2 class="mt-14 text-3xl">De les</h2>
-      <p class="mt-4 text-lg">{lesson}</p>
-      <div class="mt-10 max-w-prose space-y-4 text-ink/85"><Content /></div>
-    </div>
+    </Section>
+
+    <Section id="na" n="02" label="Na" title="Na">
+      <p class="max-w-4xl font-serif text-3xl leading-snug md:text-4xl">{after}</p>
+    </Section>
+
+    <Section id="les" n="03" label="De les" title="De les">
+      <p class="max-w-3xl text-xl">{lesson}</p>
+      <div class="mt-10 max-w-2xl space-y-4 text-ink/80"><Content /></div>
+      <div class="mt-12"><Button href="/teardowns/" variant="ghost-light">Alle teardowns</Button></div>
+    </Section>
   </article>
 </Base>

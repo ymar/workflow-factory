@@ -1,6 +1,6 @@
-# neeeon
+# neon
 
-Website for Neeeon, a one-person B2B consultancy. Astro, static output, Tailwind v4, deployed on Cloudflare Pages from `main`.
+Website for neon, a one-person B2B consultancy. Astro, static output, Tailwind v4, deployed on Cloudflare Pages from `main`.
 
 ## Run it
 
@@ -52,4 +52,4 @@ Cloudflare Web Analytics loads only when `PUBLIC_CF_ANALYTICS_TOKEN` is set as a
 - Preview image of a kernverhaal (homepage, "Wat je van Rewind krijgt")
 - About page: career in 2 or 3 sentences, and a photo
 - Privacy page: date, retention period, name of the booking tool, and a legal check
-- Wordmark: the current one is outline text. A true single-stroke neon line needs a drawn SVG path.
+- Domain: the name is now neon, but `SITE` still says neeeon.nl. Update it once the domain is known.

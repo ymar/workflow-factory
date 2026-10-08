@@ -1,22 +1,25 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import { site } from '../../lib/site';
 ---
-<Base title="Privacy | Neeeon" description="Hoe Neeeon met je gegevens omgaat. Geen cookies, geen tracking die je kan volgen." path="/privacy/">
-  <section class="py-16 md:py-20">
-    <div class="mx-auto max-w-prose space-y-5 px-4 text-lg md:px-6">
-      <h1 class="text-4xl font-medium md:text-5xl">Privacy</h1>
-      <p class="text-sm text-ink/70">Laatst bijgewerkt: <Placeholder label="datum" />. <Placeholder label="Laat deze tekst juridisch nakijken" /></p>
-      <h2 class="pt-4 text-2xl">Wie we zijn</h2>
-      <p>Neeeon, KvK {site.kvk || <Placeholder label="KvK-nummer" />}. Contact: {site.email || <Placeholder label="e-mailadres" />}.</p>
-      <h2 class="pt-4 text-2xl">Geen cookies</h2>
-      <p>Deze site plaatst geen cookies. Voor bezoekersstatistieken gebruiken we Cloudflare Web Analytics. Dat werkt zonder cookies en zonder je te volgen over andere sites. We zien alleen totalen, zoals het aantal bezoeken per pagina.</p>
-      <h2 class="pt-4 text-2xl">Als je contact opneemt</h2>
-      <p>Mail je of plan je een gesprek, dan bewaren we je naam, e-mailadres en wat je ons vertelt. Alleen om je te antwoorden en het gesprek voor te bereiden. We bewaren dit <Placeholder label="bewaartermijn" />.</p>
-      {site.bookingUrl ? null : <p>Voor afspraken gebruiken we <Placeholder label="naam boekingstool" />. Die verwerkt je gegevens volgens haar eigen privacyverklaring.</p>}
-      <h2 class="pt-4 text-2xl">Je rechten</h2>
-      <p>Je mag je gegevens inzien, laten aanpassen of laten verwijderen. Mail ons en we regelen het. Ben je het niet eens met hoe we met je gegevens omgaan? Dan kun je een klacht indienen bij de Autoriteit Persoonsgegevens.</p>
+<Base title="Privacy | neon" description="Hoe neon met je gegevens omgaat. Geen cookies, geen tracking die je volgt." path="/privacy/">
+  <PageHero kicker="Privacy" title="Geen cookies. Weinig gegevens." />
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      <div class="max-w-2xl space-y-6 text-lg">
+        <p class="text-sm text-ink/70">Laatst bijgewerkt: <Placeholder label="datum" />. <Placeholder label="Laat deze tekst juridisch nakijken" /></p>
+        <h2 class="pt-6 text-3xl">Wie we zijn</h2>
+        <p>neon, KvK {site.kvk || <Placeholder label="KvK-nummer" />}. Contact: {site.email || <Placeholder label="e-mailadres" />}.</p>
+        <h2 class="pt-6 text-3xl">Geen cookies</h2>
+        <p>Deze site plaatst geen cookies. Voor bezoekersstatistieken gebruiken we Cloudflare Web Analytics. Dat werkt zonder cookies en zonder je te volgen over andere sites. We zien alleen totalen, zoals het aantal bezoeken per pagina.</p>
+        <h2 class="pt-6 text-3xl">Als je contact opneemt</h2>
+        <p>Mail je of plan je een gesprek, dan bewaren we je naam, e-mailadres en wat je ons vertelt. Alleen om je te antwoorden en het gesprek voor te bereiden. We bewaren dit <Placeholder label="bewaartermijn" />.</p>
+        <p>Voor afspraken gebruiken we <Placeholder label="naam boekingstool" />. Die verwerkt je gegevens volgens de eigen privacyverklaring.</p>
+        <h2 class="pt-6 text-3xl">Je rechten</h2>
+        <p>Je mag je gegevens inzien, laten aanpassen of laten verwijderen. Mail ons en we regelen het. Ben je het niet eens met hoe we met je gegevens omgaan? Dan kun je een klacht indienen bij de Autoriteit Persoonsgegevens.</p>
+      </div>
     </div>
   </section>
 </Base>

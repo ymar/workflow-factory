@@ -1,41 +1,46 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import { site } from '../../lib/site';
 ---
 <Base
-  title="Contact · Plan 30 minuten | Neeeon"
+  title="Contact · Plan 30 minuten | neon"
   description="Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst je verhaal moet fixen."
   path="/contact/"
 >
-  <section class="on-dark pb-16 pt-14 md:pb-20 md:pt-20">
-    <div class="mx-auto max-w-3xl px-4 md:px-6">
-      <p class="text-sm font-medium uppercase tracking-widest text-sage">Contact</p>
-      <h1 class="mt-4 text-4xl font-medium md:text-5xl">Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst je verhaal moet fixen.</h1>
-      <div class="mt-10 flex flex-wrap items-center gap-4">
-        {site.bookingUrl ? (
-          <a href={site.bookingUrl} class="rounded-md bg-mint px-5 py-3 font-semibold text-forest hover:brightness-110">Kies een moment</a>
-        ) : (
-          <span class="text-paper"><Placeholder label="Boekingslink volgt" /></span>
-        )}
-        {site.email ? (
-          <a href={`mailto:${site.email}?subject=Kennismaking`} class="rounded-md border border-paper/60 px-5 py-3 font-semibold text-paper hover:border-mint hover:text-mint">Mail {site.email}</a>
-        ) : (
-          <span class="text-paper"><Placeholder label="e-mailadres" /></span>
-        )}
+  <PageHero kicker="Contact" title="Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst" accent="je verhaal moet fixen." />
+  <div class="on-dark">
+    <div class="mx-auto max-w-6xl px-4 pb-24 md:px-8 md:pb-32">
+      <div class="grid gap-8 border-t border-paper/15 pt-8 md:grid-cols-3">
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] text-sage">Kennismaking</p>
+          <div class="mt-4">{site.bookingUrl ? <Button href={site.bookingUrl}>Kies een moment</Button> : <Placeholder label="Boekingslink volgt" />}</div>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] text-sage">E-mail</p>
+          <p class="mt-4 text-lg">{site.email ? <a class="underline underline-offset-4 hover:text-mint" href={`mailto:${site.email}?subject=Kennismaking`}>{site.email}</a> : <Placeholder label="e-mailadres" />}</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] text-sage">Beschikbaarheid</p>
+          <p class="mt-4 text-lg">{site.availability || <Placeholder label="bijvoorbeeld: eerste sprint vanaf januari" />}</p>
+        </div>
       </div>
-      <p class="mt-6 text-sage">Beschikbaarheid: {site.availability || <Placeholder label="bijvoorbeeld: eerste sprint vanaf januari" />}</p>
     </div>
-  </section>
-  <section class="py-16 md:py-20" aria-labelledby="gesprek">
-    <div class="mx-auto max-w-3xl px-4 md:px-6">
-      <h2 id="gesprek" class="text-3xl md:text-4xl">Wat er in 30 minuten gebeurt</h2>
-      <ol class="mt-8 list-decimal space-y-3 pl-6 text-lg">
-        <li>Je vertelt wat je verkoopt, aan wie, en wat er nu misgaat.</li>
-        <li>Ik kijk mee naar je homepage en je opvolging.</li>
-        <li>Je hoort van mij of je klaar bent voor campagnes. Zo niet, dan zeg ik wat eerst moet.</li>
-      </ol>
-      <p class="mt-8 text-ink/80">Geen verkooppraatje. Als het niet past, zeg ik dat.</p>
-    </div>
-  </section>
+  </div>
+
+  <Section id="gesprek" n="01" label="Het gesprek" title="Wat er in 30 minuten gebeurt">
+    <ol class="border-b border-ink/15">
+      {[
+        'Je vertelt wat je verkoopt, aan wie, en wat er nu misgaat.',
+        'Ik kijk mee naar je homepage en je opvolging.',
+        'Je hoort van mij of je klaar bent voor campagnes. Zo niet, dan zeg ik wat eerst moet.',
+      ].map((s, i) => (
+        <li class="grid grid-cols-[3rem_1fr] border-t border-ink/15 py-6 text-lg md:text-2xl"><span class="text-ink/70">0{i + 1}</span>{s}</li>
+      ))}
+    </ol>
+    <p class="mt-10 text-ink/80">Geen verkooppraatje. Als het niet past, zeg ik dat.</p>
+  </Section>
 </Base>

@@ -1,35 +1,45 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
 import Placeholder from '../../components/Placeholder.astro';
 import { site } from '../../lib/site';
 ---
 <Base
-  title="Over · Waarom ik vaak 'nog niet' zeg | Neeeon"
+  title="Over · Waarom ik vaak 'nog niet' zeg | neon"
   description="10 jaar marketing automation, CRM en RevOps. Waarom ik eerst naar je verhaal kijk, en pas daarna automation bouw."
   path="/over/"
 >
-  <section class="on-dark pb-16 pt-14 md:pb-20 md:pt-20">
-    <div class="mx-auto max-w-3xl px-4 md:px-6">
-      <p class="text-sm font-medium uppercase tracking-widest text-sage">Over</p>
-      <h1 class="mt-4 text-4xl font-medium md:text-6xl">Ik ben {site.founder}. Ik zeg vaak: nog niet.</h1>
-    </div>
-  </section>
-  <section class="py-16 md:py-20">
-    <div class="mx-auto grid max-w-5xl gap-10 px-4 md:grid-cols-[1fr_16rem] md:px-6">
-      <div class="max-w-prose space-y-5 text-lg">
+  <PageHero kicker="Over" title={`Ik ben ${site.founder}. Ik zeg vaak:`} accent="nog niet." />
+
+  <Section id="verhaal" n="01" label="Waarom nog niet">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="max-w-prose space-y-6 text-lg md:col-span-7 md:text-xl">
         <p>Ik werk al 10 jaar in marketing automation, CRM en RevOps. Ik heb veel systemen gebouwd. De meeste deden precies wat ze moesten doen. Ze verstuurden mails, maakten taken aan en vulden dashboards.</p>
         <p>Toch werkte het niet altijd. Niet door de techniek, maar door wat erin ging. Een systeem versterkt wat je erin stopt. Een vaag verhaal wordt alleen sneller vaag.</p>
-        <p>Daarom zeg ik vaak: nog niet. Eerst een verhaal dat helder en anders is. Dan pagina's en automation die werken. Helder is de weg. Onderscheidend is het doel.</p>
-        <h2 class="pt-6 text-3xl">Hoe ik kijk</h2>
-        <p>Ik denk in Revenue Architecture: de bowtie. Elke stap in je verkoop en daarna heeft een volume, een conversiepercentage en een doorlooptijd. Zo zie je waar het lekt. Het is de basis van mijn werk, geen certificering.</p>
-        <h2 class="pt-6 text-3xl">Voor wie</h2>
-        <p>Traditionele B2B-bedrijven in Nederland. Ik begin met installatie- en onderhoudsbedrijven. Later ook groothandels en zakelijke dienstverleners.</p>
-        <h2 class="pt-6 text-3xl">Waar ik gewerkt heb</h2>
-        <p><Placeholder label="Loopbaan in 2 of 3 zinnen, zonder klantnamen tenzij toegestaan" /></p>
+        <p>Daarom zeg ik vaak: nog niet. Eerst een verhaal dat helder en anders is. Dan pagina's en automation die werken.</p>
+        <p class="font-serif text-3xl leading-snug md:text-4xl">Helder is de weg. Onderscheidend is het doel.</p>
       </div>
-      <figure class="self-start rounded-lg border border-dashed border-ink/40 p-4">
-        <div class="flex aspect-square items-center justify-center rounded bg-ink/5 p-4 text-center"><Placeholder label="Foto" /></div>
+      <figure class="md:col-span-4 md:col-start-9">
+        <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-ink/5 p-6 text-center"><Placeholder label="Foto" /></div>
       </figure>
     </div>
-  </section>
+  </Section>
+
+  <Section id="kijk" n="02" label="Hoe ik kijk" title="Revenue Architecture">
+    <p class="max-w-3xl text-lg md:text-xl">Ik denk in de bowtie. Elke stap in je verkoop, en daarna, heeft een volume, een conversiepercentage en een doorlooptijd. Zo zie je waar het lekt. Het is de basis van mijn werk, geen certificering.</p>
+    <ul class="mt-12 grid gap-4 md:grid-cols-3">
+      {['Volume', 'Conversie', 'Doorlooptijd'].map((w, i) => (
+        <li class="rounded-3xl border border-ink/15 p-8"><p class="text-sm text-ink/70">0{i + 1}</p><p class="mt-8 font-serif text-3xl">{w}</p></li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="wie" n="03" label="Voor wie" title="Traditionele B2B in Nederland">
+    <p class="max-w-3xl text-lg md:text-xl">Ik begin met installatie- en onderhoudsbedrijven. Later ook groothandels en zakelijke dienstverleners.</p>
+  </Section>
+
+  <Section id="loopbaan" n="04" label="Loopbaan" title="Waar ik gewerkt heb">
+    <p class="text-lg"><Placeholder label="Loopbaan in 2 of 3 zinnen, zonder klantnamen tenzij toegestaan" /></p>
+  </Section>
 </Base>

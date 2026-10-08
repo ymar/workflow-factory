@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
 import KapotteLetters from '../../components/KapotteLetters.astro';
 import Placeholder from '../../components/Placeholder.astro';
 
@@ -10,18 +12,18 @@ const teardowns = (await getCollection('teardowns', (t) => !t.data.draft)).sort(
 const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <Base
-  title="Teardowns · Kapotte letters | Neeeon"
+  title="Teardowns · Kapotte letters | neon"
   description="Kapotte letters: teardowns van B2B-websites. Welke woorden zegt iedereen, en wat blijft er over dat alleen dit bedrijf kan zeggen?"
   path="/teardowns/"
 >
-  <section class="on-dark pb-16 pt-14 md:pb-20 md:pt-20">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <p class="text-sm font-medium uppercase tracking-widest text-sage">Teardowns</p>
-      <h1 class="mt-4 max-w-3xl text-4xl font-medium md:text-6xl">Kapotte letters</h1>
-      <p class="mt-6 max-w-2xl text-lg text-paper/90">
-        Ik zet de woorden die iedereen gebruikt uit. Wat blijft branden, is wat alleen dit bedrijf kan zeggen. Vaak is dat weinig.
-      </p>
-      <div class="mt-10 max-w-3xl">
+  <PageHero
+    kicker="Teardowns"
+    title="Kapotte letters."
+    intro="Ik zet de woorden die iedereen gebruikt uit. Wat blijft branden, is wat alleen dit bedrijf kan zeggen. Vaak is dat weinig."
+  />
+  <div class="on-dark">
+    <div class="mx-auto max-w-6xl px-4 pb-24 md:px-8 md:pb-32">
+      <div class="border-t border-paper/15 pt-10">
         <KapotteLetters
           parts={[
             { text: 'Wij leveren ' }, { text: 'kwaliteit' }, { text: ' en ' }, { text: 'betrouwbare' }, { text: ' ' },
@@ -32,31 +34,26 @@ const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', ye
         />
       </div>
     </div>
-  </section>
+  </div>
 
-  <section class="py-16 md:py-20" aria-labelledby="lijst">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <h2 id="lijst" class="text-3xl md:text-4xl">Alle teardowns</h2>
-      {teardowns.length > 0 ? (
-        <ul class="mt-10 grid gap-6 md:grid-cols-3">
-          {teardowns.map((t) => (
-            <li class="rounded-lg border border-ink/20 p-6">
-              <p class="text-sm text-ink/70">{fmt.format(t.data.date)} · {t.data.type}</p>
-              <a href={`/teardowns/${t.id}/`} class="mt-2 block font-serif text-2xl underline-offset-4 hover:underline">{t.data.title}</a>
-              <p class="mt-2 text-sm text-ink/70">{t.data.company}</p>
+  <Section id="lijst" n="01" label="Archief" title="Alle teardowns">
+    <ul class="border-b border-ink/15">
+      {teardowns.length > 0
+        ? teardowns.map((t) => (
+            <li class="border-t border-ink/15">
+              <a href={`/teardowns/${t.id}/`} class="group grid gap-2 py-6 md:grid-cols-[12rem_1fr_auto] md:items-baseline md:gap-8">
+                <span class="text-sm text-ink/70">{fmt.format(t.data.date)}</span>
+                <span class="font-serif text-2xl group-hover:underline md:text-3xl">{t.data.title}</span>
+                <span class="text-sm text-ink/70">{t.data.type}</span>
+              </a>
+            </li>
+          ))
+        : [1, 2, 3].map((n) => (
+            <li class="grid gap-2 border-t border-ink/15 py-6 md:grid-cols-[12rem_1fr_auto] md:gap-8">
+              <span class="text-sm text-ink/70">Nog niet gepubliceerd</span>
+              <span class="font-serif text-2xl md:text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></span>
             </li>
           ))}
-        </ul>
-      ) : (
-        <ul class="mt-10 grid gap-6 md:grid-cols-3">
-          {[1, 2, 3].map((n) => (
-            <li class="rounded-lg border border-dashed border-ink/40 p-6">
-              <p class="font-serif text-2xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
-              <p class="mt-2 text-sm text-ink/70">Nog geen gepubliceerde teardown.</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  </section>
+    </ul>
+  </Section>
 </Base>

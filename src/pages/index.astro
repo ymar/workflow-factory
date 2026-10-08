@@ -1,11 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import Wordmark from '../components/Wordmark.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
 import Placeholder from '../components/Placeholder.astro';
 import Checklist from '../components/Checklist.astro';
 import KapotteLetters from '../components/KapotteLetters.astro';
 import Faq from '../components/Faq.astro';
+import MediaIcon from '../components/MediaIcon.astro';
 import { priceLabel } from '../lib/format';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -15,8 +17,9 @@ const faq = (await getCollection('faq'))
 const teardowns = (await getCollection('teardowns', (t) => !t.data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+const rewind = services.find((s) => s.id === 'rewind');
 
-const title = 'Neeeon · Marketing automation. Eerst het verhaal, dan de automation';
+const title = 'neon · Marketing automation. Eerst het verhaal, dan de automation';
 const description =
   'Ik bouw marketing automation voor traditionele B2B-bedrijven. Eerst een verhaal dat helder en anders is. Dan pagina\'s en automation die werken.';
 
@@ -24,8 +27,8 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    name: 'Neeeon',
-    url: 'https://neeeon.nl/',
+    name: 'neon',
+    url: new URL('/', Astro.site).href,
     description,
     areaServed: 'NL',
     knowsAbout: ['Marketing automation', 'CRM', 'Revenue Architecture'],
@@ -45,234 +48,193 @@ const jsonLd = [
   },
 ];
 
-const rewind = services.find((s) => s.data.name === 'Rewind');
-const others = services.filter((s) => s.data.name !== 'Rewind');
+const story = [
+  { word: 'Gas', product: 'Rewind', id: 'rewind', text: 'Je verhaal is er al. Het zit in je bedrijf en in wat klanten over je zeggen. Het is alleen nog niet zichtbaar. Rewind vindt het.' },
+  { word: 'Buis', product: 'Play', id: 'play', text: 'Pagina\'s die het verhaal vorm geven. Elk met een formulier en een bedankpagina met een volgende stap.' },
+  { word: 'Stroom', product: 'Autoplay', id: 'autoplay', text: 'Automation die het verhaal elke dag vertelt, tot de tweede bestelling.' },
+];
+const nots = [
+  'Geen campagnes op een verhaal dat niet klopt.',
+  'Geen koude e-mail naar gekochte lijsten.',
+  'Geen Salesforce.',
+  'Geen volledige websiteredesign.',
+  'Geen facturatie per uur.',
+];
 ---
 <Base title={title} description={description} path="/" jsonLd={jsonLd}>
   <!-- Hero -->
-  <section class="on-dark pb-16 pt-14 md:pb-24 md:pt-20">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <Wordmark class="flicker-once h-12 md:h-14" />
-      <p class="mt-10 text-sm font-medium uppercase tracking-widest text-sage">Voor traditionele B2B-bedrijven</p>
-      <h1 class="mt-4 max-w-3xl text-4xl font-medium md:text-6xl">
-        Ik bouw marketing automation. En ik zeg vaak: <span class="neon-text">nog niet.</span>
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg text-paper/90 md:text-xl">
-        Eerst een verhaal dat helder en anders is. Dan pagina's en automation die werken.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/contact/" class="rounded-md bg-mint px-5 py-3 font-semibold text-forest hover:brightness-110">Plan een kennismaking</a>
-        <a href="/teardowns/" class="rounded-md border border-paper/60 px-5 py-3 font-semibold text-paper hover:border-mint hover:text-mint">Bekijk de teardowns</a>
-      </div>
-      <p class="mt-10 text-sm text-sage">10 jaar marketing automation · gebouwd op Revenue Architecture · <Placeholder label="X" /> teardowns</p>
-    </div>
-  </section>
-
-  <!-- Herken je dit -->
-  <section class="on-dark border-t border-paper/10 py-16 md:py-20" aria-labelledby="herken">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <h2 id="herken" class="text-3xl md:text-4xl">Herken je dit?</h2>
-      <p class="mt-3 max-w-2xl text-sage">Vink aan wat klopt. Het telt niet mee. Het laat zien waar je staat.</p>
-      <div class="mt-8">
-        <Checklist />
-      </div>
-    </div>
-  </section>
-
-  <!-- Principe en kapot bord -->
-  <section class="on-dark border-t border-paper/10 py-16 md:py-20" aria-labelledby="principe">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <h2 id="principe" class="sr-only">Het principe</h2>
-      <p class="max-w-3xl font-serif text-3xl leading-tight text-paper md:text-4xl">
-        Een systeem versterkt wat je erin stopt. Een vaag verhaal wordt alleen sneller vaag.
-      </p>
-      <div class="mt-12 border-t border-paper/10 pt-10">
-        <p class="text-sm font-medium uppercase tracking-widest text-sage">Zo klinkt het nu</p>
-        <div class="mt-4 max-w-3xl">
-          <KapotteLetters
-            parts={[
-              { text: 'Wij leveren ' },
-              { text: 'kwaliteit' },
-              { text: ' en ' },
-              { text: 'betrouwbare' },
-              { text: ' ' },
-              { text: 'oplossingen' },
-              { text: '. We ' },
-              { text: 'ontzorgen' },
-              { text: ' je. ' },
-              { text: 'Voor installatiebedrijven met onderhoudscontracten die elk jaar verlopen.', lit: true },
-            ]}
-            label="Voorbeeld: een zin met uitgeschakelde woorden"
-          />
-          <p class="mt-4 text-sm text-sage">Voorbeeld. De uitgeschakelde woorden zijn wat iedereen zegt. Het verlichte deel is wat alleen jij kunt zeggen.</p>
+  <section class="on-dark">
+    <div class="mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-between px-4 pb-10 pt-16 md:px-8 md:pt-28">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Voor traditionele B2B-bedrijven</p>
+        <h1 class="mt-8 max-w-5xl text-[2.75rem] leading-[1.02] tracking-[-0.025em] md:text-8xl">
+          Ik bouw marketing automation. En ik zeg vaak: <span class="neon-text flicker-once">nog niet.</span>
+        </h1>
+        <p class="mt-8 max-w-xl text-lg text-paper/80 md:text-xl">
+          Eerst een verhaal dat helder en anders is. Dan pagina's en automation die werken.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <Button href="/contact/">Plan een kennismaking</Button>
+          <Button href="/teardowns/" variant="ghost-dark">Bekijk de teardowns</Button>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Het neonverhaal -->
-  <section class="py-16 md:py-20" aria-labelledby="neon">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <p class="text-sm font-medium uppercase tracking-widest text-ink/70">Het verhaal</p>
-      <h2 id="neon" class="mt-3 max-w-3xl text-3xl md:text-5xl">Neongas is onzichtbaar. Tot er stroom doorheen gaat.</h2>
-      <ol class="mt-12 grid gap-10 md:grid-cols-3">
-        <li class="border-t-2 border-ink pt-5">
-          <p class="font-serif text-2xl">1. Het gas</p>
-          <p class="mt-3 text-ink/85">Je verhaal is er al. Het zit in je bedrijf, in wat klanten je vertellen. Het is alleen nog niet zichtbaar. Dat is <strong>Rewind</strong>: het vinden.</p>
-        </li>
-        <li class="border-t-2 border-ink pt-5">
-          <p class="font-serif text-2xl">2. De buis</p>
-          <p class="mt-3 text-ink/85">Pagina's die het verhaal vormgeven. Elke pagina heeft een formulier en een bedankpagina met een volgende stap. Dat is <strong>Play</strong>.</p>
-        </li>
-        <li class="border-t-2 border-ink pt-5">
-          <p class="font-serif text-2xl">3. De stroom</p>
-          <p class="mt-3 text-ink/85">Automation die het verhaal elke dag vertelt, tot de tweede bestelling. Dat is <strong>Autoplay</strong>.</p>
-        </li>
-      </ol>
-      <p class="mt-12 font-serif text-2xl md:text-3xl">Je verhaal is er al. Wij zetten er stroom op.</p>
-    </div>
-  </section>
-
-  <!-- Bewijs -->
-  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="bewijs">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <p class="text-sm font-medium uppercase tracking-widest text-ink/70">Uit 10 jaar</p>
-      <h2 id="bewijs" class="mt-3 text-3xl md:text-4xl">Drie korte voorbeelden</h2>
-      <p class="mt-3 max-w-2xl text-ink/80">Geanonimiseerd. Vul hier echte cases in met cijfers, zodra je ze mag delen.</p>
-      <ul class="mt-10 grid gap-6 md:grid-cols-3">
-        {[1, 2, 3].map((n) => (
-          <li class="rounded-lg border border-ink/20 bg-paper p-6">
-            <p class="font-medium"><Placeholder label={`Voorbeeld ${n}: sector en uitgangssituatie`} /></p>
-            <p class="mt-4 text-ink/85"><Placeholder label="Wat we veranderden" /></p>
-            <p class="mt-4 text-ink/85"><Placeholder label="Resultaat in cijfers, na X weken" /></p>
-          </li>
-        ))}
+      <ul class="mt-20 grid gap-3 border-t border-paper/15 pt-5 text-sm text-sage sm:grid-cols-3">
+        <li>10 jaar marketing automation</li>
+        <li>Gebouwd op Revenue Architecture</li>
+        <li><Placeholder label="X" /> teardowns</li>
       </ul>
     </div>
   </section>
 
-  <!-- Producten -->
-  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="producten">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <p class="text-sm font-medium uppercase tracking-widest text-ink/70">Drie producten</p>
-      <h2 id="producten" class="mt-3 text-3xl md:text-4xl">Begin bij Rewind</h2>
-      <p class="mt-3 max-w-2xl text-ink/80">Alle prijzen zijn voorstellen. We bevestigen ze in de kennismaking.</p>
-      <ul class="mt-10 grid gap-6 md:grid-cols-3">
-        {services.map((s) => (
-          <li class={`flex flex-col rounded-lg border p-6 ${s.data.name === 'Rewind' ? 'border-ink bg-ink text-paper' : 'border-ink/20'}`}>
-            <p class="text-sm">
-              <span aria-hidden="true" class="text-xl">{s.data.icon}</span>
-              {s.data.name === 'Rewind' && <span class="ml-2 rounded bg-mint px-2 py-0.5 font-semibold text-forest">Startpunt</span>}
-            </p>
-            <h3 class="mt-3 text-3xl">{s.data.name}</h3>
-            <p class={`mt-3 ${s.data.name === 'Rewind' ? 'text-paper/85' : 'text-ink/85'}`}>{s.data.summary}</p>
-            <p class={`mt-4 text-sm ${s.data.name === 'Rewind' ? 'text-sage' : 'text-ink/70'}`}>{s.data.duration}</p>
-            <ul class="mt-4 space-y-1 text-sm">
+  <Section id="herken" n="01" label="Herken je dit?" tone="dark" title="Herken je dit?" intro="Vink aan wat klopt. Er wordt niets opgeslagen of verstuurd.">
+    <Checklist />
+  </Section>
+
+  <Section id="principe" n="02" label="Het principe">
+    <p class="max-w-5xl font-serif text-4xl leading-[1.08] tracking-[-0.02em] md:text-7xl">
+      Een systeem versterkt wat je erin stopt. Een vaag verhaal wordt alleen sneller vaag.
+    </p>
+    <div class="mt-16 rounded-3xl bg-forest p-8 md:mt-24 md:p-16">
+      <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Zo klinkt het nu</p>
+      <div class="mt-8 max-w-4xl">
+        <KapotteLetters
+          parts={[
+            { text: 'Wij leveren ' }, { text: 'kwaliteit' }, { text: ' en ' }, { text: 'betrouwbare' }, { text: ' ' },
+            { text: 'oplossingen' }, { text: '. We ' }, { text: 'ontzorgen' }, { text: ' je. ' },
+            { text: 'Voor installatiebedrijven met onderhoudscontracten die elk jaar verlopen.', lit: true },
+          ]}
+          label="Voorbeeld: een zin met uitgeschakelde woorden"
+        />
+      </div>
+      <p class="mt-8 max-w-xl text-sm text-sage">Voorbeeld. De uitgeschakelde woorden zegt iedereen. Wat blijft branden, kun alleen jij zeggen.</p>
+    </div>
+  </Section>
+
+  <Section id="neon" n="03" label="Waarom neon" title="Neongas is onzichtbaar. Tot er stroom doorheen gaat.">
+    <ol class="grid gap-px overflow-hidden rounded-3xl border border-ink/15 bg-ink/15 md:grid-cols-3">
+      {story.map((s) => (
+        <li class="flex flex-col bg-paper p-8 md:p-10">
+          <p class="font-serif text-5xl tracking-[-0.02em] md:text-6xl">{s.word}</p>
+          <p class="mt-8 text-ink/80">{s.text}</p>
+          <p class="mt-auto flex items-center gap-2 pt-10 text-sm font-medium"><MediaIcon id={s.id} class="size-5" /> {s.product}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-12 font-serif text-3xl md:text-4xl">Je verhaal is er al. Wij zetten er stroom op.</p>
+  </Section>
+
+  <Section id="bewijs" n="04" label="Uit 10 jaar" title="Drie korte voorbeelden" intro="Geanonimiseerd. Vul hier echte cases met cijfers in, zodra je ze mag delen.">
+    <ul class="grid gap-6 md:grid-cols-3">
+      {[1, 2, 3].map((n) => (
+        <li class="border-t border-ink pt-6">
+          <p class="font-serif text-5xl text-ink/70">0{n}</p>
+          <p class="mt-6 font-medium"><Placeholder label="Sector en uitgangssituatie" /></p>
+          <p class="mt-3 text-ink/80"><Placeholder label="Wat we veranderden" /></p>
+          <p class="mt-3 text-ink/80"><Placeholder label="Resultaat in cijfers, na X weken" /></p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="producten" n="05" label="Producten" title="Drie producten. Begin bij Rewind." intro="Alle prijzen zijn voorstellen. We bevestigen ze in de kennismaking.">
+    <ul class="grid gap-4 md:grid-cols-3">
+      {services.map((s) => {
+        const start = s.id === 'rewind';
+        return (
+          <li class={`flex flex-col rounded-3xl p-8 ${start ? 'on-dark' : 'border border-ink/15'}`}>
+            <div class="flex items-center justify-between">
+              <MediaIcon id={s.id} class={`size-8 ${start ? 'text-mint' : 'text-ink'}`} />
+              {start && <span class="rounded-full bg-mint px-3 py-1 text-xs font-semibold text-forest">Startpunt</span>}
+            </div>
+            <h3 class="mt-10 text-4xl">{s.data.name}</h3>
+            <p class={`mt-4 ${start ? 'text-paper/80' : 'text-ink/80'}`}>{s.data.summary}</p>
+            <dl class={`mt-8 space-y-2 border-t pt-6 text-sm ${start ? 'border-paper/15' : 'border-ink/15'}`}>
+              <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-ink/70'}>Doorlooptijd</dt><dd>{s.data.duration}</dd></div>
               {s.data.prices.map((p) => (
-                <li><span class="font-semibold">{priceLabel(p)}</span> <span class={s.data.name === 'Rewind' ? 'text-sage' : 'text-ink/70'}>{p.label}, voorstel</span></li>
+                <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-ink/70'}>{p.label}</dt><dd class="text-right font-medium">{priceLabel(p)}</dd></div>
               ))}
-            </ul>
-            {s.data.priceNote && <p class={`mt-2 text-sm ${s.data.name === 'Rewind' ? 'text-sage' : 'text-ink/70'}`}>{s.data.priceNote}</p>}
-            <a href={`/${s.id}/`} class={`mt-auto pt-6 font-medium underline underline-offset-4 ${s.data.name === 'Rewind' ? 'text-mint' : 'text-ink'}`}>Meer over {s.data.name}</a>
+            </dl>
+            <p class={`mt-3 text-xs ${start ? 'text-sage' : 'text-ink/70'}`}>Voorstel{s.data.priceNote && `. ${s.data.priceNote}`}</p>
+            <a href={`/${s.id}/`} class={`group mt-auto inline-flex items-center gap-2 pt-10 font-medium ${start ? 'text-mint' : 'text-ink'}`}>
+              Meer over {s.data.name} <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </Section>
+
+  <Section id="krijg" n="06" label="Rewind" title="Wat je van Rewind krijgt">
+    <div class="grid gap-12 md:grid-cols-2">
+      <ol class="border-b border-ink/15">
+        {rewind?.data.deliverables.map((d, i) => (
+          <li class="grid grid-cols-[3rem_1fr] border-t border-ink/15 py-6">
+            <span class="font-serif text-2xl text-ink/70">0{i + 1}</span>
+            <div>
+              <p class="font-serif text-3xl">{d.name}</p>
+              <p class="mt-2 text-ink/80">{d.format}. {d.size}.</p>
+            </div>
           </li>
         ))}
-      </ul>
+      </ol>
+      <figure>
+        <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-ink/5 p-8 text-center text-ink/75">
+          <Placeholder label="Voorbeeldafbeelding: een pagina van het kernverhaal" />
+        </div>
+        <figcaption class="mt-3 text-sm text-ink/70">Vervang door een echt voorbeeld, zodra die er is.</figcaption>
+      </figure>
     </div>
-  </section>
+  </Section>
 
-  <!-- Wat je krijgt van Rewind -->
-  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="krijg">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <h2 id="krijg" class="text-3xl md:text-4xl">Wat je van Rewind krijgt</h2>
-      <div class="mt-10 grid gap-10 md:grid-cols-2">
-        <ol class="space-y-6">
-          {rewind?.data.deliverables.map((d, i) => (
-            <li class="border-l-2 border-ink pl-5">
-              <p class="font-serif text-2xl">{i + 1}. {d.name}</p>
-              <p class="mt-1 text-ink/85">{d.format}. {d.size}.</p>
+  <Section id="dag" n="07" label="Proces" title="Rewind, dag voor dag" intro="Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.">
+    <ol class="border-b border-ink/15">
+      {rewind?.data.process.map((step) => (
+        <li class="grid gap-1 border-t border-ink/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
+          <span class="font-medium">{step.when}</span>
+          <span class="text-ink/80">{step.what}</span>
+          <span class="text-sm text-ink/70 md:text-right">Jouw tijd: {step.clientTime}</span>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="niet" n="08" label="Wat ik niet doe" tone="dark" title="Wat ik niet doe">
+    <ul class="border-b border-paper/15">
+      {nots.map((n) => <li class="border-t border-paper/15 py-5 font-serif text-2xl md:text-4xl">{n}</li>)}
+    </ul>
+  </Section>
+
+  <Section id="teardowns" n="09" label="Kapotte letters" title="De nieuwste teardowns">
+    <ul class="grid gap-4 md:grid-cols-3">
+      {teardowns.length > 0
+        ? teardowns.map((t) => (
+            <li>
+              <a href={`/teardowns/${t.id}/`} class="block h-full rounded-3xl border border-ink/15 p-8 hover:border-ink">
+                <p class="text-sm text-ink/70">{t.data.company} · {t.data.type}</p>
+                <p class="mt-6 font-serif text-3xl">{t.data.title}</p>
+              </a>
+            </li>
+          ))
+        : [1, 2, 3].map((n) => (
+            <li class="rounded-3xl border border-dashed border-ink/30 p-8">
+              <p class="text-sm text-ink/70">Nog geen gepubliceerde teardown</p>
+              <p class="mt-6 font-serif text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
             </li>
           ))}
-        </ol>
-        <figure class="rounded-lg border border-dashed border-ink/40 p-6">
-          <div class="flex aspect-[4/3] items-center justify-center rounded bg-ink/5 text-center text-ink/70">
-            <Placeholder label="Voorbeeldafbeelding: een pagina van het kernverhaal" />
-          </div>
-          <figcaption class="mt-3 text-sm text-ink/70">Vervang door een echt voorbeeld, zodra die bestaat.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
+    </ul>
+    <div class="mt-10"><Button href="/teardowns/" variant="ghost-light">Alle teardowns</Button></div>
+  </Section>
 
-  <!-- Rewind dag voor dag -->
-  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="dag">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <h2 id="dag" class="text-3xl md:text-4xl">Rewind, dag voor dag</h2>
-      <p class="mt-3 max-w-2xl text-ink/80">Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.</p>
-      <ol class="mt-10 divide-y divide-ink/20 border-y border-ink/20">
-        {rewind?.data.process.map((step) => (
-          <li class="grid gap-1 py-4 md:grid-cols-[14rem_1fr_12rem] md:gap-6">
-            <span class="font-medium">{step.when}</span>
-            <span class="text-ink/85">{step.what}</span>
-            <span class="text-sm text-ink/70 md:text-right">Jouw tijd: {step.clientTime}</span>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
+  <Section id="faq" n="10" label="Vragen" title="Veelgestelde vragen">
+    <Faq items={faq.map((f) => ({ question: f.data.question, answer: f.data.answer }))} />
+  </Section>
 
-  <!-- Wat ik niet doe -->
-  <section class="on-dark py-16 md:py-20" aria-labelledby="niet">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <h2 id="niet" class="text-3xl md:text-4xl">Wat ik niet doe</h2>
-      <ul class="mt-8 max-w-2xl space-y-3 text-lg">
-        <li>Geen campagnes op een verhaal dat niet klopt.</li>
-        <li>Geen koude e-mail naar gekochte lijsten.</li>
-        <li>Geen Salesforce.</li>
-        <li>Geen volledige websiteredesign.</li>
-        <li>Geen facturatie per uur.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- Teardowns -->
-  <section class="py-16 md:py-20" aria-labelledby="teardowns">
-    <div class="mx-auto max-w-5xl px-4 md:px-6">
-      <p class="text-sm font-medium uppercase tracking-widest text-ink/70">Kapotte letters</p>
-      <h2 id="teardowns" class="mt-3 text-3xl md:text-4xl">De nieuwste teardowns</h2>
-      <ul class="mt-10 grid gap-6 md:grid-cols-3">
-        {teardowns.length > 0
-          ? teardowns.map((t) => (
-              <li class="rounded-lg border border-ink/20 p-6">
-                <a href={`/teardowns/${t.id}/`} class="font-serif text-2xl underline-offset-4 hover:underline">{t.data.title}</a>
-                <p class="mt-2 text-sm text-ink/70">{t.data.company} · {t.data.type}</p>
-              </li>
-            ))
-          : [1, 2, 3].map((n) => (
-              <li class="rounded-lg border border-dashed border-ink/40 p-6">
-                <p class="font-serif text-2xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
-                <p class="mt-2 text-sm text-ink/70">Nog geen gepubliceerde teardown.</p>
-              </li>
-            ))}
-      </ul>
-      <p class="mt-8"><a href="/teardowns/" class="font-medium underline underline-offset-4">Alle teardowns</a></p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="border-t border-ink/15 py-16 md:py-20" aria-labelledby="faq">
-    <div class="mx-auto max-w-3xl px-4 md:px-6">
-      <h2 id="faq" class="text-3xl md:text-4xl">Veelgestelde vragen</h2>
-      <div class="mt-8">
-        <Faq items={faq.map((f) => ({ question: f.data.question, answer: f.data.answer }))} />
-      </div>
-    </div>
-  </section>
-
-  <!-- Afsluiting -->
-  <section class="on-dark py-20 md:py-28" aria-labelledby="cta">
-    <div class="mx-auto max-w-3xl px-4 text-center md:px-6">
-      <h2 id="cta" class="text-3xl md:text-5xl">Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst je verhaal moet fixen.</h2>
-      <a href="/contact/" class="mt-10 inline-block rounded-md bg-mint px-6 py-3 font-semibold text-forest hover:brightness-110">Plan een kennismaking</a>
+  <section class="on-dark border-t border-paper/10" aria-labelledby="cta">
+    <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-40">
+      <h2 id="cta" class="max-w-5xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-7xl">
+        Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst <span class="neon-text">je verhaal</span> moet fixen.
+      </h2>
+      <div class="mt-12"><Button href="/contact/">Plan een kennismaking</Button></div>
     </div>
   </section>
 </Base>

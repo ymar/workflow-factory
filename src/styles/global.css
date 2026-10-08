@@ -24,8 +24,13 @@
     min-width: 320px;
     overflow-x: hidden;
   }
+  body {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
   h1, h2, h3 {
     font-family: var(--font-serif);
+    font-weight: 400;
     line-height: 1.1;
     text-wrap: balance;
   }
@@ -76,9 +81,20 @@
 }
 
 /* Checklist: a ticked item lights up. */
-.check-item:has(input:checked) {
+.check-box {
+  appearance: none;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1.5px solid var(--color-sage);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+.check-box:checked {
   border-color: var(--color-mint);
-  background: var(--color-forest);
+  background: var(--color-mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f2e23' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / 80% no-repeat;
+  box-shadow: 0 0 10px rgba(95, 240, 184, 0.5);
 }
 .check-item:has(input:checked) .check-text {
   color: var(--color-mint);

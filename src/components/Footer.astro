@@ -1,16 +1,43 @@
 ---
+import Wordmark from './Wordmark.astro';
 import Placeholder from './Placeholder.astro';
 import { site } from '../lib/site';
+const year = new Date().getFullYear();
 ---
-<footer class="on-dark mt-24">
-  <div class="mx-auto max-w-5xl px-4 py-10 text-sm md:px-6">
-    <p class="font-serif text-lg">Je verhaal is er al. Wij zetten er stroom op.</p>
-    <p class="mt-4 text-sage">
-      Neeeon · Marketing automation op Revenue Architecture · KvK {site.kvk || <Placeholder label="KvK-nummer" />}
-    </p>
-    <p class="mt-2 text-sage">
-      <a class="underline underline-offset-4 hover:text-mint" href="/privacy/">Privacy</a> ·
-      {site.email ? <a class="underline underline-offset-4 hover:text-mint" href={`mailto:${site.email}`}>{site.email}</a> : <Placeholder label="e-mailadres" />}
-    </p>
+<footer class="on-dark border-t border-paper/10">
+  <div class="mx-auto max-w-6xl px-4 pb-10 pt-20 md:px-8 md:pt-28">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="md:col-span-6">
+        <Wordmark class="h-14 md:h-20" />
+        <p class="mt-8 max-w-sm font-serif text-2xl leading-snug">Je verhaal is er al. Wij zetten er stroom op.</p>
+      </div>
+      <div class="text-sm md:col-span-2">
+        <p class="text-xs uppercase tracking-[0.18em] text-sage">Producten</p>
+        <ul class="mt-4 space-y-2">
+          <li><a class="hover:text-mint" href="/rewind/">Rewind</a></li>
+          <li><a class="hover:text-mint" href="/play/">Play</a></li>
+          <li><a class="hover:text-mint" href="/autoplay/">Autoplay</a></li>
+        </ul>
+      </div>
+      <div class="text-sm md:col-span-2">
+        <p class="text-xs uppercase tracking-[0.18em] text-sage">Meer</p>
+        <ul class="mt-4 space-y-2">
+          <li><a class="hover:text-mint" href="/installatie-onderhoud/">Installatie & onderhoud</a></li>
+          <li><a class="hover:text-mint" href="/teardowns/">Teardowns</a></li>
+          <li><a class="hover:text-mint" href="/over/">Over</a></li>
+        </ul>
+      </div>
+      <div class="text-sm md:col-span-2">
+        <p class="text-xs uppercase tracking-[0.18em] text-sage">Contact</p>
+        <ul class="mt-4 space-y-2">
+          <li><a class="hover:text-mint" href="/contact/">Plan een kennismaking</a></li>
+          <li>{site.email ? <a class="hover:text-mint" href={`mailto:${site.email}`}>{site.email}</a> : <Placeholder label="e-mailadres" />}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-20 flex flex-wrap justify-between gap-4 border-t border-paper/10 pt-6 text-xs text-sage">
+      <p>© {year} neon · Marketing automation op Revenue Architecture</p>
+      <p>KvK {site.kvk || <Placeholder label="KvK-nummer" />} · <a class="underline underline-offset-4 hover:text-mint" href="/privacy/">Privacy</a></p>
+    </div>
   </div>
 </footer>
