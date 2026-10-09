@@ -29,6 +29,7 @@ The preview is deliberately not a Pages project: a Pages project made by direct 
 | Segment page | `src/content/segments/installatie-onderhoud.json` |
 | Teardowns | `src/content/teardowns/*.md` |
 | Workflow library (Flow) | `src/content/library/` (see below) |
+| Topics: the menu and the topic pages at `/workflows/<topic>/` | `src/lib/topics.ts`. Each topic groups one or two phases of the loop |
 | Redirects | `astro.config.mjs` and `public/_redirects` (the `/en/*` wildcard only works in `_redirects`) |
 | Colour tokens (light theme; `.on-dark` flips them for dark blocks) | `src/styles/global.css` |
 | Share image | `public/og.png`, a 1200x630 render of `public/og.svg`. Social networks do not show SVG, so render a new PNG when the SVG changes |

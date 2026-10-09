@@ -7,10 +7,10 @@ import Button from '../../components/Button.astro';
 import WorkflowCard from '../../components/WorkflowCard.astro';
 import LoopIndex from '../../components/LoopIndex.astro';
 import { priceLabel } from '../../lib/format';
-import { phases } from '../../lib/loop';
 import { statusLabel } from '../../lib/status';
 import { assertLibrary } from '../../lib/library-check';
 import { sortWorkflows } from '../../lib/library';
+import { topics, topicHref } from '../../lib/topics';
 import { library } from '../../lib/site';
 
 await assertLibrary();
@@ -22,7 +22,7 @@ const flow = await getEntry('services', 'flow');
 if (!flow) throw new Error('Missing services/flow.json');
 
 const title = 'Marketing automation voorbeelden | Workflow Factory';
-const description = `${workflows.length} marketing automation workflows voor B2B, per fase van de klantreis. Elk met trigger, stappen, CRM-velden en metingen, voor HubSpot en ActiveCampaign.`;
+const description = `${workflows.length} marketing automation workflows voor B2B, per onderwerp. Elk met tijdlijn, voorbeeldmails, CRM-velden en metingen, voor HubSpot en ActiveCampaign.`;
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -43,31 +43,27 @@ const jsonLd = [
     crumbs={[['/', 'Home'], ['/workflows/', 'Workflows']]}
     kicker="Open workflowbibliotheek"
     title={`${workflows.length} marketing automation workflows.`}
-    accent="Kies waar het lekt."
-    intro="Je klant koopt niet één keer. Een klant doorloopt zes fasen, en in elke fase kan omzet weglekken. Elke workflow dicht één lek, met een trigger, vaste stappen, een overdrachtsregel en een dashboard."
+    intro="Per onderwerp, van de eerste aanvraag tot de vervanging. Elke workflow met een tijdlijn, voorbeeldmails, de CRM-velden die je nodig hebt en een dashboard."
   >
     <Button href="/contact/">Plan een kennismaking</Button>
     <Button href="/workflows/data/" variant="ghost-dark">Velden en metingen</Button>
   </PageHero>
 
-  <Section id="loop" n="01" label="De loop" title="Een loop, geen funnel" intro="Zes fasen, gezien vanaf de klant. Klik op een fase voor de workflows die daar horen.">
-    <LoopIndex workflows={workflows} />
-  </Section>
 
-  <section aria-label="Workflows per fase">
+  <section aria-label="Workflows per onderwerp">
     <div class="mx-auto max-w-6xl px-4 md:px-8">
-      {phases.map((p, i) => (
-        <section id={p.id} aria-labelledby={`${p.id}-title`} class="scroll-mt-20 border-t border-fg/15 py-16 md:py-20">
+      {topics.map((t) => (
+        <section id={t.id} aria-labelledby={`${t.id}-title`} class="scroll-mt-20 border-t border-fg/10 py-14 md:py-20">
           <div class="grid gap-10 md:grid-cols-12">
             <div class="md:col-span-4">
-              <p class="text-[13px] font-medium text-accent">Fase 0{i + 1}</p>
-              <h2 id={`${p.id}-title`} class="mt-4 text-4xl md:text-5xl">{p.name}</h2>
-              <p class="mt-2 text-muted">{p.revenue}</p>
-              <p class="mt-6 max-w-sm text-fg/80"><span class="text-fg">Waar het lekt:</span> {p.leak}</p>
+              <p class="text-[13px] font-medium text-accent">Onderwerp</p>
+              <h2 id={`${t.id}-title`} class="mt-2 text-[1.75rem] md:text-[2.25rem]"><a href={topicHref(t)} class="hover:text-accent">{t.name}</a></h2>
+              <p class="mt-4 max-w-sm text-fg/80">{t.intro}</p>
+              <a href={topicHref(t)} class="mt-6 inline-flex items-center gap-2 text-[15px] font-medium text-accent hover:underline">Naar het onderwerp <span aria-hidden="true">→</span></a>
             </div>
             <ul class="grid content-start gap-4 md:col-span-8 lg:grid-cols-2">
-              {workflows.filter((j) => j.data.phase === p.id).map((j) => (
-                <li><WorkflowCard workflow={j} /></li>
+              {workflows.filter((w) => (t.phases as string[]).includes(w.data.phase)).map((w) => (
+                <li><WorkflowCard workflow={w} showPhase /></li>
               ))}
             </ul>
           </div>
@@ -76,7 +72,11 @@ const jsonLd = [
     </div>
   </section>
 
-  <Section id="open" n="02" label="Open bibliotheek" title={library.emailsPublic ? 'De opbouw en de mails zijn open.' : 'De opbouw is open. De woorden niet.'} intro="Gebruik de workflows gerust, ook als je mij niet inhuurt. Vermeld alleen waar ze vandaan komen.">
+  <Section id="loop" label="Het model" title="Een loop, geen funnel" intro="Onder de onderwerpen zitten zes fasen, gezien vanaf de klant. In elke fase kan omzet weglekken. Klik op een fase voor de workflows die daar horen.">
+    <LoopIndex workflows={workflows} />
+  </Section>
+
+  <Section id="open" label="Open bibliotheek" title={library.emailsPublic ? 'De opbouw en de mails zijn open.' : 'De opbouw is open. De woorden niet.'} intro="Gebruik de workflows gerust, ook als je mij niet inhuurt. Vermeld alleen waar ze vandaan komen.">
     <div class="grid gap-4 md:grid-cols-2">
       <div class="rounded-xl border border-fg/15 p-8">
         <p class="text-[13px] font-medium text-accent">Open</p>
@@ -127,7 +127,7 @@ const jsonLd = [
     </div>
   </Section>
 
-  <Section id="maatwerk" n="03" label="Maatwerk" title="Staat jouw workflow er niet bij?">
+  <Section id="maatwerk" label="Maatwerk" title="Staat jouw workflow er niet bij?">
     <div class="grid gap-4 md:grid-cols-2">
       <div class="rounded-xl on-dark p-8">
         <p class="text-[13px] font-medium text-muted">Waar je begint</p>
@@ -143,7 +143,7 @@ const jsonLd = [
     </div>
   </Section>
 
-  <Section id="prijs" n="04" label="Prijs" tone="dark" title="Eén prijs per workflow">
+  <Section id="prijs" label="Prijs" tone="dark" title="Eén prijs per workflow">
     <div class="grid gap-10 md:grid-cols-2">
       <div>
         {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}

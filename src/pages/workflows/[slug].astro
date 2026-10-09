@@ -12,6 +12,7 @@ import { statusLabel } from '../../lib/status';
 import { fieldAnchor, fieldRefsIn, fieldUsage, metricAnchor, objectLabel, segmentHref, segmentLabel, sortWorkflows, stepRefs, whenLabel, withLabels } from '../../lib/library';
 import { library, site } from '../../lib/site';
 import { platforms } from '../../lib/platforms';
+import { topicHref, topicOf } from '../../lib/topics';
 import { assertLibrary } from '../../lib/library-check';
 
 export async function getStaticPaths() {
@@ -58,7 +59,8 @@ const metricTypes = ['volume', 'conversie', 'doorlooptijd', 'omzet'] as const;
 const typeLabel = { volume: 'Volume', conversie: 'Conversie', doorlooptijd: 'Doorlooptijd', omzet: 'Omzet' };
 
 const pageUrl = new URL(`/workflows/${workflow.id}/`, Astro.site).href;
-const crumbs: [string, string][] = [['/', 'Home'], ['/workflows/', 'Workflows'], [`/workflows/#${loopPhase.id}`, loopPhase.name], [`/workflows/${workflow.id}/`, name]];
+const topic = topicOf(phase);
+const crumbs: [string, string][] = [['/', 'Home'], ['/workflows/', 'Workflows'], [topicHref(topic), topic.name], [`/workflows/${workflow.id}/`, name]];
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -195,7 +197,7 @@ const jsonLd = [
 
   {mistakes.length > 0 && (
     <Section id="fouten" n="05" label="Fouten" title="Veelgemaakte fouten">
-      <ol class="border-b border-fg/15">
+      <ol class="max-w-3xl border-b border-fg/15">
         {mistakes.map((m, i) => (
           <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-5 text-lg"><span class="text-muted">0{i + 1}</span>{m}</li>
         ))}
@@ -205,7 +207,7 @@ const jsonLd = [
 
   {faq.length > 0 && (
     <Section id="vragen" n="06" label="Vragen" title={`Vragen over ${name.toLowerCase()}`}>
-      <Faq items={faq.map((f) => ({ question: f.q, answer: f.a }))} />
+      <div class="max-w-3xl"><Faq items={faq.map((f) => ({ question: f.q, answer: f.a }))} /></div>
     </Section>
   )}
 

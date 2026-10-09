@@ -1,6 +1,7 @@
 ---
 // The loop from the earlier site version: six phases on a ring, clockwise from the top, seen from the customer.
 // Each phase links to its workflows in the library.
+import { topicHref, topicOf } from '../lib/topics';
 import { phases } from '../lib/loop';
 
 const W = 204;
@@ -37,7 +38,7 @@ const connectors = points.map((a, i) => {
   {points.map((p, i) => {
     const phase = phases[i];
     return (
-      <a href={`/workflows/#${phase.id}`} class="loop-phase">
+      <a href={`${topicHref(topicOf(phase.id))}#${phase.id}`} class="loop-phase">
         <rect x={p.x - W / 2} y={p.y - H / 2} width={W} height={H} rx="14" class="loop-box" />
         <text x={p.x} y={p.y - 5} text-anchor="middle" font-size="21" font-weight="600" class="loop-name">{phase.name}</text>
         <text x={p.x} y={p.y + 21} text-anchor="middle" font-size="17" class="loop-revenue">{phase.revenue}</text>

@@ -2,9 +2,11 @@
 import Logo from './Logo.astro';
 import Placeholder from './Placeholder.astro';
 import { site } from '../lib/site';
+import { topics, topicHref } from '../lib/topics';
 const year = new Date().getFullYear();
 const columns = [
-  { title: 'Bibliotheek', links: [['/workflows/', 'Alle workflows'], ['/workflows/hubspot/', 'HubSpot'], ['/workflows/activecampaign/', 'ActiveCampaign'], ['/workflows/data/', 'Velden en metingen']] },
+  { title: 'Onderwerpen', links: [['/workflows/', 'Alle workflows'], ...topics.map((t) => [topicHref(t), t.name])] },
+  { title: 'Per platform', links: [['/workflows/hubspot/', 'HubSpot'], ['/workflows/activecampaign/', 'ActiveCampaign'], ['/workflows/data/', 'Velden en metingen']] },
   { title: 'Diensten', links: [['/blueprint/', 'Blueprint'], ['/build/', 'Build'], ['/flow/', 'Flow'], ['/installatie-onderhoud/', 'Installatie en onderhoud']] },
   { title: 'Meer', links: [['/teardowns/', 'Teardowns'], ['/over/', 'Over'], ['/contact/', 'Contact']] },
 ];
@@ -12,7 +14,7 @@ const columns = [
 <footer class="on-dark">
   <div class="mx-auto max-w-6xl px-4 pb-10 pt-20 md:px-8 md:pt-24">
     <div class="grid gap-12 md:grid-cols-12">
-      <div class="md:col-span-5">
+      <div class="md:col-span-4">
         <Logo size="lg" />
         <p class="mt-6 max-w-sm text-lg text-fg/80">Kant-en-klare workflows voor B2B-opvolging. Open, met data en metingen.</p>
       </div>
