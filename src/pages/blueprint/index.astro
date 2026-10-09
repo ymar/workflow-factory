@@ -1,12 +1,22 @@
 ---
 import ServicePage from '../../components/ServicePage.astro';
+import Section from '../../components/Section.astro';
+import Checklist from '../../components/Checklist.astro';
+import KapotteLetters from '../../components/KapotteLetters.astro';
+
+const alternatives = [
+  { name: 'Meer campagnes', why: 'Je stuurt meer mensen naar hetzelfde verhaal. Je betaalt per klik om vaker nee te horen.' },
+  { name: 'Een nieuwe website', why: 'Mooier ontwerp, dezelfde zinnen. Kwaliteit, service, ontzorgen. Je concurrent zegt het ook.' },
+  { name: 'Een HubSpot-partner', why: 'Die bouwt wat je vraagt. Niemand vraagt eerst wat je eigenlijk moet zeggen.' },
+  { name: 'De prijs laten zakken', why: 'Werkt altijd. Stel: 5% korting op €1 miljoen omzet. Dat is €50.000 per jaar, elk jaar opnieuw.' },
+];
 ---
 <ServicePage
   id="blueprint"
   kicker="Startpunt"
   headline="Blueprint. In twee weken weet je"
   accent="waarom klanten voor jou kiezen."
-  title="Blueprint · Positionering en homepage in 2 weken | neon"
+  title="Blueprint: positionering in 2 weken | Workflow Factory"
   description="Blueprint: in twee weken je positionering op één pagina en een herschreven homepage. Vaste prijs, ongeveer 6 uur van jouw tijd."
   signalsTitle={"Je hebt een positionerings\u00ADprobleem als:"}
   signals={[
@@ -21,15 +31,47 @@ import ServicePage from '../../components/ServicePage.astro';
   priceTitle="Prijs naar omvang"
   priceIntro="Een groter bedrijf heeft meer mensen aan tafel, meer pagina's en meer te winnen. Het werk en de oplevering zijn hetzelfde."
 >
+  <Fragment slot="intro">
+    <Section id="herken" label="Herken je dit?" tone="dark" title="Herken je dit?" intro="Vink aan wat klopt. Twee of meer? Dan ligt het niet aan je campagnes.">
+      <Checklist />
+    </Section>
+    <Section id="probeert" label="Wat je nu probeert" title="Meer campagnes. Een nieuwe website. Een lagere prijs." intro="Het zijn de reflexen als de aanvragen tegenvallen. Ze maken het probleem allemaal groter.">
+      <ul class="grid gap-4 md:grid-cols-2">
+        {alternatives.map((a) => (
+          <li class="rounded-3xl border border-fg/15 p-8">
+            <p class="text-2xl">{a.name}</p>
+            <p class="mt-3 text-fg/80">{a.why}</p>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-16 max-w-5xl font-display text-4xl leading-[1.08] tracking-[-0.02em] md:mt-24 md:text-6xl">
+        Een systeem versterkt wat je erin stopt. Een vage positionering wordt alleen sneller vaag.
+      </p>
+      <div class="on-dark mt-12 rounded-3xl p-8 md:p-16">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Zo klinkt het nu</p>
+        <div class="mt-8 max-w-4xl">
+          <KapotteLetters
+            parts={[
+              { text: 'Wij leveren ' }, { text: 'kwaliteit' }, { text: ' en ' }, { text: 'betrouwbare' }, { text: ' ' },
+              { text: 'oplossingen' }, { text: '. We ' }, { text: 'ontzorgen' }, { text: ' je. ' },
+              { text: 'Voor installatiebedrijven met onderhoudscontracten die elk jaar verlopen.', lit: true },
+            ]}
+            label="Voorbeeld: een zin met uitgeschakelde woorden"
+          />
+        </div>
+        <p class="mt-8 max-w-xl text-sm text-muted">Voorbeeld. Zet de woorden uit die iedereen gebruikt. Wat blijft branden, is je positionering. Vaak is dat weinig.</p>
+      </div>
+    </Section>
+  </Fragment>
   <div slot="after-deliverables" class="mt-16 grid gap-8 md:grid-cols-[16rem_1fr]">
     <h3 class="text-3xl">De vier vragen</h3>
     <div>
-      <ol class="border-b border-paper/15">
+      <ol class="border-b border-fg/15">
         {['Klopt het?', 'Maakt het verschil voor de koper?', 'Kan een concurrent het zeggen?', 'Wint het ook de tweede order?'].map((q, i) => (
-          <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-4 text-lg"><span class="text-paper/70">0{i + 1}</span>{q}</li>
+          <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-4 text-lg"><span class="text-fg/70">0{i + 1}</span>{q}</li>
         ))}
       </ol>
-      <p class="mt-6 text-paper/80">Haalt je positionering er één niet, dan is ze niet af. Liever nu dan na een jaar campagnes.</p>
+      <p class="mt-6 text-fg/80">Haalt je positionering er één niet, dan is ze niet af. Liever nu dan na een jaar campagnes.</p>
     </div>
   </div>
 </ServicePage>

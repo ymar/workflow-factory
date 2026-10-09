@@ -6,16 +6,29 @@ interface Props {
   title: string;
   accent?: string;
   intro?: string;
+  crumbs?: [string, string][];
 }
-const { icon, kicker, title, accent, intro } = Astro.props;
+const { icon, kicker, title, accent, intro, crumbs } = Astro.props;
 ---
 <section class="hero-glow">
   <div class="mx-auto max-w-6xl px-4 pb-16 pt-16 md:px-8 md:pb-28 md:pt-28">
-    <p class="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-sage">{icon && <ProductIcon id={icon} class="size-5 text-mint" />}{kicker}</p>
+    {crumbs && (
+      <nav aria-label="Kruimelpad" class="mb-8 text-sm text-muted">
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+          {crumbs.map(([href, label], i) => (
+            <li class="flex items-center gap-2">
+              {i > 0 && <span aria-hidden="true">/</span>}
+              {i < crumbs.length - 1 ? <a href={href} class="hover:text-accent hover:underline">{label}</a> : <span aria-current="page" class="text-fg">{label}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <p class="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.18em] text-muted">{icon && <ProductIcon id={icon} class="size-5 text-accent" />}{kicker}</p>
     <h1 class="mt-6 max-w-5xl text-[2.25rem] leading-[1.05] tracking-[-0.02em] md:text-7xl">
       {title}{accent && <> <span class="neon-text">{accent}</span></>}
     </h1>
-    {intro && <p class="mt-8 max-w-2xl text-lg text-paper/80 md:text-xl">{intro}</p>}
+    {intro && <p class="mt-8 max-w-2xl text-lg text-fg/80 md:text-xl">{intro}</p>}
     {Astro.slots.has('default') && <div class="mt-10 flex flex-wrap gap-3"><slot /></div>}
   </div>
 </section>

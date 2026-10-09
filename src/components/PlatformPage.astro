@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from './PageHero.astro';
+import Section from './Section.astro';
+import Button from './Button.astro';
+import Faq from './Faq.astro';
+import { platforms, type PlatformId } from '../lib/platforms';
+import { objectLabel, sortWorkflows } from '../lib/library';
+import { phaseById } from '../lib/loop';
+
+interface Props {
+  id: PlatformId;
+}
+const p = platforms[Astro.props.id];
+const workflows = sortWorkflows(await getCollection('workflows'));
+const path = `/workflows/${Astro.props.id}/`;
+const crumbs: [string, string][] = [['/', 'Home'], ['/workflows/', 'Workflows'], [path, p.name]];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map(([href, label], i) => ({ '@type': 'ListItem', position: i + 1, name: label, item: new URL(href, Astro.site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: p.seoTitle,
+    itemListElement: workflows.map((w, i) => ({ '@type': 'ListItem', position: i + 1, name: w.data.name, url: new URL(`/workflows/${w.id}/`, Astro.site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: p.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+const usedObjects = [...new Set(workflows.map((w) => w.data.enroll.object))];
+---
+<Base title={`${p.seoTitle} | Workflow Factory`} description={p.description} path={path} jsonLd={jsonLd}>
+  <PageHero crumbs={crumbs} icon="flow" kicker={`Workflowbibliotheek · ${p.name}`} title={p.headline} accent={p.accent} intro={p.intro}>
+    <Button href="/workflows/">Alle workflows</Button>
+    <Button href="/flow/" variant="ghost-dark">Laat er één bouwen</Button>
+  </PageHero>
+
+  <Section id="workflows" n="01" label="Workflows" title={`Tien workflows in ${p.name}`} intro="Per workflow: op welk object hij draait en hoe hij start. Klik door voor de stappen, velden en metingen.">
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[44rem] text-left">
+        <thead class="text-xs uppercase tracking-[0.12em] text-muted">
+          <tr><th class="py-3 pr-4 font-medium">Workflow</th><th class="py-3 pr-4 font-medium">Fase</th><th class="py-3 pr-4 font-medium">Draait op</th><th class="py-3 font-medium">Start</th></tr>
+        </thead>
+        <tbody>
+          {workflows.map((w) => (
+            <tr class="border-t border-fg/15 align-top">
+              <td class="py-4 pr-4"><a href={`/workflows/${w.id}/`} class="font-medium text-accent hover:underline">{w.data.name}</a><span class="mt-1 block text-sm text-fg/70">{w.data.summary}</span></td>
+              <td class="py-4 pr-4 text-fg/80">{phaseById(w.data.phase).name}</td>
+              <td class="py-4 pr-4 text-fg/80">{p.objects[w.data.enroll.object]}</td>
+              <td class="py-4 text-fg/80">{w.data.enroll.at ? 'Op een datum' : 'Bij een wijziging'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <Section id="bouwstenen" n="02" label="Bouwstenen" title={`Zo vertaal je de bibliotheek naar ${p.name}`} intro="Inrichtingsvoorstel: zo zou ik het bouwen. Jouw account kan anders zijn ingericht.">
+    <div class="grid gap-10 md:grid-cols-2">
+      <div>
+        <h3 class="text-2xl">Stappen</h3>
+        <dl class="mt-6 border-b border-fg/15">
+          {p.blocks.map(([term, text]) => (
+            <div class="grid gap-1 border-t border-fg/15 py-4 sm:grid-cols-[11rem_1fr] sm:gap-4">
+              <dt class="font-medium">{term}</dt><dd class="text-fg/80">{text}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div>
+        <h3 class="text-2xl">Objecten</h3>
+        <dl class="mt-6 border-b border-fg/15">
+          {usedObjects.map((o) => (
+            <div class="grid gap-1 border-t border-fg/15 py-4 sm:grid-cols-[11rem_1fr] sm:gap-4">
+              <dt class="font-medium">{objectLabel[o]}</dt><dd class="text-fg/80">{p.objects[o]}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="mt-6 rounded-2xl border border-fg/15 p-5 text-sm text-fg/80">{p.caveat}</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="vragen" n="03" label="Vragen" title={`Vragen over ${p.name}`}>
+    <Faq items={p.faq.map((f) => ({ question: f.q, answer: f.a }))} />
+  </Section>
+
+  <section class="on-dark" aria-labelledby="cta">
+    <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-32">
+      <h2 id="cta" class="max-w-4xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-6xl">Liever niet zelf bouwen?</h2>
+      <p class="mt-6 max-w-xl text-lg text-fg/80">Ik bouw een workflow uit de bibliotheek in jouw {p.name}-account, in drie weken, met dashboard.</p>
+      <div class="mt-10"><Button href="/flow/">Over Flow</Button></div>
+    </div>
+  </section>
+</Base>

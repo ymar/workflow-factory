@@ -56,3 +56,15 @@ metrics:
 - nieuwe_klanten
 - tweede_opdracht_binnen_jaar
 - dagen_gewonnen_tot_start
+seo:
+  title: Klantonboarding automatiseren in B2B
+  description: 'Workflow voor onboarding van nieuwe B2B-klanten: een welkom, een overdracht van verkoop naar uitvoering en een check na de start. Met CRM-velden en metingen.'
+why: Tussen "getekend" en "gestart" verliest een klant vaak het overzicht. Verkoop is weg, de uitvoering moet nog beginnen. Deze workflow zorgt dat de klant weet wie er komt en wanneer, en dat de uitvoering weet wat er beloofd is. Zo wordt de eerste opdracht niet de laatste.
+example: 'Stel: 60 nieuwe klanten per jaar, en nu geeft 30% binnen een jaar een tweede opdracht. Bij 40% zijn dat 6 vervolgopdrachten per jaar extra.'
+mistakes:
+- Een overdracht zonder notities. De uitvoering begint dan zonder te weten wat er beloofd is.
+- Alleen een welkomstmail, en daarna niets tot de oplevering.
+- Geen vaste contactpersoon noemen.
+faq:
+- q: Wanneer start de onboarding?
+  a: Zodra een offerte op Gewonnen gaat. Een betrouwbare offertestatus in je CRM is dus een voorwaarde.

@@ -1,35 +1,36 @@
 ---
-import Wordmark from './Wordmark.astro';
+import Logo from './Logo.astro';
 const links = [
-  { href: '/blueprint/', label: 'Blueprint' },
-  { href: '/build/', label: 'Build' },
-  { href: '/flow/', label: 'Flow' },
-  { href: '/journeys/', label: 'Journeys' },
-  { href: '/installatie-onderhoud/', label: 'Installatie' },
-  { href: '/teardowns/', label: 'Teardowns' },
+  { href: '/workflows/', label: 'Workflows' },
+  { href: '/workflows/hubspot/', label: 'HubSpot' },
+  { href: '/workflows/activecampaign/', label: 'ActiveCampaign' },
+  { href: '/workflows/data/', label: 'Data' },
+  { href: '/diensten/', label: 'Diensten' },
   { href: '/over/', label: 'Over' },
 ];
+// The most specific matching link is the current one, so /workflows/hubspot/ does not also mark Workflows.
 const path = Astro.url.pathname;
-const current = (href: string) => (path.startsWith(href) ? 'page' : undefined);
+const active = links.filter((l) => path.startsWith(l.href)).sort((a, b) => b.href.length - a.href.length)[0]?.href;
+const current = (href: string) => (href === active ? 'page' : undefined);
 ---
-<header class="sticky top-0 z-40 border-b border-paper/10 bg-night/80 backdrop-blur-md">
+<header class="sticky top-0 z-40 border-b border-fg/10 bg-bg/85 backdrop-blur-md">
   <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-4 md:px-8">
-    <a href="/" class="rounded" aria-label="neon, naar de homepage"><Wordmark class="h-7" /></a>
+    <a href="/" class="rounded" aria-label="Workflow Factory, naar de homepage"><Logo /></a>
     <nav aria-label="Hoofdmenu" class="hidden lg:block">
-      <ul class="flex items-center gap-7 text-sm">
+      <ul class="flex items-center gap-6 text-sm">
         {links.map((l) => (
-          <li><a href={l.href} aria-current={current(l.href)} class="rounded text-paper/80 hover:text-paper aria-[current=page]:text-mint">{l.label}</a></li>
+          <li><a href={l.href} aria-current={current(l.href)} class="rounded text-fg/75 hover:text-fg aria-[current=page]:font-medium aria-[current=page]:text-accent">{l.label}</a></li>
         ))}
       </ul>
     </nav>
     <div class="flex items-center gap-2">
-      <a href="/contact/" class="hidden rounded-full bg-mint px-4 py-2 text-sm font-medium text-forest hover:bg-paper sm:inline-flex">Plan een kennismaking</a>
+      <a href="/contact/" class="hidden rounded-full bg-mint px-4 py-2 text-sm font-medium text-forest hover:brightness-95 sm:inline-flex">Plan een kennismaking</a>
       <details class="group lg:hidden">
-        <summary class="cursor-pointer list-none rounded-full border border-paper/30 px-4 py-2 text-sm [&::-webkit-details-marker]:hidden"><span class="group-open:hidden">Menu</span><span class="hidden group-open:inline">Sluit</span></summary>
-        <nav aria-label="Mobiel menu" class="absolute inset-x-0 top-16 h-[calc(100svh-4rem)] border-b border-paper/10 bg-night px-4 pb-10 pt-6">
+        <summary class="cursor-pointer list-none rounded-full border border-fg/25 px-4 py-2 text-sm [&::-webkit-details-marker]:hidden"><span class="group-open:hidden">Menu</span><span class="hidden group-open:inline">Sluit</span></summary>
+        <nav aria-label="Mobiel menu" class="absolute inset-x-0 top-16 h-[calc(100svh-4rem)] border-b border-fg/10 bg-bg px-4 pb-10 pt-6">
           <ul class="space-y-1">
             {[...links, { href: '/contact/', label: 'Contact' }].map((l) => (
-              <li><a href={l.href} aria-current={current(l.href)} class="block rounded py-2 font-display text-3xl text-paper aria-[current=page]:text-mint">{l.label}</a></li>
+              <li><a href={l.href} aria-current={current(l.href)} class="block rounded py-2 font-display text-3xl text-fg aria-[current=page]:text-accent">{l.label}</a></li>
             ))}
           </ul>
         </nav>

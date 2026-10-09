@@ -1,0 +1,267 @@
+---
+import { getCollection, getEntries, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import Faq from '../../components/Faq.astro';
+import { priceLabel } from '../../lib/format';
+import { phaseById } from '../../lib/loop';
+import { statusLabel } from '../../lib/status';
+import { fieldAnchor, metricAnchor, objectLabel, segmentHref, segmentLabel, sortWorkflows, whenLabel, withLabels } from '../../lib/library';
+import { assertLibrary } from '../../lib/library-check';
+
+export async function getStaticPaths() {
+  await assertLibrary();
+  const all = sortWorkflows(await getCollection('workflows'));
+  return all.map((workflow, i) => ({
+    params: { slug: workflow.id },
+    props: { workflow, prev: all[i - 1], following: all[i + 1] },
+  }));
+}
+
+const { workflow, prev, following } = Astro.props;
+const { code, name, version, phase, summary, trigger, goal, enroll, steps, exit, handover, segments, needs_blueprint, owner, priority, status, seo, why, example, mistakes, faq } = workflow.data;
+const st = statusLabel[status];
+const loopPhase = phaseById(phase);
+const next = workflow.data.next ? await getEntry(workflow.data.next) : undefined;
+const fields = await getEntries(workflow.data.fields);
+const metrics = await getEntries(workflow.data.metrics);
+const labels = new Map((await getCollection('fields')).map((f) => [f.id, f.data.label]));
+const say = (text: string) => withLabels(text, labels);
+const flow = await getEntry('services', 'flow');
+if (!flow) throw new Error('Missing services/flow.json');
+
+const actionStyle = {
+  'e-mail': 'border-fg/30 text-fg',
+  taak: 'border-accent/50 text-accent',
+  melding: 'border-muted/50 text-muted',
+  systeem: 'border-fg/20 text-fg/70',
+};
+const metricTypes = ['volume', 'conversie', 'doorlooptijd', 'omzet'] as const;
+const typeLabel = { volume: 'Volume', conversie: 'Conversie', doorlooptijd: 'Doorlooptijd', omzet: 'Omzet' };
+
+const pageUrl = new URL(`/workflows/${workflow.id}/`, Astro.site).href;
+const crumbs: [string, string][] = [['/', 'Home'], ['/workflows/', 'Workflows'], [`/workflows/#${loopPhase.id}`, loopPhase.name], [`/workflows/${workflow.id}/`, name]];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map(([href, label], i) => ({ '@type': 'ListItem', position: i + 1, name: label, item: new URL(href, Astro.site).href })),
+  },
+  ...(faq.length
+    ? [{
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+      }]
+    : []),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${name}: workflow in HubSpot of ActiveCampaign`,
+    description: summary,
+    url: pageUrl,
+    provider: { '@type': 'ProfessionalService', name: 'Workflow Factory' },
+    areaServed: 'NL',
+    offers: flow.data.prices.map((p) => ({
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      priceSpecification: { '@type': 'PriceSpecification', minPrice: p.from, maxPrice: p.to ?? p.from, priceCurrency: 'EUR' },
+    })),
+  },
+];
+---
+<Base title={`${seo.title} | Workflow Factory`} description={seo.description} path={`/workflows/${workflow.id}/`} jsonLd={jsonLd}>
+  <PageHero icon="flow" crumbs={crumbs} kicker={`${code} · Fase ${loopPhase.name} · v${version}`} title={name} intro={summary}>
+    <Button href="/contact/">Plan een kennismaking</Button>
+    <Button href={`/workflows/#${loopPhase.id}`} variant="ghost-dark">Alle workflows in {loopPhase.name}</Button>
+  </PageHero>
+  <div>
+    <div class="mx-auto max-w-6xl px-4 pb-16 md:px-8">
+      <div class="flex max-w-3xl flex-col gap-3 border-t border-fg/15 pt-5 text-muted">
+        <p class="flex items-start gap-3">
+          <span class={`mt-0.5 shrink-0 rounded-full border px-3 py-1 text-xs font-medium ${st.style}`}>{st.label}</span>
+          <span>{st.text}</span>
+        </p>
+        {!needs_blueprint && (
+          <p class="flex items-start gap-3">
+            <span class="mt-0.5 shrink-0 rounded-full bg-mint px-3 py-1 text-xs font-semibold text-forest">Kan meteen</span>
+            <span>Deze workflow hoeft niet te wachten op je positionering.</span>
+          </p>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <Section id="waarom" n="01" label="Waarom" title={`Waarom ${name.toLowerCase()}?`}>
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="max-w-prose space-y-5 text-lg md:col-span-7">
+        <p>{why}</p>
+        <p class="text-fg/75"><span class="font-medium text-fg">Waar het lekt in de fase {loopPhase.name.toLowerCase()}:</span> {loopPhase.leak}</p>
+      </div>
+      {example && (
+        <aside class="self-start rounded-3xl border border-accent/30 bg-accent/5 p-8 md:col-span-5">
+          <p class="text-xs font-medium uppercase tracking-[0.18em] text-accent">Rekenvoorbeeld</p>
+          <p class="mt-4 text-lg leading-snug">{example}</p>
+        </aside>
+      )}
+    </div>
+  </Section>
+
+  <Section id="start" n="02" label="Start en doel" title="Wanneer hij start, en wanneer hij stopt">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-3xl border border-fg/15 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Start</p>
+        <p class="mt-6 text-2xl leading-snug">{trigger}</p>
+        <dl class="mt-8 space-y-4 border-t border-fg/15 pt-6 text-sm">
+          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Object</dt><dd>{objectLabel[enroll.object]}</dd></div>
+          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Moment</dt><dd>{enroll.at ? whenLabel({ at: enroll.at }, labels) : `Zodra ${say(enroll.on ?? '').toLowerCase()}`}</dd></div>
+          {enroll.if.length > 0 && <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Alleen als</dt><dd><ul class="space-y-1">{enroll.if.map((c) => <li>{say(c)}</li>)}</ul></dd></div>}
+          {enroll.not_if.length > 0 && <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Niet als</dt><dd><ul class="space-y-1">{enroll.not_if.map((c) => <li>{say(c)}</li>)}</ul></dd></div>}
+          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Eigenaar</dt><dd class="capitalize">{owner}</dd></div>
+          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Voorrang</dt><dd>{priority} <span class="text-fg/70">(bij overlap wint het laagste getal)</span></dd></div>
+        </dl>
+      </div>
+      <div class="rounded-3xl border border-fg/15 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Doel</p>
+        <p class="mt-6 text-2xl leading-snug">{goal}</p>
+        <dl class="mt-8 space-y-4 border-t border-fg/15 pt-6 text-sm">
+          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Stopt zodra</dt><dd><ul class="space-y-1">{exit.map((c) => <li>{say(c)}</li>)}</ul></dd></div>
+        </dl>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="stappen" n="03" label="Stappen" title="Zo loopt het" intro="Voorbeeldopzet. Per e-mail staat wat hij moet bereiken. De tekst zelf schrijven we op jouw positionering.">
+    <ol class="border-b border-fg/15">
+      {steps.map((s) => (
+        <li class="grid gap-2 border-t border-fg/15 py-5 md:grid-cols-[13rem_7rem_1fr] md:gap-8">
+          <span class="font-medium">{whenLabel(s, labels)}</span>
+          <span><span class={`inline-block rounded-full border px-3 py-0.5 text-xs font-medium ${actionStyle[s.action]}`}>{s.action}</span></span>
+          <div>
+            {s.if && <p class="mb-2 text-sm text-accent">Alleen als {say(s.if).toLowerCase()}</p>}
+            <p class="text-fg/85 md:text-lg">{s.brief}</p>
+            <p class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-fg/70">
+              {s.owner && <span>Eigenaar: <span class="capitalize">{s.owner}</span></span>}
+              {s.to && <span>Aan: {say(s.to).toLowerCase()}</span>}
+              {s.sla && <span>Binnen {s.sla}</span>}
+              {s.sets && <span>Legt vast: {say(s.sets).toLowerCase()}</span>}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="overdracht" n="04" label="Overdracht" title="Waar het stopt">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-3xl border border-fg/15 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-accent">Gelukt</p>
+        <p class="mt-6 text-xl leading-snug">{handover.won}</p>
+      </div>
+      {handover.lost && (
+        <div class="rounded-3xl border border-fg/15 p-8">
+          <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Niet gelukt</p>
+          <p class="mt-6 text-xl leading-snug">{handover.lost}</p>
+        </div>
+      )}
+    </div>
+    {next && <div class="mt-10"><Button href={`/workflows/${next.id}/`} variant="ghost-light">Volgende workflow: {next.data.name}</Button></div>}
+  </Section>
+
+  <Section id="velden" n="05" label="Data" title="Wat je in je CRM nodig hebt" intro="Ontbreekt een verplicht veld, dan start de workflow niet, of op het verkeerde moment.">
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[40rem] text-left text-sm">
+        <thead class="text-xs uppercase tracking-[0.12em] text-muted">
+          <tr><th class="py-3 pr-4 font-medium">Veld</th><th class="py-3 pr-4 font-medium">Type</th><th class="py-3 pr-4 font-medium">Bron</th><th class="py-3 font-medium">Verplicht</th></tr>
+        </thead>
+        <tbody>
+          {fields.map((f) => (
+            <tr class="border-t border-fg/15 align-top">
+              <td class="py-4 pr-4">
+                <a href={`/workflows/data/#${fieldAnchor(f.id)}`} class="font-medium hover:text-accent hover:underline">{f.data.label}</a>
+                <span class="mt-1 block font-mono text-xs text-muted">{f.id}</span>
+              </td>
+              <td class="py-4 pr-4 text-fg/80">{f.data.type}</td>
+              <td class="py-4 pr-4 text-fg/80">{f.data.source}</td>
+              <td class="py-4 text-fg/80">{f.data.required ? 'Ja' : 'Nee'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </Section>
+
+  <Section id="dashboard" n="06" label="Dashboard" title="Wat je dashboard laat zien" intro="Elke meting is één keer gedefinieerd, zodat je workflows met elkaar kunt vergelijken.">
+    <ul class="grid gap-4 md:grid-cols-2">
+      {metricTypes.flatMap((t) => metrics.filter((m) => m.data.type === t)).map((m) => (
+        <li class="rounded-3xl border border-fg/15 p-8">
+          <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">{typeLabel[m.data.type]} · {m.data.unit}</p>
+          <p class="mt-6 text-2xl leading-snug"><a href={`/workflows/data/#${metricAnchor(m.id)}`} class="hover:text-accent hover:underline">{m.data.label}</a></p>
+          {m.data.type === 'conversie'
+            ? <p class="mt-3 text-fg/80">{m.data.numerator}, gedeeld door {m.data.denominator}.</p>
+            : <p class="mt-3 text-fg/80">{m.data.definition}</p>}
+          <p class="mt-3 text-sm text-fg/70">Gemeten {m.data.period}.</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  {mistakes.length > 0 && (
+    <Section id="fouten" n="07" label="Fouten" title="Veelgemaakte fouten">
+      <ol class="border-b border-fg/15">
+        {mistakes.map((m, i) => (
+          <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-5 text-lg"><span class="text-muted">0{i + 1}</span>{m}</li>
+        ))}
+      </ol>
+    </Section>
+  )}
+
+  {faq.length > 0 && (
+    <Section id="vragen" n="08" label="Vragen" title={`Vragen over ${name.toLowerCase()}`}>
+      <Faq items={faq.map((f) => ({ question: f.q, answer: f.a }))} />
+    </Section>
+  )}
+
+  <Section id="past" n="09" label="Past bij" title="Voor wie">
+    <ul class="flex flex-wrap gap-3">
+      {segments.map((s) => (
+        <li>
+          {segmentHref[s]
+            ? <a href={segmentHref[s]} class="inline-block rounded-full border border-fg/30 px-4 py-2 hover:border-accent hover:text-accent">{segmentLabel[s]} →</a>
+            : <span class="inline-block rounded-full border border-fg/15 px-4 py-2 text-fg/80">{segmentLabel[s]}</span>}
+        </li>
+      ))}
+    </ul>
+    <p class="mt-8 text-fg/80">Werkt in HubSpot of ActiveCampaign. Geen Salesforce.</p>
+  </Section>
+
+  <Section id="prijs" n="10" label="Prijs" tone="dark" title={`${name}, ingericht in ${flow.data.duration.replace(' per workflow', '')}`}>
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div>
+        {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}
+        <p class="mt-3 text-fg/80">Per workflow. Voorstel. {flow.data.priceNote}</p>
+      </div>
+      <Button href="/contact/">Plan een kennismaking</Button>
+    </div>
+  </Section>
+
+  <p class="mx-auto max-w-6xl px-4 pb-8 text-sm text-fg/70 md:px-8">
+    {code} versie {version}. Opbouw vrij te gebruiken met naamsvermelding, onder <a href="https://creativecommons.org/licenses/by/4.0/deed.nl" class="underline underline-offset-4 hover:text-accent">CC BY 4.0</a>.
+  </p>
+  <nav aria-label="Andere workflows" class="mx-auto grid max-w-6xl gap-4 px-4 pb-24 md:grid-cols-2 md:px-8">
+    {prev ? (
+      <a href={`/workflows/${prev.id}/`} class="rounded-3xl border border-fg/15 p-6 hover:border-accent/60">
+        <span class="text-xs uppercase tracking-[0.18em] text-muted">← Vorige</span>
+        <span class="mt-2 block text-2xl">{prev.data.name}</span>
+      </a>
+    ) : <span />}
+    {following && (
+      <a href={`/workflows/${following.id}/`} class="rounded-3xl border border-fg/15 p-6 text-right hover:border-accent/60">
+        <span class="text-xs uppercase tracking-[0.18em] text-muted">Volgende →</span>
+        <span class="mt-2 block text-2xl">{following.data.name}</span>
+      </a>
+    )}
+  </nav>
+</Base>

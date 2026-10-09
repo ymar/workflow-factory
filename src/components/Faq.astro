@@ -5,14 +5,14 @@ interface Props {
 }
 const { items } = Astro.props;
 ---
-<div class="border-b border-paper/15">
+<div class="border-b border-fg/15">
   {items.map((item) => (
-    <details class="group border-t border-paper/15">
+    <details class="group border-t border-fg/15">
       <summary class="flex cursor-pointer list-none items-center justify-between gap-6 rounded py-6 text-lg font-medium md:text-xl [&::-webkit-details-marker]:hidden">
         <span>{item.question}</span>
-        <span aria-hidden="true" class="flex size-8 shrink-0 items-center justify-center rounded-full border border-paper/25 text-lg leading-none transition-transform group-open:rotate-45">+</span>
+        <span aria-hidden="true" class="flex size-8 shrink-0 items-center justify-center rounded-full border border-fg/25 text-lg leading-none transition-transform group-open:rotate-45">+</span>
       </summary>
-      <p class="max-w-2xl pb-8 text-paper/80 md:text-lg">{item.answer}</p>
+      <p class="max-w-2xl pb-8 text-fg/80 md:text-lg">{item.answer}</p>
     </details>
   ))}
 </div>

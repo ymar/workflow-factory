@@ -1,6 +1,6 @@
-# Referentie-journey. Kopieer dit bestand voor een nieuwe journey.
+# Referentie-workflow. Kopieer dit bestand voor een nieuwe workflow.
 # Velden en metingen definieer je in ../../fields en ../../metrics, niet hier.
-# De build faalt als een journey een veld gebruikt dat niet in het woordenboek of in `fields` staat.
+# De build faalt als een workflow een veld gebruikt dat niet in het woordenboek of in `fields` staat.
 code: OND-02
 name: Contractverlenging
 version: 1.0.0
@@ -9,7 +9,7 @@ phase: onderhouden         # moet gelijk zijn aan de map waarin dit bestand staa
 segments: [installatie-onderhoud, zakelijke-dienstverlening]
 needs_blueprint: true
 owner: accountmanager      # een rol, geen persoon
-priority: 2                # valt een klant in meerdere journeys, dan wint het laagste getal
+priority: 2                # valt een klant in meerdere workflows, dan wint het laagste getal
 
 summary: Onderhoudscontracten worden verlengd voordat ze aflopen. Niet erna.
 trigger: 90 dagen voor de einddatum van een onderhoudscontract.
@@ -63,8 +63,24 @@ exit:
   - contract.verlengd = ja
   - contract.opgezegd = ja
 handover:
-  won: Nieuwe einddatum. Volgend jaar start deze journey opnieuw.
+  won: Nieuwe einddatum. Volgend jaar start deze workflow opnieuw.
   lost: Reden van opzegging vastleggen.
 
 fields: [contract.einddatum, contract.status, contract.waarde, contract.verlengd, contract.opgezegd, contract.voorstel_verstuurd_op, klant.open_storing, klant.contactpersoon, klant.accountmanager]
 metrics: [contracten_aflopend, verlengd_voor_einddatum, dagen_voorstel_tot_verlenging, verlengde_waarde]
+
+# Zoekmachines en uitleg. seo.title: maximaal 45 tekens, " | Workflow Factory" komt erachter.
+seo:
+  title: Contractverlenging automatiseren
+  description: 'Workflow voor het verlengen van onderhoudscontracten: 90 dagen vooraf een voorstel, vaste belmomenten en een melding als het niet lukt. Met CRM-velden.'
+why: Een onderhoudscontract dat afloopt, is omzet die je al had. Wordt een contract niet verlengd, dan is het vaak niet opgezegd maar vergeten. Deze workflow start 90 dagen voor de einddatum, geeft de accountmanager het overzicht van het afgelopen jaar en stuurt de klant een voorstel met wat je deed. Wie niet reageert, wordt gebeld. Lukt het twee weken voor het einde nog niet, dan weet de teamleider het.
+example: 'Stel: 400 contracten van gemiddeld €1.200 per jaar, en 85% wordt verlengd. Dan verlies je 60 contracten, ofwel €72.000 contractomzet per jaar. Elk procentpunt dat je terugwint, is €4.800.'
+mistakes:
+- Pas bellen in de laatste maand. Dan is de klant al aan het vergelijken.
+- Een verlengingsvoorstel zonder overzicht van wat je het afgelopen jaar deed.
+- Over verlengen praten terwijl er een storing openstaat.
+faq:
+- q: Waarom 90 dagen vooraf?
+  a: Genoeg tijd voor een voorstel, een gesprek en een herinnering, en vroeg genoeg om voor een concurrent te zitten. Bij grote contracten kan het eerder.
+- q: Werkt dit zonder contractobject in het CRM?
+  a: Ja, als de einddatum ergens betrouwbaar staat, bijvoorbeeld als veld op het bedrijf of op een deal. Zonder einddatum start de workflow niet.

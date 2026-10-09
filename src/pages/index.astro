@@ -3,264 +3,139 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Button from '../components/Button.astro';
-import Placeholder from '../components/Placeholder.astro';
-import Checklist from '../components/Checklist.astro';
-import KapotteLetters from '../components/KapotteLetters.astro';
+import WorkflowCard from '../components/WorkflowCard.astro';
+import LoopIndex from '../components/LoopIndex.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
 import Faq from '../components/Faq.astro';
-import ProductIcon from '../components/ProductIcon.astro';
-import { priceLabel } from '../lib/format';
-import { site } from '../lib/site';
+import { sortWorkflows } from '../lib/library';
 
-const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
-const faq = (await getCollection('faq'))
-  .filter((f) => f.data.page === 'home')
-  .sort((a, b) => a.data.order - b.data.order);
-const teardowns = (await getCollection('teardowns', (t) => !t.data.draft))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
-const blueprint = services.find((s) => s.id === 'blueprint');
+const workflows = sortWorkflows(await getCollection('workflows'));
+const [fieldCount, metricCount] = [(await getCollection('fields')).length, (await getCollection('metrics')).length];
+const faq = (await getCollection('faq')).filter((f) => f.data.page === 'home').sort((a, b) => a.data.order - b.data.order);
+const n = workflows.length;
 
-const title = 'neon · Marketing automation. Eerst positionering, dan automation';
-const description =
-  'Ik bouw marketing automation voor traditionele B2B-bedrijven. Eerst een positionering die helder en anders is. Dan pagina\'s en automation die werken.';
+const title = 'Marketing automation workflows voor B2B | Workflow Factory';
+const description = `${n} kant-en-klare workflows voor HubSpot en ActiveCampaign, van aanvraagopvolging tot contractverlenging. Met triggers, stappen, CRM-velden en metingen.`;
 
 const jsonLd = [
   {
     '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Workflow Factory',
+    url: new URL('/', Astro.site).href,
+    inLanguage: 'nl-NL',
+  },
+  {
+    '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    name: 'neon',
+    name: 'Workflow Factory',
     url: new URL('/', Astro.site).href,
     description,
     areaServed: 'NL',
-    knowsAbout: ['Marketing automation', 'CRM', 'Revenue Architecture'],
-    makesOffer: services.map((s) => ({
-      '@type': 'Offer',
-      itemOffered: { '@type': 'Service', name: s.data.name, description: s.data.summary },
-    })),
+    knowsAbout: ['Marketing automation', 'HubSpot', 'ActiveCampaign', 'CRM', 'Revenue Architecture'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Workflowbibliotheek',
+    itemListElement: workflows.map((w, i) => ({ '@type': 'ListItem', position: i + 1, name: w.data.name, url: new URL(`/workflows/${w.id}/`, Astro.site).href })),
   },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faq.map((f) => ({
-      '@type': 'Question',
-      name: f.data.question,
-      acceptedAnswer: { '@type': 'Answer', text: f.data.answer },
-    })),
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.data.question, acceptedAnswer: { '@type': 'Answer', text: f.data.answer } })),
   },
 ];
 
-const story = [
-  { word: 'Gas', product: 'Blueprint', id: 'blueprint', text: 'Waarom klanten voor je kiezen, weet je eigenlijk al. Het staat alleen nergens. Blueprint haalt het boven en zet het op je homepage.' },
-  { word: 'Buis', product: 'Build', id: 'build', text: 'Pagina\'s die die keuze laten zien. Met een formulier dat iets oplevert en een bedankpagina met een volgende stap.' },
-  { word: 'Stroom', product: 'Flow', id: 'flow', text: 'Opvolging die elke dag draait, tot de tweede bestelling. Ook als niemand eraan denkt.' },
-];
-const alternatives = [
-  { name: 'Meer campagnes', why: 'Je stuurt meer mensen naar hetzelfde verhaal. Je betaalt per klik om vaker nee te horen.' },
-  { name: 'Een nieuwe website', why: 'Mooier ontwerp, dezelfde zinnen. Kwaliteit, service, ontzorgen. Je concurrent zegt het ook.' },
-  { name: 'Een HubSpot-partner', why: 'Die bouwt wat je vraagt. Niemand vraagt eerst wat je eigenlijk moet zeggen.' },
-  { name: 'De prijs laten zakken', why: 'Werkt altijd. Stel: 5% korting op €1 miljoen omzet. Dat is €50.000 per jaar, elk jaar opnieuw.' },
-];
-const nots = [
-  ['Geen campagnes op een positionering die niet klopt.', 'Dan betaal je om sneller nee te horen.'],
-  ['Geen koude e-mail naar gekochte lijsten.', 'Het kost je naam meer dan het oplevert.'],
-  ['Geen Salesforce.', 'Liever twee systemen goed dan drie half.'],
-  ['Geen volledige websiteredesign.', 'Je hebt eerst betere woorden nodig, geen nieuw ontwerp.'],
-  ['Geen facturatie per uur.', 'Vaste prijs, vaste oplevering. Jij weet vooraf wat het kost.'],
+const contents = [
+  ['Trigger en voorwaarden', 'Wanneer de workflow start, voor wie wel en voor wie niet.'],
+  ['Stappen met timing', 'E-mails, taken en meldingen, met eigenaar, termijn en voorwaarden.'],
+  ['Overdracht', 'Waar hij stopt, en welke workflow het overneemt.'],
+  ['CRM-velden', 'Welke data je nodig hebt, met type, bron en check.'],
+  ['Metingen', 'Volume, conversie en doorlooptijd, met een vaste definitie.'],
+  ['Status', 'Concept, getest of bewezen. Je ziet hoe ver elke workflow is.'],
 ];
 ---
 <Base title={title} description={description} path="/" jsonLd={jsonLd}>
-  <!-- Hero -->
   <section class="hero-glow">
-    <div class="mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-between px-4 pb-10 pt-16 md:px-8 md:pt-28">
-      <div>
-        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Positionering en marketing automation voor traditionele B2B</p>
-        <h1 class="mt-8 max-w-5xl text-[2.35rem] leading-[1.04] tracking-[-0.025em] md:text-8xl">
-          Ik bouw marketing automation. En ik zeg vaak: <span class="neon-text flicker-once">nog niet.</span>
-        </h1>
-        <p class="mt-8 max-w-2xl text-lg text-paper/80 md:text-xl">
-          Eerst zoeken we in twee weken uit waarom klanten voor jou kiezen, en zetten we dat op je homepage. Daarna bouw ik de opvolging die het elke dag vertelt.
-        </p>
-        <div class="mt-10 flex flex-wrap gap-3">
-          <Button href="/contact/">Plan een kennismaking</Button>
-          <Button href="/teardowns/" variant="ghost-dark">Bekijk de teardowns</Button>
-        </div>
-        <p class="mt-4 text-sm text-sage">Eerstvolgende start: {site.availability || <Placeholder label="beschikbaarheid" />}</p>
+    <div class="mx-auto max-w-6xl px-4 pb-12 pt-16 md:px-8 md:pb-16 md:pt-28">
+      <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Open workflowbibliotheek voor HubSpot en ActiveCampaign</p>
+      <h1 class="mt-8 max-w-5xl text-[2.35rem] leading-[1.04] tracking-[-0.03em] md:text-7xl">
+        Marketing automation workflows voor B2B. <span class="neon-text">Klaar om te bouwen.</span>
+      </h1>
+      <p class="mt-8 max-w-2xl text-lg text-fg/80 md:text-xl">
+        {n} workflows voor de opvolging die in de meeste bedrijven blijft liggen: aanvragen, offertes, contracten, keuringen en nabestellingen. Elk met trigger, stappen, CRM-velden en metingen. Gratis te gebruiken, of ik bouw hem voor je.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <Button href="/workflows/">Bekijk de workflows</Button>
+        <Button href="/flow/" variant="ghost-dark">Laat er één bouwen</Button>
       </div>
-      <ul class="mt-20 grid gap-3 border-t border-paper/15 pt-5 text-sm text-sage sm:grid-cols-3">
-        <li>10 jaar marketing automation</li>
-        <li>Gebouwd op Revenue Architecture</li>
-        <li><Placeholder label="X" /> teardowns</li>
+      <ul class="mt-16 grid gap-3 border-t border-fg/15 pt-5 text-sm text-muted sm:grid-cols-4">
+        <li><span class="font-medium text-fg">{n}</span> workflows</li>
+        <li><span class="font-medium text-fg">{fieldCount}</span> CRM-velden</li>
+        <li><span class="font-medium text-fg">{metricCount}</span> metingen</li>
+        <li>Open onder CC BY 4.0</li>
       </ul>
     </div>
   </section>
 
-  <Section id="herken" n="01" label="Herken je dit?" tone="dark" title="Herken je dit?" intro="Vink aan wat klopt. Twee of meer? Dan ligt het niet aan je campagnes.">
-    <Checklist />
+  <Section id="fasen" n="01" label="Per fase" title="Kies waar het lekt" intro="Je klant koopt niet één keer. Zes fasen, gezien vanaf de klant, en in elke fase kan omzet weglekken. Klik op een fase voor de workflows die daar horen.">
+    <LoopIndex workflows={workflows} />
   </Section>
 
-  <Section id="principe" n="02" label="Wat je nu probeert" title="Meer campagnes. Een nieuwe website. Een lagere prijs." intro="Het zijn de reflexen als de aanvragen tegenvallen. Ze maken het probleem allemaal groter.">
-    <ul class="grid gap-4 md:grid-cols-2">
-      {alternatives.map((a) => (
-        <li class="rounded-3xl border border-paper/15 p-8">
-          <p class="text-2xl">{a.name}</p>
-          <p class="mt-3 text-paper/80">{a.why}</p>
+  <Section id="workflows" n="02" label="Workflows" title={`${n} workflows, van aanvraag tot vervanging`}>
+    <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {workflows.map((w) => <li><WorkflowCard workflow={w} showPhase /></li>)}
+    </ul>
+    <div class="mt-10"><Button href="/workflows/" variant="ghost-light">Naar de bibliotheek</Button></div>
+  </Section>
+
+  <Section id="inhoud" n="03" label="Wat erin zit" title="Elke workflow heeft dezelfde opbouw" intro="Zodat je ze kunt vergelijken, combineren en in elk CRM kunt bouwen.">
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {contents.map(([t, d], i) => (
+        <li class="rounded-3xl border border-fg/15 p-8">
+          <p class="text-sm text-accent">0{i + 1}</p>
+          <p class="mt-6 text-2xl">{t}</p>
+          <p class="mt-2 text-fg/80">{d}</p>
         </li>
       ))}
     </ul>
-    <p class="mt-16 max-w-5xl font-display text-4xl leading-[1.08] tracking-[-0.02em] md:mt-24 md:text-7xl">
-      Een systeem versterkt wat je erin stopt. Een vage positionering wordt alleen sneller vaag.
-    </p>
-    <div class="mt-16 rounded-3xl bg-forest p-8 md:mt-24 md:p-16">
-      <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Zo klinkt het nu</p>
-      <div class="mt-8 max-w-4xl">
-        <KapotteLetters
-          parts={[
-            { text: 'Wij leveren ' }, { text: 'kwaliteit' }, { text: ' en ' }, { text: 'betrouwbare' }, { text: ' ' },
-            { text: 'oplossingen' }, { text: '. We ' }, { text: 'ontzorgen' }, { text: ' je. ' },
-            { text: 'Voor installatiebedrijven met onderhoudscontracten die elk jaar verlopen.', lit: true },
-          ]}
-          label="Voorbeeld: een zin met uitgeschakelde woorden"
-        />
-      </div>
-      <p class="mt-8 max-w-xl text-sm text-sage">Voorbeeld. Zet de woorden uit die iedereen gebruikt. Wat blijft branden, is je positionering. Vaak is dat weinig.</p>
+    <div class="on-dark mt-4 flex flex-col gap-4 rounded-3xl p-8 md:flex-row md:items-center md:justify-between">
+      <p class="max-w-2xl text-lg"><span class="font-medium">Wat er niet in zit: de teksten van de e-mails.</span> <span class="text-fg/80">Daar zit het verschil, dus die schrijven we op jouw positionering.</span></p>
+      <a href="/blueprint/" class="inline-flex shrink-0 items-center gap-2 font-medium text-accent">Over Blueprint <span aria-hidden="true">→</span></a>
     </div>
   </Section>
 
-  <Section id="neon" n="03" label="Waarom neon" title="Neongas is onzichtbaar. Tot er stroom doorheen gaat.">
-    <ol class="grid gap-px overflow-hidden rounded-3xl border border-paper/15 bg-paper/15 md:grid-cols-3">
-      {story.map((s) => (
-        <li class="flex flex-col bg-night p-8 md:p-10">
-          <p class="font-display text-5xl tracking-[-0.02em] md:text-6xl">{s.word}</p>
-          <p class="mt-8 text-paper/80">{s.text}</p>
-          <p class="mt-auto flex items-center gap-2 pt-10 text-sm font-medium"><ProductIcon id={s.id} class="size-5" /> {s.product}</p>
-        </li>
-      ))}
-    </ol>
-    <p class="mt-12 font-display text-3xl md:text-4xl">Je verhaal is er al. Wij zetten er stroom op.</p>
-  </Section>
-
-  <Section id="bewijs" n="04" label="Uit 10 jaar" title="Wat er verandert als de positionering klopt" intro="Drie voorbeelden, geanonimiseerd.">
-    <ul class="grid gap-6 md:grid-cols-3">
-      {[1, 2, 3].map((n) => (
-        <li class="border-t border-paper pt-6">
-          <p class="font-display text-5xl text-paper/70">0{n}</p>
-          <p class="mt-6 font-medium"><Placeholder label="Sector en uitgangssituatie" /></p>
-          <p class="mt-3 text-paper/80"><Placeholder label="Wat we veranderden" /></p>
-          <p class="mt-3 text-paper/80"><Placeholder label="Resultaat in cijfers, na X weken" /></p>
-        </li>
-      ))}
-    </ul>
-  </Section>
-
-  <Section id="producten" n="05" label="Producten" title="Begin met twee weken. Niet met een jaarcontract." intro="Drie producten met een vaste prijs en een vaste oplevering. Je betaalt niet per uur. Alle prijzen zijn voorstellen, we bevestigen ze in de kennismaking.">
+  <Section id="platforms" n="04" label="Per platform" title="Voor HubSpot en ActiveCampaign">
     <ul class="grid gap-4 md:grid-cols-3">
-      {services.map((s) => {
-        const start = s.id === 'blueprint';
-        return (
-          <li class={`flex flex-col rounded-3xl p-8 ${start ? 'on-dark' : 'border border-paper/15'}`}>
-            <div class="flex items-center justify-between">
-              <ProductIcon id={s.id} class={`size-8 ${start ? 'text-mint' : 'text-paper'}`} />
-              {start && <span class="rounded-full bg-mint px-3 py-1 text-xs font-semibold text-forest">Startpunt</span>}
-            </div>
-            <h3 class="mt-10 text-4xl">{s.data.name}</h3>
-            <p class={`mt-4 ${start ? 'text-paper/80' : 'text-paper/80'}`}>{s.data.summary}</p>
-            <dl class={`mt-8 space-y-2 border-t pt-6 text-sm ${start ? 'border-paper/15' : 'border-paper/15'}`}>
-              <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-paper/70'}>Doorlooptijd</dt><dd>{s.data.duration}</dd></div>
-              {s.data.prices.map((p) => (
-                <div class="flex justify-between gap-4"><dt class={start ? 'text-sage' : 'text-paper/70'}>{p.label}</dt><dd class="text-right font-medium">{priceLabel(p)}</dd></div>
-              ))}
-            </dl>
-            <p class={`mt-3 text-xs ${start ? 'text-sage' : 'text-paper/70'}`}>Voorstel{s.data.priceNote && `. ${s.data.priceNote}`}</p>
-            <a href={`/${s.id}/`} class={`group mt-auto inline-flex items-center gap-2 pt-10 font-medium ${start ? 'text-mint' : 'text-paper'}`}>
-              Meer over {s.data.name} <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span>
-            </a>
-          </li>
-        );
-      })}
-    </ul>
-    <a href="/journeys/" class="group mt-4 flex flex-col gap-4 rounded-3xl border border-paper/15 p-8 hover:border-mint/60 md:flex-row md:items-center md:justify-between">
-      <span>
-        <span class="block text-xs font-medium uppercase tracking-[0.18em] text-sage">Open journeybibliotheek</span>
-        <span class="mt-3 block text-2xl md:text-3xl">Tien journeys, van aanvraagopvolging tot MJOP-vervangingen. De opbouw is open: gebruik hem gerust.</span>
-      </span>
-      <span class="inline-flex shrink-0 items-center gap-2 font-medium text-mint">Bekijk de bibliotheek <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span></span>
-    </a>
-  </Section>
-
-  <Section id="krijg" n="06" label="Blueprint" title="Na twee weken heb je drie pagina's. Geen rapport van veertig." intro="Niemand leest een dik rapport. Je krijgt drie documenten van één pagina, en je kunt ze de volgende dag gebruiken.">
-    <div class="grid gap-12 md:grid-cols-2">
-      <ol class="border-b border-paper/15">
-        {blueprint?.data.deliverables.map((d, i) => (
-          <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-6">
-            <span class="font-display text-2xl text-paper/70">0{i + 1}</span>
-            <div>
-              <p class="font-display text-3xl">{d.name}</p>
-              <p class="mt-2 text-paper/80">{d.format}. {d.size}.</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <figure>
-        <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-paper/5 p-8 text-center text-paper/75">
-          <Placeholder label="Voorbeeldafbeelding: een pagina van de positionering" />
-        </div>
-        <figcaption class="mt-3 text-sm text-paper/70">Vervang door een echt voorbeeld, zodra die er is.</figcaption>
-      </figure>
-    </div>
-  </Section>
-
-  <Section id="dag" n="07" label="Proces" title="Zo zien de twee weken er precies uit" intro="Ongeveer 6 uur van jouw tijd. Het schrijven doe ik.">
-    <ol class="border-b border-paper/15">
-      {blueprint?.data.process.map((step) => (
-        <li class="grid gap-1 border-t border-paper/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
-          <span class="font-medium">{step.when}</span>
-          <span class="text-paper/80">{step.what}</span>
-          <span class="text-sm text-paper/70 md:text-right">Jouw tijd: {step.clientTime}</span>
-        </li>
-      ))}
-    </ol>
-  </Section>
-
-  <Section id="niet" n="08" label="Wat ik niet doe" tone="dark" title="Waar ik nee tegen zeg">
-    <ul class="border-b border-paper/15">
-      {nots.map(([no, why]) => (
-        <li class="grid gap-2 border-t border-paper/15 py-6 md:grid-cols-[1fr_22rem] md:items-baseline md:gap-8">
-          <span class="font-display text-2xl md:text-3xl">{no}</span>
-          <span class="text-paper/75">{why}</span>
+      {[
+        ['/workflows/hubspot/', 'HubSpot', 'Per workflow het object, de trigger en de bouwstenen in HubSpot.'],
+        ['/workflows/activecampaign/', 'ActiveCampaign', 'Dezelfde workflows, vertaald naar ActiveCampaign automations.'],
+        ['/installatie-onderhoud/', 'Installatie en onderhoud', 'Van opleverdatum en MJOP naar workflows die vanzelf lopen.'],
+      ].map(([href, t, d]) => (
+        <li>
+          <a href={href} class="group block h-full rounded-3xl border border-fg/15 p-8 hover:border-accent">
+            <p class="text-3xl">{t}</p>
+            <p class="mt-3 text-fg/80">{d}</p>
+            <span class="mt-8 inline-flex items-center gap-2 font-medium text-accent">Bekijk <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span></span>
+          </a>
         </li>
       ))}
     </ul>
   </Section>
 
-  <Section id="teardowns" n="09" label="Kapotte letters" title="B2B-homepages, ontleed." intro="Ik zet de woorden uit die iedereen gebruikt. Wat overblijft, laat zien of er een positionering is.">
-    <ul class="grid gap-4 md:grid-cols-3">
-      {teardowns.length > 0
-        ? teardowns.map((t) => (
-            <li>
-              <a href={`/teardowns/${t.id}/`} class="block h-full rounded-3xl border border-paper/15 p-8 hover:border-paper">
-                <p class="text-sm text-paper/70">{t.data.company} · {t.data.type}</p>
-                <p class="mt-6 font-display text-3xl">{t.data.title}</p>
-              </a>
-            </li>
-          ))
-        : [1, 2, 3].map((n) => (
-            <li class="rounded-3xl border border-dashed border-paper/30 p-8">
-              <p class="text-sm text-paper/70">Nog geen gepubliceerde teardown</p>
-              <p class="mt-6 font-display text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
-            </li>
-          ))}
-    </ul>
-    <div class="mt-10"><Button href="/teardowns/" variant="ghost-light">Alle teardowns</Button></div>
+  <Section id="diensten" n="05" label="Diensten" title="Liever niet zelf bouwen?" intro="Drie diensten met een vaste prijs en een vaste oplevering. Je betaalt niet per uur. Alle prijzen zijn voorstellen.">
+    <ServicesGrid highlight="flow" badge="Bouwt de workflows" />
   </Section>
 
-  <Section id="faq" n="10" label="Vragen" title="Veelgestelde vragen">
+  <Section id="faq" n="06" label="Vragen" title="Veelgestelde vragen">
     <Faq items={faq.map((f) => ({ question: f.data.question, answer: f.data.answer }))} />
   </Section>
 
-  <section class="on-dark border-t border-paper/10" aria-labelledby="cta">
-    <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-40">
-      <h2 id="cta" class="max-w-5xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-7xl">
-        Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst <span class="neon-text">je positionering</span> moet fixen.
+  <section class="on-dark" aria-labelledby="cta">
+    <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-36">
+      <h2 id="cta" class="max-w-5xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-6xl">
+        Plan 30 minuten. Ik laat je zien welke workflow bij jou het meeste oplevert, en of je eerst <span class="neon-text">je teksten</span> moet fixen.
       </h2>
       <div class="mt-12"><Button href="/contact/">Plan een kennismaking</Button></div>
     </div>

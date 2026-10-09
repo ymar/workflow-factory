@@ -7,24 +7,24 @@ import Placeholder from '../../components/Placeholder.astro';
 import { site } from '../../lib/site';
 ---
 <Base
-  title="Contact · Plan 30 minuten | neon"
+  title="Contact · Plan 30 minuten | Workflow Factory"
   description="Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst je positionering moet fixen."
   path="/contact/"
 >
   <PageHero kicker="Contact" title="Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst" accent="je positionering moet fixen." />
   <div>
     <div class="mx-auto max-w-6xl px-4 pb-24 md:px-8 md:pb-32">
-      <div class="grid gap-8 border-t border-paper/15 pt-8 md:grid-cols-3">
+      <div class="grid gap-8 border-t border-fg/15 pt-8 md:grid-cols-3">
         <div>
-          <p class="text-xs uppercase tracking-[0.18em] text-sage">Kennismaking</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-muted">Kennismaking</p>
           <div class="mt-4">{site.bookingUrl ? <Button href={site.bookingUrl}>Kies een moment</Button> : <Placeholder label="Boekingslink volgt" />}</div>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[0.18em] text-sage">E-mail</p>
-          <p class="mt-4 text-lg">{site.email ? <a class="underline underline-offset-4 hover:text-mint" href={`mailto:${site.email}?subject=Kennismaking`}>{site.email}</a> : <Placeholder label="e-mailadres" />}</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-muted">E-mail</p>
+          <p class="mt-4 text-lg">{site.email ? <a class="underline underline-offset-4 hover:text-accent" href={`mailto:${site.email}?subject=Kennismaking`}>{site.email}</a> : <Placeholder label="e-mailadres" />}</p>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[0.18em] text-sage">Beschikbaarheid</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-muted">Beschikbaarheid</p>
           <p class="mt-4 text-lg">{site.availability || <Placeholder label="bijvoorbeeld: eerste sprint vanaf januari" />}</p>
         </div>
       </div>
@@ -32,15 +32,15 @@ import { site } from '../../lib/site';
   </div>
 
   <Section id="gesprek" n="01" label="Het gesprek" title="Na 30 minuten weet je dit">
-    <ol class="border-b border-paper/15">
+    <ol class="border-b border-fg/15">
       {[
         'Of je klaar bent voor campagnes, of eerst je positionering moet fixen.',
         'Welk product past. Of dat er geen past.',
         'Wat het kost en wanneer we kunnen beginnen.',
       ].map((s, i) => (
-        <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-6 text-lg md:text-2xl"><span class="text-paper/70">0{i + 1}</span>{s}</li>
+        <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-6 text-lg md:text-2xl"><span class="text-fg/70">0{i + 1}</span>{s}</li>
       ))}
     </ol>
-    <p class="mt-10 text-paper/80">Neem je homepage mee en een recente offerte die je verloor. Geen verkooppraatje: als het niet past, zeg ik dat.</p>
+    <p class="mt-10 text-fg/80">Neem je homepage mee en een recente offerte die je verloor. Geen verkooppraatje: als het niet past, zeg ik dat.</p>
   </Section>
 </Base>

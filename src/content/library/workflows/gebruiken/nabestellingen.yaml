@@ -38,7 +38,7 @@ steps:
 exit:
 - bestelling.laatste_datum is bijgewerkt
 handover:
-  won: 'Bestelling geplaatst: het volgende bestelmoment wordt opnieuw berekend en de journey start weer.'
+  won: 'Bestelling geplaatst: het volgende bestelmoment wordt opnieuw berekend en de workflow start weer.'
 fields:
 - bestelling.laatste_datum
 - bestelling.interval_dagen
@@ -49,3 +49,15 @@ metrics:
 - klanten_met_bestelmoment
 - op_tijd_herbesteld
 - dagen_te_laat_besteld
+seo:
+  title: Nabestellingen stimuleren in B2B
+  description: 'Workflow voor nabestellingen in de groothandel: een herinnering op het gebruikelijke bestelmoment, een telefoontje als het uitblijft en een signaal bij stilte.'
+why: Vaste klanten bestellen in een ritme. Valt dat ritme stil, dan bestellen ze waarschijnlijk ergens anders, en merk je dat pas maanden later. Deze workflow berekent per klant wanneer de volgende bestelling verwacht wordt, helpt de klant daar op tijd aan herinneren, en waarschuwt de accountmanager zodra het ritme breekt.
+example: 'Stel: 200 vaste klanten die elke 6 weken voor €1.500 bestellen. Bestelt 5% van hen één keer per jaar ergens anders, dan scheelt dat €15.000 omzet.'
+mistakes:
+- Eén vast interval voor alle klanten. Reken per klant met de eigen orderhistorie.
+- Alleen herinneren, nooit bellen.
+- Het signaal "bestelt niet meer" naar niemand sturen.
+faq:
+- q: Hoeveel orderhistorie heb je nodig?
+  a: Minimaal drie eerdere bestellingen per klant. Met minder is het verwachte moment een gok.

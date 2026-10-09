@@ -1,44 +1,33 @@
 ---
-import Wordmark from './Wordmark.astro';
+import Logo from './Logo.astro';
 import Placeholder from './Placeholder.astro';
 import { site } from '../lib/site';
 const year = new Date().getFullYear();
+const columns = [
+  { title: 'Bibliotheek', links: [['/workflows/', 'Alle workflows'], ['/workflows/hubspot/', 'HubSpot'], ['/workflows/activecampaign/', 'ActiveCampaign'], ['/workflows/data/', 'Velden en metingen']] },
+  { title: 'Diensten', links: [['/blueprint/', 'Blueprint'], ['/build/', 'Build'], ['/flow/', 'Flow'], ['/installatie-onderhoud/', 'Installatie en onderhoud']] },
+  { title: 'Meer', links: [['/teardowns/', 'Teardowns'], ['/over/', 'Over'], ['/contact/', 'Contact']] },
+];
 ---
-<footer class="border-t border-paper/10">
-  <div class="mx-auto max-w-6xl px-4 pb-10 pt-20 md:px-8 md:pt-28">
+<footer class="on-dark">
+  <div class="mx-auto max-w-6xl px-4 pb-10 pt-20 md:px-8 md:pt-24">
     <div class="grid gap-12 md:grid-cols-12">
-      <div class="md:col-span-6">
-        <Wordmark class="h-14 md:h-20" />
-        <p class="mt-8 max-w-sm font-display text-2xl leading-snug">Je verhaal is er al. Wij zetten er stroom op.</p>
+      <div class="md:col-span-5">
+        <Logo size="lg" />
+        <p class="mt-6 max-w-sm text-lg text-fg/80">Kant-en-klare workflows voor B2B-opvolging. Open, met data en metingen.</p>
       </div>
-      <div class="text-sm md:col-span-2">
-        <p class="text-xs uppercase tracking-[0.18em] text-sage">Producten</p>
-        <ul class="mt-4 space-y-2">
-          <li><a class="hover:text-mint" href="/blueprint/">Blueprint</a></li>
-          <li><a class="hover:text-mint" href="/build/">Build</a></li>
-          <li><a class="hover:text-mint" href="/flow/">Flow</a></li>
-          <li><a class="hover:text-mint" href="/journeys/">Journeybibliotheek</a></li>
-        </ul>
-      </div>
-      <div class="text-sm md:col-span-2">
-        <p class="text-xs uppercase tracking-[0.18em] text-sage">Meer</p>
-        <ul class="mt-4 space-y-2">
-          <li><a class="hover:text-mint" href="/installatie-onderhoud/">Installatie & onderhoud</a></li>
-          <li><a class="hover:text-mint" href="/teardowns/">Teardowns</a></li>
-          <li><a class="hover:text-mint" href="/over/">Over</a></li>
-        </ul>
-      </div>
-      <div class="text-sm md:col-span-2">
-        <p class="text-xs uppercase tracking-[0.18em] text-sage">Contact</p>
-        <ul class="mt-4 space-y-2">
-          <li><a class="hover:text-mint" href="/contact/">Plan een kennismaking</a></li>
-          <li>{site.email ? <a class="hover:text-mint" href={`mailto:${site.email}`}>{site.email}</a> : <Placeholder label="e-mailadres" />}</li>
-        </ul>
-      </div>
+      {columns.map((c) => (
+        <div class="text-sm md:col-span-2 md:col-start-auto">
+          <p class="text-xs uppercase tracking-[0.18em] text-muted">{c.title}</p>
+          <ul class="mt-4 space-y-2">
+            {c.links.map(([href, label]) => <li><a class="hover:text-accent" href={href}>{label}</a></li>)}
+          </ul>
+        </div>
+      ))}
     </div>
-    <div class="mt-20 flex flex-wrap justify-between gap-4 border-t border-paper/10 pt-6 text-xs text-sage">
-      <p>© {year} neon · Marketing automation op Revenue Architecture</p>
-      <p>KvK {site.kvk || <Placeholder label="KvK-nummer" />} · <a class="underline underline-offset-4 hover:text-mint" href="/privacy/">Privacy</a></p>
+    <div class="mt-16 flex flex-wrap justify-between gap-4 border-t border-fg/10 pt-6 text-xs text-muted">
+      <p>© {year} Workflow Factory · Opbouw van de workflows onder <a class="underline underline-offset-4 hover:text-accent" href="https://creativecommons.org/licenses/by/4.0/deed.nl">CC BY 4.0</a></p>
+      <p>KvK {site.kvk || <Placeholder label="KvK-nummer" />} · {site.email ? <a class="hover:text-accent" href={`mailto:${site.email}`}>{site.email}</a> : <Placeholder label="e-mailadres" />} · <a class="underline underline-offset-4 hover:text-accent" href="/privacy/">Privacy</a></p>
     </div>
   </div>
 </footer>

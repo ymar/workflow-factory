@@ -1,0 +1,18 @@
+---
+// Workflow Factory logo: three connected steps, then the name. Colours follow the theme tokens.
+interface Props {
+  class?: string;
+  size?: 'sm' | 'lg';
+}
+const { class: className = '', size = 'sm' } = Astro.props;
+const big = size === 'lg';
+---
+<span class={`inline-flex items-center gap-2.5 ${className}`}>
+  <svg viewBox="0 0 32 32" class={big ? 'size-10' : 'size-7'} aria-hidden="true" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="10" height="10" rx="3" class="fill-accent stroke-accent" />
+    <path d="M13 8h6a5 5 0 0 1 5 5v6" class="stroke-fg" />
+    <rect x="19" y="19" width="10" height="10" rx="3" class="stroke-fg" />
+    <path d="M8 13v6a5 5 0 0 0 5 5h6" class="stroke-fg" stroke-opacity="0.45" />
+  </svg>
+  <span class={`whitespace-nowrap font-semibold tracking-[-0.03em] text-fg ${big ? 'text-3xl' : 'text-lg'}`}>Workflow Factory</span>
+</span>

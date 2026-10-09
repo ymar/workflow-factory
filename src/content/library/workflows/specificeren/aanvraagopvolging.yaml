@@ -72,3 +72,17 @@ metrics:
 - aanvragen_per_week
 - aanvraag_naar_offerte
 - tijd_tot_eerste_contact
+seo:
+  title: Leadopvolging automatiseren voor B2B
+  description: 'Workflow voor aanvraagopvolging in HubSpot of ActiveCampaign: binnen minuten antwoord, binnen een werkdag gebeld. Met stappen, CRM-velden en metingen.'
+why: Wie het eerst belt, heeft een voorsprong. Toch ligt een aanvraag in veel bedrijven een dag of langer in een gedeelde inbox, omdat niemand er eigenaar van is. Deze workflow maakt iemand eigenaar, zet een belopdracht klaar met alle context, en slaat alarm als er na een werkdag nog niemand gebeld heeft.
+example: 'Stel: 40 aanvragen per maand, waarvan nu 25% een offerte wordt. Haal je dat naar 35%, dan zijn dat 4 offertes per maand extra.'
+mistakes:
+- Een automatische bevestiging die alleen "bedankt" zegt. Zeg wat er nu gebeurt en wie er belt.
+- Geen eigenaar per aanvraag. Dan belt iedereen, of niemand.
+- Alleen tellen hoeveel aanvragen er binnenkomen. Meet ook hoe snel er gebeld wordt.
+faq:
+- q: Hoe snel moet je een aanvraag opvolgen?
+  a: Zo snel als je verkoopteam kan waarmaken. Deze workflow gaat uit van een bevestiging direct en een telefoontje binnen een werkdag. Belangrijker dan de exacte norm is dat je hem meet.
+- q: Kan deze workflow zonder positionering?
+  a: Ja. Snel reageren hoeft niet te wachten op je verhaal. Het is een van de twee workflows die meteen kunnen.

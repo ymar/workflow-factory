@@ -2,15 +2,15 @@
 import { getCollection } from 'astro:content';
 import ServicePage from '../../components/ServicePage.astro';
 import Button from '../../components/Button.astro';
-import { sortJourneys } from '../../lib/library';
-const journeys = sortJourneys(await getCollection('journeys'));
+import { sortWorkflows } from '../../lib/library';
+const workflows = sortWorkflows(await getCollection('workflows'));
 ---
 <ServicePage
   id="flow"
   headline="Flow. Opvolging die draait,"
   accent="ook als niemand eraan denkt."
-  title="Flow · Marketing automation in HubSpot of ActiveCampaign | neon"
-  description="Flow: journeys uit de open bibliotheek, ingericht in HubSpot of ActiveCampaign. Van aanvraagopvolging tot contractverlenging. 3 weken per journey."
+  title="Flow: workflows laten bouwen | Workflow Factory"
+  description="Flow: workflows uit de open bibliotheek, ingericht in HubSpot of ActiveCampaign. Van aanvraagopvolging tot contractverlenging. 3 weken per workflow."
   signalsTitle="Je hebt een opvolgingsprobleem als:"
   signals={[
     'Een aanvraag ligt soms dagen voordat iemand belt.',
@@ -18,32 +18,32 @@ const journeys = sortJourneys(await getCollection('journeys'));
     'Contracten lopen af zonder dat iemand het merkt.',
     'Je hebt HubSpot, maar het is vooral een duur adresboek.',
   ]}
-  deliverablesTitle="Na drie weken draait er een journey"
+  deliverablesTitle="Na drie weken draait er een workflow"
   processTitle="Zo zien de drie weken er precies uit"
-  priceTitle="Vaste prijs per journey"
-  priceIntro="De prijs hangt af van hoeveel systemen en velden de journey raakt. Dat weten we na de flowspecificatie."
+  priceTitle="Vaste prijs per workflow"
+  priceIntro="De prijs hangt af van hoeveel systemen en velden de workflow raakt. Dat weten we na de flowspecificatie."
 >
   <div slot="after-deliverables" class="mt-16 grid gap-8 md:grid-cols-[16rem_1fr]">
     <div>
-      <h3 class="text-3xl">De open journeybibliotheek</h3>
-      <p class="mt-4 text-paper/80">Kies een journey. Elke journey heeft een eigen pagina met de trigger, de stappen en wat het dashboard meet.</p>
+      <h3 class="text-3xl">De open workflowbibliotheek</h3>
+      <p class="mt-4 text-fg/80">Kies een workflow. Elke workflow heeft een eigen pagina met de trigger, de stappen en wat het dashboard meet.</p>
     </div>
     <div>
-      <ul class="border-b border-paper/15">
-        {journeys.map((j) => (
-          <li class="border-t border-paper/15">
-            <a href={`/journeys/${j.id}/`} class="group flex items-center justify-between gap-4 py-4 text-lg hover:text-mint">
+      <ul class="border-b border-fg/15">
+        {workflows.map((j) => (
+          <li class="border-t border-fg/15">
+            <a href={`/workflows/${j.id}/`} class="group flex items-center justify-between gap-4 py-4 text-lg hover:text-accent">
               <span>{j.data.name}{!j.data.needs_blueprint && <span class="ml-3 rounded-full bg-mint px-2.5 py-0.5 align-middle text-[11px] font-semibold text-forest">Kan meteen</span>}</span>
-              <span aria-hidden="true" class="text-sage transition-transform group-hover:text-mint motion-safe:group-hover:translate-x-0.5">→</span>
+              <span aria-hidden="true" class="text-muted transition-transform group-hover:text-accent motion-safe:group-hover:translate-x-0.5">→</span>
             </a>
           </li>
         ))}
       </ul>
-      <div class="mt-8"><Button href="/journeys/" variant="ghost-light">Bekijk de journeybibliotheek</Button></div>
+      <div class="mt-8"><Button href="/workflows/" variant="ghost-light">Bekijk de workflowbibliotheek</Button></div>
     </div>
   </div>
-  <div slot="after-price" class="mt-10 flex flex-col gap-4 rounded-3xl border border-mint/40 bg-mint/10 p-8 md:flex-row md:items-center md:justify-between">
+  <div slot="after-price" class="mt-10 flex flex-col gap-4 rounded-3xl border border-accent/40 bg-accent/10 p-8 md:flex-row md:items-center md:justify-between">
     <p class="font-display text-3xl">Pilot</p>
-    <p class="max-w-xl text-paper/85">De eerste drie klanten betalen de helft. In ruil daarvoor maken we samen een case met cijfers, en gaat jouw journey in de bibliotheek van concept naar getest.</p>
+    <p class="max-w-xl text-fg/85">De eerste drie klanten betalen de helft. In ruil daarvoor maken we samen een case met cijfers, en gaat jouw workflow in de bibliotheek van concept naar getest.</p>
   </div>
 </ServicePage>

@@ -56,3 +56,15 @@ metrics:
 - kandidaten_uitbreiding
 - uitbreiding_afgenomen
 - dagen_bericht_tot_offerte
+seo:
+  title: Cross-sell automatiseren voor B2B
+  description: 'Workflow voor uitbreiding bij bestaande klanten: wie één dienst afneemt, hoort op het juiste moment over de tweede. Met CRM-velden en metingen.'
+why: Een bestaande klant kent je al, en toch gaat een uitbreiding vaak naar wie er toevallig is. Meestal omdat niemand bijhoudt wat een klant wel en niet afneemt. Deze workflow maakt elk kwartaal een lijst van klanten met de ene dienst en zonder de andere, stuurt uitleg die aansluit op wat ze al hebben, en zet een belopdracht klaar zodra iemand reageert.
+example: 'Stel: 300 klanten met onderhoud, maar zonder beveiliging. Neemt 5% per jaar de tweede dienst af, dan zijn dat 15 nieuwe contracten.'
+mistakes:
+- Iedereen dezelfde nieuwsbrief sturen. Uitbreiding werkt alleen als het aansluit op wat de klant al heeft.
+- Klanten benaderen terwijl er een storing openstaat.
+- Geen pauze inbouwen. Wie niet reageert, hoort het volgende kwartaal weer van je, niet volgende week.
+faq:
+- q: Welke combinaties van diensten werken?
+  a: Combinaties die logisch volgen uit wat er al staat, zoals onderhoud bij een installatie die je zelf hebt geplaatst. Welke dat bij jou zijn, bepaal je vooraf.

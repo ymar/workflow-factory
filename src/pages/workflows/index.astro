@@ -1,0 +1,146 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import WorkflowCard from '../../components/WorkflowCard.astro';
+import LoopIndex from '../../components/LoopIndex.astro';
+import { priceLabel } from '../../lib/format';
+import { phases } from '../../lib/loop';
+import { statusLabel } from '../../lib/status';
+import { assertLibrary } from '../../lib/library-check';
+import { sortWorkflows } from '../../lib/library';
+
+await assertLibrary();
+
+const workflows = sortWorkflows(await getCollection('workflows'));
+const [fieldCount, metricCount] = [(await getCollection('fields')).length, (await getCollection('metrics')).length];
+const flow = await getEntry('services', 'flow');
+if (!flow) throw new Error('Missing services/flow.json');
+
+const title = 'Marketing automation voorbeelden | Workflow Factory';
+const description = `${workflows.length} marketing automation workflows voor B2B, per fase van de klantreis. Elk met trigger, stappen, CRM-velden en metingen, voor HubSpot en ActiveCampaign.`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Workflowbibliotheek',
+    itemListElement: workflows.map((j, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: j.data.name,
+      url: new URL(`/workflows/${j.id}/`, Astro.site).href,
+    })),
+  },
+];
+---
+<Base title={title} description={description} path="/workflows/" jsonLd={jsonLd}>
+  <PageHero
+    icon="flow"
+    crumbs={[['/', 'Home'], ['/workflows/', 'Workflows']]}
+    kicker="Open workflowbibliotheek"
+    title={`${workflows.length} marketing automation workflows.`}
+    accent="Kies waar het lekt."
+    intro="Je klant koopt niet één keer. Een klant doorloopt zes fasen, en in elke fase kan omzet weglekken. Elke workflow dicht één lek, met een trigger, vaste stappen, een overdrachtsregel en een dashboard."
+  >
+    <Button href="/contact/">Plan een kennismaking</Button>
+    <Button href="/workflows/data/" variant="ghost-dark">Velden en metingen</Button>
+  </PageHero>
+
+  <Section id="loop" n="01" label="De loop" title="Een loop, geen funnel" intro="Zes fasen, gezien vanaf de klant. Klik op een fase voor de workflows die daar horen.">
+    <LoopIndex workflows={workflows} />
+  </Section>
+
+  <section aria-label="Workflows per fase">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      {phases.map((p, i) => (
+        <section id={p.id} aria-labelledby={`${p.id}-title`} class="scroll-mt-20 border-t border-fg/15 py-16 md:py-20">
+          <div class="grid gap-10 md:grid-cols-12">
+            <div class="md:col-span-4">
+              <p class="text-xs font-medium uppercase tracking-[0.18em] text-accent">Fase 0{i + 1}</p>
+              <h2 id={`${p.id}-title`} class="mt-4 text-4xl md:text-5xl">{p.name}</h2>
+              <p class="mt-2 text-muted">{p.revenue}</p>
+              <p class="mt-6 max-w-sm text-fg/80"><span class="text-fg">Waar het lekt:</span> {p.leak}</p>
+            </div>
+            <ul class="grid content-start gap-4 md:col-span-8 lg:grid-cols-2">
+              {workflows.filter((j) => j.data.phase === p.id).map((j) => (
+                <li><WorkflowCard workflow={j} /></li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <Section id="open" n="02" label="Open bibliotheek" title="De opbouw is open. De woorden niet." intro="Gebruik de workflows gerust, ook als je mij niet inhuurt. Vermeld alleen waar ze vandaan komen.">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-3xl border border-fg/15 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-accent">Open</p>
+        <ul class="mt-6 space-y-2 text-lg">
+          <li>De trigger en het doel</li>
+          <li>De stappen en de timing</li>
+          <li>De overdrachtsregel</li>
+          <li>Wat het dashboard meet</li>
+          <li>De velden die je in je CRM nodig hebt</li>
+        </ul>
+        <a href="/workflows/data/" class="mt-6 inline-flex items-center gap-2 font-medium text-accent">{fieldCount} velden en {metricCount} metingen, elk één keer gedefinieerd <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="rounded-3xl on-dark p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Niet open</p>
+        <p class="mt-6 text-2xl leading-snug">De teksten in de e-mails.</p>
+        <p class="mt-3 text-fg/80">Die schrijven we op jouw positionering. Een goede flow met een vaag verhaal wordt alleen sneller vaag.</p>
+        <a href="/blueprint/" class="mt-6 inline-flex items-center gap-2 font-medium text-accent">Over Blueprint <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="mt-12 grid gap-8 md:grid-cols-2">
+      <div>
+        <h3 class="text-2xl">Hoe ver is elke workflow?</h3>
+        <ul class="mt-6 space-y-4">
+          {Object.values(statusLabel).map((st) => (
+            <li class="flex items-start gap-3">
+              <span class={`mt-0.5 shrink-0 rounded-full border px-3 py-1 text-xs font-medium ${st.style}`}>{st.label}</span>
+              <span class="text-fg/80">{st.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="space-y-4 text-fg/80">
+        <h3 class="text-2xl text-fg">Zo groeit de bibliotheek</h3>
+        <p>Elke pilotklant test één workflow. Daarna gaat die van concept naar getest, en met cijfers naar bewezen. We beginnen bij installatie en onderhoud, en maken die eerst compleet.</p>
+        <p>De opbouw is vrij te gebruiken met naamsvermelding, onder <a href="https://creativecommons.org/licenses/by/4.0/deed.nl" class="text-accent underline underline-offset-4">CC BY 4.0</a>.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="maatwerk" n="03" label="Maatwerk" title="Staat jouw workflow er niet bij?">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-3xl on-dark p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Waar je begint</p>
+        <p class="mt-6 text-2xl leading-snug">Aanvraag- en offerteopvolging kunnen meteen. Die hoeven niet te wachten op je positionering.</p>
+        <p class="mt-3 text-fg/80">Voor de andere workflows geldt: eerst Blueprint.</p>
+        <a href="/blueprint/" class="mt-8 inline-flex items-center gap-2 font-medium text-accent">Over Blueprint <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="rounded-3xl border border-dashed border-fg/30 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Maatwerk</p>
+        <p class="mt-6 text-2xl leading-snug">Past je proces er niet in? Dan schrijven we eerst een flowspecificatie voor jouw situatie.</p>
+        <a href="/contact/" class="mt-8 inline-flex items-center gap-2 font-medium text-accent">Plan een kennismaking <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="prijs" n="04" label="Prijs" tone="dark" title="Eén prijs per workflow">
+    <div class="grid gap-10 md:grid-cols-2">
+      <div>
+        {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}
+        <p class="mt-4 text-fg/80">{flow.data.prices[0]?.label}, {flow.data.duration}. Voorstel.</p>
+        {flow.data.priceNote && <p class="mt-2 text-fg/80">{flow.data.priceNote} Ook dit is een voorstel.</p>}
+      </div>
+      <div class="space-y-4 text-fg/80">
+        <p>Elke workflow levert hetzelfde op: een flowspecificatie van één pagina, de flow live met e-mails, verkooptaken en overdrachtsregels, en een dashboard met volume, conversie en doorlooptijd per stap.</p>
+        <div class="pt-4"><Button href="/contact/">Plan een kennismaking</Button></div>
+      </div>
+    </div>
+  </Section>
+</Base>

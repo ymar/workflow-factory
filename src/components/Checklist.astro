@@ -19,18 +19,18 @@ const verdicts = [
 <div data-checklist>
   <fieldset>
     <legend class="sr-only">Herken je dit?</legend>
-    <ul class="border-b border-paper/15">
+    <ul class="border-b border-fg/15">
       {items.map((text, i) => (
         <li>
-          <label class="check-item flex cursor-pointer items-center gap-5 border-t border-paper/15 py-5 md:py-6">
+          <label class="check-item flex cursor-pointer items-center gap-5 border-t border-fg/15 py-5 md:py-6">
             <input type="checkbox" name="herken" value={String(i)} class="check-box" />
-            <span class="check-text font-display text-xl leading-snug text-paper/85 md:text-3xl">{text}</span>
+            <span class="check-text font-display text-xl leading-snug text-fg/85 md:text-3xl">{text}</span>
           </label>
         </li>
       ))}
     </ul>
   </fieldset>
-  <p data-verdict aria-live="polite" class="mt-8 text-lg text-sage">Vink aan wat klopt.</p>
+  <p data-verdict aria-live="polite" class="mt-8 text-lg text-muted">Vink aan wat klopt.</p>
 </div>
 
 <script define:vars={{ verdicts }}>

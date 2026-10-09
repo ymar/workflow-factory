@@ -13,8 +13,8 @@ const dark = tone === 'dark';
 ---
 <section id={id} class={dark ? 'on-dark' : ''} aria-labelledby={`${id}-title`}>
   <div class="mx-auto max-w-6xl px-4 py-20 md:px-8 md:py-32">
-    <p class={`flex items-baseline gap-4 border-t pt-5 text-xs font-medium uppercase tracking-[0.18em] ${dark ? 'border-paper/15 text-sage' : 'border-paper/15 text-paper/70'}`}>
-      {n && <span class="text-mint">{n}</span>}
+    <p class={`flex items-baseline gap-4 border-t pt-5 text-xs font-medium uppercase tracking-[0.18em] ${dark ? 'border-fg/15 text-muted' : 'border-fg/15 text-fg/70'}`}>
+      {n && <span class="text-accent">{n}</span>}
       <span>{label}</span>
     </p>
     {title ? (
@@ -22,7 +22,7 @@ const dark = tone === 'dark';
     ) : (
       <h2 id={`${id}-title`} class="sr-only">{label}</h2>
     )}
-    {intro && <p class={`mt-6 max-w-2xl text-lg ${dark ? 'text-paper/80' : 'text-paper/75'}`}>{intro}</p>}
+    {intro && <p class={`mt-6 max-w-2xl text-lg ${dark ? 'text-fg/80' : 'text-fg/75'}`}>{intro}</p>}
     <div class={title || intro ? 'mt-12 md:mt-16' : 'mt-10'}>
       <slot />
     </div>

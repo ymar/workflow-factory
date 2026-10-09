@@ -42,8 +42,8 @@ const segments = defineCollection({
   schema: z.object({
     name: z.string(),
     problems: z.array(z.string()),
-    journeys: z.array(reference('journeys')),
-    glossary: z.array(z.object({ term: z.string(), becomes: z.string(), field: reference('fields').optional(), journey: reference('journeys').optional() })),
+    workflows: z.array(reference('workflows')),
+    glossary: z.array(z.object({ term: z.string(), becomes: z.string(), field: reference('fields').optional(), workflow: reference('workflows').optional() })),
   }),
 });
 
@@ -64,7 +64,7 @@ const teardowns = defineCollection({
   }),
 });
 
-// Journey library: four layers. Fields and metrics are defined once and referenced by id.
+// Workflow library: four layers. Fields and metrics are defined once and referenced by id.
 // Ids come from the file name, so `contract.einddatum.yaml` is field `contract.einddatum`.
 const idFromFile = ({ entry }: { entry: string }) => entry.split('/').pop()!.replace(/\.(ya?ml|json)$/, '');
 
@@ -115,8 +115,8 @@ const step = z
   })
   .refine((s) => [s.at, s.after, s.on].filter(Boolean).length === 1, { message: 'A step needs exactly one of at, after or on.' });
 
-const journeys = defineCollection({
-  loader: glob({ pattern: '**/*.yaml', base: './src/content/library/journeys', generateId: idFromFile }),
+const workflows = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/library/workflows', generateId: idFromFile }),
   schema: z.object({
     code: z.string().regex(/^[A-Z]{3}-\d{2}$/),
     name: z.string(),
@@ -143,10 +143,16 @@ const journeys = defineCollection({
     steps: z.array(step).min(1),
     exit: z.array(z.string()).min(1),
     handover: z.object({ won: z.string(), lost: z.string().optional() }),
-    next: reference('journeys').optional(),
+    next: reference('workflows').optional(),
     fields: z.array(reference('fields')).min(1),
     metrics: z.array(reference('metrics')).min(1),
+    // Search: the title gets " | Workflow Factory" appended, so keep it at 45 characters or less.
+    seo: z.object({ title: z.string().max(45), description: z.string().min(80).max(160) }),
+    why: z.string(),
+    example: z.string().startsWith('Stel:').optional(),
+    mistakes: z.array(z.string()).default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
   }),
 });
 
-export const collections = { services, faq, segments, teardowns, journeys, fields, metrics };
+export const collections = { services, faq, segments, teardowns, workflows, fields, metrics };

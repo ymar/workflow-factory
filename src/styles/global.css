@@ -1,32 +1,46 @@
 @import "tailwindcss";
 
+/* Semantic colour tokens. Light by default; `.on-dark` flips them for dark blocks (footer, call to action, signs). */
 @theme {
-  --color-night: #0a1c16;
+  --color-bg: #f6f5f0;
+  --color-fg: #13201b;
+  --color-muted: #556660;
+  --color-accent: #0a6644;
+  --color-focus: #0f2e23;
+  /* Brand colours, used directly only for fills. */
   --color-forest: #0f2e23;
   --color-mint: #5ff0b8;
   --color-sage: #a9c4b6;
   --color-paper: #f5f3ec;
   --color-ink: #13201b;
   --color-dim: #7f9a8d;
-  --font-display: "Inter Variable", system-ui, sans-serif;
-  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-display: "Inter Variable", "Inter Fallback", system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter Fallback", system-ui, sans-serif;
+}
+
+/* Local font scaled to Inter's metrics, so text does not jump when Inter loads. */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans"), local("Roboto");
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
 }
 
 @layer base {
   html {
-    background: var(--color-night);
-    color: var(--color-paper);
-    color-scheme: dark;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    color-scheme: light;
     font-family: var(--font-sans);
     -webkit-text-size-adjust: 100%;
   }
   body {
-    background: var(--color-night);
-    color: var(--color-paper);
+    background: var(--color-bg);
+    color: var(--color-fg);
     min-width: 320px;
     overflow-x: hidden;
-  }
-  body {
     font-size: 1.0625rem;
     line-height: 1.6;
     font-feature-settings: "cv11", "ss03";
@@ -40,42 +54,30 @@
     text-wrap: balance;
   }
   :focus-visible {
-    outline: 3px solid var(--color-mint);
+    outline: 3px solid var(--color-focus);
     outline-offset: 3px;
     border-radius: 2px;
   }
   .on-dark {
-    background: var(--color-forest);
-    color: var(--color-paper);
-  }
-  .on-dark :focus-visible, header :focus-visible {
-    outline-color: var(--color-mint);
+    --color-bg: #0f2e23;
+    --color-fg: #f5f3ec;
+    --color-muted: #a9c4b6;
+    --color-accent: #5ff0b8;
+    --color-focus: #5ff0b8;
+    background: var(--color-bg);
+    color: var(--color-fg);
   }
 }
 
-/* Neon: mint glowing on forest. Only on dark backgrounds. */
+/* Highlighted words: accent colour. On dark blocks they glow like a sign. */
 .neon-text {
-  color: var(--color-mint);
+  color: var(--color-accent);
+}
+.on-dark .neon-text {
   text-shadow: 0 0 4px rgba(95, 240, 184, 0.55), 0 0 14px rgba(95, 240, 184, 0.3);
 }
-
-.neon-tube {
+.on-dark .neon-tube {
   filter: drop-shadow(0 0 3px rgba(95, 240, 184, 0.6)) drop-shadow(0 0 10px rgba(95, 240, 184, 0.35));
-}
-
-/* Single flicker when the hero loads. Off for reduced motion. */
-@keyframes neon-flicker {
-  0%, 100% { opacity: 1; }
-  8% { opacity: 0.35; }
-  12% { opacity: 1; }
-  18% { opacity: 0.55; }
-  22% { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .flicker-once {
-    animation: neon-flicker 1.2s linear 0.2s 1 both;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -85,45 +87,56 @@
   }
 }
 
+/* Page tops: a faint mint wash in the corner. */
+.hero-glow {
+  background:
+    radial-gradient(50% 70% at 90% 0%, rgba(95, 240, 184, 0.22), transparent 70%),
+    var(--color-bg);
+  color: var(--color-fg);
+}
+
 /* Checklist: a ticked item lights up. */
 .check-box {
   appearance: none;
   flex-shrink: 0;
   width: 1.5rem;
   height: 1.5rem;
-  border: 1.5px solid var(--color-sage);
+  border: 1.5px solid var(--color-muted);
   border-radius: 6px;
   background: transparent;
   cursor: pointer;
 }
 .check-box:checked {
-  border-color: var(--color-mint);
-  background: var(--color-mint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f2e23' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / 80% no-repeat;
+  border-color: var(--color-accent);
+  background: var(--color-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / 80% no-repeat;
+}
+.on-dark .check-box:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f2e23' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E");
   box-shadow: 0 0 10px rgba(95, 240, 184, 0.5);
 }
 .check-item:has(input:checked) .check-text {
-  color: var(--color-mint);
+  color: var(--color-accent);
+}
+.on-dark .check-item:has(input:checked) .check-text {
   text-shadow: 0 0 4px rgba(95, 240, 184, 0.55), 0 0 14px rgba(95, 240, 184, 0.3);
 }
 
-/* Dark theme: page tops sit on the deepest tone with a faint mint spill, like light from a sign. */
-.hero-glow {
-  background:
-    radial-gradient(55% 60% at 80% 10%, rgba(95, 240, 184, 0.09), transparent 70%),
-    var(--color-night);
-  color: var(--color-paper);
-}
-.hero-glow :focus-visible {
-  outline-color: var(--color-mint);
-}
-
-/* Loop diagram: a phase lights up on hover and keyboard focus. */
-.loop-phase rect {
+/* Loop diagram. Colours come from the tokens so it works on light and dark. */
+.loop-box {
+  fill: var(--color-bg);
+  stroke: var(--color-fg);
+  stroke-opacity: 0.25;
+  stroke-width: 1.5;
   transition: stroke 150ms, stroke-opacity 150ms;
 }
-.loop-phase:hover rect,
-.loop-phase:focus-visible rect {
-  stroke: var(--color-mint);
+.loop-name { fill: var(--color-fg); }
+.loop-revenue { fill: var(--color-muted); }
+.loop-arrows { stroke: var(--color-muted); }
+.loop-arrowhead { fill: var(--color-muted); }
+.loop-center { fill: var(--color-accent); }
+.loop-phase:hover .loop-box,
+.loop-phase:focus-visible .loop-box {
+  stroke: var(--color-accent);
   stroke-opacity: 1;
   stroke-width: 3;
 }

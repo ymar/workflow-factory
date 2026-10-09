@@ -51,3 +51,15 @@ metrics:
 - geplande_vervangingen
 - vervanging_gewonnen
 - maanden_contact_tot_opdracht
+seo:
+  title: MJOP-vervangingen tijdig offreren
+  description: 'Workflow voor geplande vervangingen uit het meerjarenonderhoudsplan: zes maanden vooraf een seintje, een bericht aan de klant en op tijd een offerte.'
+why: 'Een vervanging die al in het MJOP staat, is een opdracht die je ziet aankomen. Toch wordt hij vaak pas besproken als het onderdeel het begeeft, en dan wint wie het snelst kan leveren. Deze workflow start zes maanden vooraf: tijd om de staat van de installatie te bekijken, de klant voor te bereiden en een offerte te maken voordat het budget op is.'
+example: 'Stel: 40 geplande vervangingen per jaar van gemiddeld €8.000, en je wint er nu de helft. Win je er 8 meer, dan is dat €64.000 omzet.'
+mistakes:
+- Het MJOP alleen als pdf bewaren. Dan kan geen systeem erop reageren.
+- Pas offreren als het budgetjaar al loopt.
+- De staat van de installatie niet meenemen in het gesprek.
+faq:
+- q: Wat als de klant zelf geen MJOP heeft?
+  a: 'Dan haal je de geplande vervangingen uit je eigen onderhoudshistorie. Het principe blijft hetzelfde: een datum per vervanging.'

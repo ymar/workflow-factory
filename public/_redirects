@@ -2,4 +2,6 @@
 /artikelen/ /teardowns/ 301
 /en/method/ /blueprint/ 301
 /en/writing/ /teardowns/ 301
+/journeys/ /workflows/ 301
+/journeys/* /workflows/:splat 301
 /en/* / 301

@@ -2,5 +2,5 @@ label: Verlengingsvoorstel verstuurd op
 type: datum
 object: contract
 required: false
-source: Gevuld door de journey
+source: Gevuld door de workflow
 example: '2027-01-15'

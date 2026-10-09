@@ -60,3 +60,15 @@ metrics:
 - opleveringen
 - oplevering_naar_contract
 - dagen_oplevering_tot_contract
+seo:
+  title: Nazorg na oplevering automatiseren
+  description: 'Workflow voor nazorg na een oplevering: een check na een week, de vraag om een review en een gesprek over een onderhoudscontract. Voor installatiebedrijven.'
+why: 'Na de oplevering hoort de klant meestal pas weer iets als er iets kapot is. Dan wordt het gesprek over onderhoud een klachtgesprek. Deze workflow draait dat om: een check na een week, een review als het goed ging, en het gesprek over een contract terwijl de klant nog tevreden is.'
+example: 'Stel: 80 opleveringen per jaar, en nu krijgt 20% een onderhoudscontract van €900 per jaar. Bij 35% zijn dat 12 contracten extra, ofwel €10.800 contractomzet per jaar, elk jaar opnieuw.'
+mistakes:
+- De opleverdatum niet invullen. Dan start de workflow nooit.
+- Om een review vragen voordat je weet of de klant tevreden is.
+- Het onderhoudscontract pas aanbieden na de eerste storing.
+faq:
+- q: Waarom wacht de workflow een week?
+  a: Dan is de installatie een week in gebruik en weet de klant of alles werkt. Eerder vragen levert vooral beleefde antwoorden op.

@@ -2,12 +2,12 @@
   "name": "Flow",
   "icon": "flow",
   "order": 3,
-  "summary": "Journeys uit de open bibliotheek, ingericht in HubSpot of ActiveCampaign. Ze volgen aanvragen, offertes en contracten op, tot de tweede bestelling.",
-  "duration": "3 weken per journey",
+  "summary": "Workflows uit de open bibliotheek, ingericht in HubSpot of ActiveCampaign. Ze volgen aanvragen, offertes en contracten op, tot de tweede bestelling.",
+  "duration": "3 weken per workflow",
   "priceStatus": "proposal",
   "prices": [
     {
-      "label": "Per journey",
+      "label": "Per workflow",
       "from": 3500,
       "to": 6500
     }
@@ -22,7 +22,7 @@
     {
       "name": "De flow, live",
       "format": "E-mails, belopdrachten met context en overdrachtsregels. Getest met echte gegevens",
-      "size": "1 journey"
+      "size": "1 workflow"
     },
     {
       "name": "Een dashboard",

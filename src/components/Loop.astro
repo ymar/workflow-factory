@@ -1,6 +1,6 @@
 ---
 // The loop from the earlier site version: six phases on a ring, clockwise from the top, seen from the customer.
-// Each phase links to its journeys in the library.
+// Each phase links to its workflows in the library.
 import { phases } from '../lib/loop';
 
 const W = 204;
@@ -28,23 +28,23 @@ const connectors = points.map((a, i) => {
 <svg viewBox="0 0 600 500" class="h-auto w-full" role="group" aria-label="De loop: zes fasen, gezien vanaf de klant">
   <defs>
     <marker id="loop-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M0 0L10 5L0 10z" fill="#a9c4b6" />
+      <path d="M0 0L10 5L0 10z" class="loop-arrowhead" />
     </marker>
   </defs>
-  <g fill="none" stroke="#a9c4b6" stroke-width="1.5">
+  <g fill="none" class="loop-arrows" stroke-width="1.5">
     {connectors.map((d) => <path d={d} marker-end="url(#loop-arrow)" />)}
   </g>
   {points.map((p, i) => {
     const phase = phases[i];
     return (
-      <a href={`/journeys/#${phase.id}`} class="loop-phase">
-        <rect x={p.x - W / 2} y={p.y - H / 2} width={W} height={H} rx="14" fill="#0f2e23" stroke="#f5f3ec" stroke-opacity="0.25" stroke-width="1.5" />
-        <text x={p.x} y={p.y - 5} text-anchor="middle" font-size="21" font-weight="600" fill="#f5f3ec" class="loop-name">{phase.name}</text>
-        <text x={p.x} y={p.y + 21} text-anchor="middle" font-size="17" fill="#a9c4b6" class="loop-revenue">{phase.revenue}</text>
+      <a href={`/workflows/#${phase.id}`} class="loop-phase">
+        <rect x={p.x - W / 2} y={p.y - H / 2} width={W} height={H} rx="14" class="loop-box" />
+        <text x={p.x} y={p.y - 5} text-anchor="middle" font-size="21" font-weight="600" class="loop-name">{phase.name}</text>
+        <text x={p.x} y={p.y + 21} text-anchor="middle" font-size="17" class="loop-revenue">{phase.revenue}</text>
       </a>
     );
   })}
-  <g class="neon-tube" font-size="22" font-weight="600" fill="#5ff0b8" text-anchor="middle">
+  <g class="neon-tube loop-center" font-size="22" font-weight="600" text-anchor="middle">
     <text x={cx} y={cy - 6}>Een loop,</text>
     <text x={cx} y={cy + 22}>geen funnel</text>
   </g>

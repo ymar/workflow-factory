@@ -1,4 +1,4 @@
-// Helpers for the journey library: labels, readable timing, and the build check.
+// Helpers for the workflow library: labels, readable timing, and the build check.
 import type { CollectionEntry } from 'astro:content';
 
 export const objectIds = ['aanvraag', 'klant', 'offerte', 'project', 'installatie', 'contract', 'keuring', 'storing', 'bestelling', 'mjop'] as const;
@@ -21,10 +21,10 @@ export const fieldRefsIn = (text?: string) => (text ? [...text.matchAll(FIELD_RE
 export const fieldAnchor = (id: string) => `veld-${id.replace(/[._]/g, '-')}`;
 export const metricAnchor = (id: string) => `meting-${id.replace(/_/g, '-')}`;
 
-type Journey = CollectionEntry<'journeys'>;
+type Workflow = CollectionEntry<'workflows'>;
 type Labels = Map<string, string>;
 
-export function journeyFieldRefs(j: Journey): string[] {
+export function workflowFieldRefs(j: Workflow): string[] {
   const { enroll, steps, exit } = j.data;
   const texts = [enroll.at, enroll.on, ...enroll.if, ...enroll.not_if, ...exit, ...steps.flatMap((s) => [s.at, s.on, s.if, s.to, s.sets])];
   return [...new Set(texts.flatMap(fieldRefsIn))];
@@ -54,5 +54,5 @@ export function whenLabel(step: { at?: string; after?: string; on?: string }, la
 
 // Library order: by loop phase, then by code.
 const PHASE_ORDER = ['specificeren', 'kiezen', 'gebruiken', 'onderhouden', 'uitbreiden', 'vervangen'];
-export const sortJourneys = <T extends Journey>(list: T[]) =>
+export const sortWorkflows = <T extends Workflow>(list: T[]) =>
   [...list].sort((a, b) => PHASE_ORDER.indexOf(a.data.phase) - PHASE_ORDER.indexOf(b.data.phase) || a.data.code.localeCompare(b.data.code));

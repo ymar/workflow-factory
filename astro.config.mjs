@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // The domain is not confirmed yet. Change this one value when it is.
-const SITE = 'https://neeeon.nl';
+const SITE = 'https://workflowfactory.nl';
 
 export default defineConfig({
   site: SITE,
@@ -17,5 +17,6 @@ export default defineConfig({
     '/artikelen/': '/teardowns/',
     '/en/method/': '/blueprint/',
     '/en/writing/': '/teardowns/',
+    '/journeys/': '/workflows/',
   },
 });

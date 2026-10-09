@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import ServicesGrid from '../../components/ServicesGrid.astro';
+---
+<Base
+  title="Diensten: workflows laten bouwen | Workflow Factory"
+  description="Laat een workflow bouwen in HubSpot of ActiveCampaign, schrijf eerst je positionering of bouw je landingspagina's. Vaste prijs, vaste oplevering."
+  path="/diensten/"
+>
+  <PageHero
+    crumbs={[['/', 'Home'], ['/diensten/', 'Diensten']]}
+    kicker="Diensten"
+    title="De bibliotheek is gratis."
+    accent="Het bouwen niet."
+    intro="Drie diensten met een vaste prijs en een vaste oplevering. Je betaalt niet per uur."
+  >
+    <Button href="/contact/">Plan een kennismaking</Button>
+  </PageHero>
+  <Section id="diensten" n="01" label="Diensten" title="Waar je begint" intro="Heb je je positionering op orde, begin dan bij Flow. Klinken je teksten als die van je concurrent, begin dan bij Blueprint. Alle prijzen zijn voorstellen.">
+    <ServicesGrid highlight="flow" badge="Bouwt de workflows" />
+  </Section>
+</Base>
