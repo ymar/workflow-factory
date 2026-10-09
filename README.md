@@ -36,7 +36,7 @@ Copy `src/content/teardowns/voorbeeld-template.md`, fill it in and set `draft: f
 
 ### Adding a journey
 
-Copy a file in `src/content/journeys/`, give it a new file name (that becomes the URL, `/journeys/<name>/`) and fill it in. `phase` is one of the six loop phases (`specificeren`, `kiezen`, `gebruiken`, `onderhouden`, `uitbreiden`, `vervangen`, see `src/lib/loop.ts`) and decides where the journey sits in the library. `next` (optional) names the journey that takes over at the handover. Set `startsWithoutBlueprint` to `true` only for journeys that do not need positioning first. To show a journey on the segment page, add its file name to `journeys` in the segment file.
+Copy a file in `src/content/journeys/`, give it a new file name (that becomes the URL, `/journeys/<name>/`) and fill it in. `phase` is one of the six loop phases (`specificeren`, `kiezen`, `gebruiken`, `onderhouden`, `uitbreiden`, `vervangen`, see `src/lib/loop.ts`) and decides where the journey sits in the library. `next` (optional) names the journey that takes over at the handover. Set `startsWithoutBlueprint` to `true` only for journeys that do not need positioning first. To show a journey on the segment page, add its file name to `journeys` in the segment file. `status` is `concept`, `getest` or `bewezen`; move a journey up only when it runs at a client (getest) or has measured results (bewezen). `fields` lists the CRM data the journey needs. The journey structure is published under CC BY 4.0; the email copy is not part of the library.
 
 ### Analytics
 
@@ -57,4 +57,6 @@ Cloudflare Web Analytics loads only when `PUBLIC_CF_ANALYTICS_TOKEN` is set as a
 - Preview image of the positioning page (homepage, "Wat je van Blueprint krijgt")
 - About page: career in 2 or 3 sentences, and a photo
 - Privacy page: date, retention period, name of the booking tool, and a legal check
+- Review the ten concept journeys (steps, timings, fields) before the library goes live
+- Decide whether the journey data moves to its own public repo
 - Domain: the name is now neon, but `SITE` still says neeeon.nl. Update it once the domain is known.

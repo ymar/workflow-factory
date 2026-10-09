@@ -36,5 +36,12 @@
   },
   "fits": [
     "Installatie en onderhoud"
+  ],
+  "status": "concept",
+  "fields": [
+    "Keuringsdatum",
+    "Installatie en locatie",
+    "Planner",
+    "Uitslag en advies"
   ]
 }

@@ -41,5 +41,12 @@
   "fits": [
     "Installatie en onderhoud",
     "Zakelijke dienstverlening"
+  ],
+  "status": "concept",
+  "fields": [
+    "Einddatum contract",
+    "Contractwaarde",
+    "Storingen en keuringen van het afgelopen jaar",
+    "Accountmanager"
   ]
 }

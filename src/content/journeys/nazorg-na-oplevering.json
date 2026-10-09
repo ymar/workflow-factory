@@ -36,5 +36,12 @@
   },
   "fits": [
     "Installatie en onderhoud"
+  ],
+  "status": "concept",
+  "fields": [
+    "Opleverdatum",
+    "Type installatie",
+    "Uitkomst van de check",
+    "Onderhoudscontract ja of nee"
   ]
 }

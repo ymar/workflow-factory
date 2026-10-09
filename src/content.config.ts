@@ -79,6 +79,9 @@ const journeys = defineCollection({
     metrics: z.object({ volume: z.string(), conversion: z.string(), leadTime: z.string() }),
     fits: z.array(z.string()),
     startsWithoutBlueprint: z.boolean().default(false),
+    // concept: designed, not yet built for a client. getest: built and running at a client. bewezen: running with measured results.
+    status: z.enum(['concept', 'getest', 'bewezen']).default('concept'),
+    fields: z.array(z.string()).default([]),
   }),
 });
 

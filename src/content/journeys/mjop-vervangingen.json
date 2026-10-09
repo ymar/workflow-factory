@@ -31,5 +31,12 @@
   },
   "fits": [
     "Installatie en onderhoud"
+  ],
+  "status": "concept",
+  "fields": [
+    "Geplande vervangingen per jaar",
+    "Staat van de installatie",
+    "Budgetjaar van de klant",
+    "Accountmanager"
   ]
 }

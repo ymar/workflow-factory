@@ -49,5 +49,12 @@
     "Installatie en onderhoud",
     "Groothandel",
     "Zakelijke dienstverlening"
+  ],
+  "status": "concept",
+  "fields": [
+    "Bron van de aanvraag",
+    "Datum en tijd van binnenkomst",
+    "Verkoper (eigenaar)",
+    "Datum eerste contact"
   ]
 }

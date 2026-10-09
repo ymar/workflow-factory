@@ -8,6 +8,7 @@ import JourneyCard from '../../components/JourneyCard.astro';
 import Loop from '../../components/Loop.astro';
 import { priceLabel } from '../../lib/format';
 import { phases } from '../../lib/loop';
+import { statusLabel } from '../../lib/status';
 
 const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
 const flow = await getEntry('services', 'flow');
@@ -32,7 +33,7 @@ const jsonLd = [
 <Base title={title} description={description} path="/journeys/" jsonLd={jsonLd}>
   <PageHero
     icon="flow"
-    kicker="Journeybibliotheek · Flow"
+    kicker="Open journeybibliotheek · Flow"
     title={`${journeys.length} journeys.`}
     accent="Kies waar het lekt."
     intro="Je klant koopt niet één keer. Een klant doorloopt zes fasen, en in elke fase kan omzet weglekken. Elke journey dicht één lek, met een trigger, vaste stappen, een overdrachtsregel en een dashboard."
@@ -83,7 +84,46 @@ const jsonLd = [
     </div>
   </section>
 
-  <Section id="maatwerk" n="02" label="Maatwerk" title="Staat jouw journey er niet bij?">
+  <Section id="open" n="02" label="Open bibliotheek" title="De opbouw is open. De woorden niet." intro="Gebruik de journeys gerust, ook als je mij niet inhuurt. Vermeld alleen waar ze vandaan komen.">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-3xl border border-paper/15 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-mint">Open</p>
+        <ul class="mt-6 space-y-2 text-lg">
+          <li>De trigger en het doel</li>
+          <li>De stappen en de timing</li>
+          <li>De overdrachtsregel</li>
+          <li>Wat het dashboard meet</li>
+          <li>De velden die je in je CRM nodig hebt</li>
+        </ul>
+      </div>
+      <div class="rounded-3xl bg-forest p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Niet open</p>
+        <p class="mt-6 text-2xl leading-snug">De teksten in de e-mails.</p>
+        <p class="mt-3 text-paper/80">Die schrijven we op jouw positionering. Een goede flow met een vaag verhaal wordt alleen sneller vaag.</p>
+        <a href="/blueprint/" class="mt-6 inline-flex items-center gap-2 font-medium text-mint">Over Blueprint <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="mt-12 grid gap-8 md:grid-cols-2">
+      <div>
+        <h3 class="text-2xl">Hoe ver is elke journey?</h3>
+        <ul class="mt-6 space-y-4">
+          {Object.values(statusLabel).map((st) => (
+            <li class="flex items-start gap-3">
+              <span class={`mt-0.5 shrink-0 rounded-full border px-3 py-1 text-xs font-medium ${st.style}`}>{st.label}</span>
+              <span class="text-paper/80">{st.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="space-y-4 text-paper/80">
+        <h3 class="text-2xl text-paper">Zo groeit de bibliotheek</h3>
+        <p>Elke pilotklant test één journey. Daarna gaat die van concept naar getest, en met cijfers naar bewezen. We beginnen bij installatie en onderhoud, en maken die eerst compleet.</p>
+        <p>De opbouw is vrij te gebruiken met naamsvermelding, onder <a href="https://creativecommons.org/licenses/by/4.0/deed.nl" class="text-mint underline underline-offset-4">CC BY 4.0</a>.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="maatwerk" n="03" label="Maatwerk" title="Staat jouw journey er niet bij?">
     <div class="grid gap-4 md:grid-cols-2">
       <div class="rounded-3xl bg-forest p-8">
         <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Waar je begint</p>
@@ -99,7 +139,7 @@ const jsonLd = [
     </div>
   </Section>
 
-  <Section id="prijs" n="03" label="Prijs" tone="dark" title="Eén prijs per journey">
+  <Section id="prijs" n="04" label="Prijs" tone="dark" title="Eén prijs per journey">
     <div class="grid gap-10 md:grid-cols-2">
       <div>
         {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}

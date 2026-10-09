@@ -31,5 +31,12 @@
   },
   "fits": [
     "Installatie en onderhoud"
+  ],
+  "status": "concept",
+  "fields": [
+    "Datum storingsmelding",
+    "Installatie",
+    "Aantal storingen in 12 maanden",
+    "Onderhoudscontract ja of nee"
   ]
 }

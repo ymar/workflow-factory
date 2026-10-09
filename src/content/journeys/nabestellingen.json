@@ -30,5 +30,12 @@
   },
   "fits": [
     "Groothandel"
+  ],
+  "status": "concept",
+  "fields": [
+    "Datum laatste bestelling",
+    "Gemiddelde tijd tussen bestellingen",
+    "Vaste artikelen per klant",
+    "Accountmanager"
   ]
 }

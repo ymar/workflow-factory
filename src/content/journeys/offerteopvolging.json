@@ -49,5 +49,12 @@
     "Installatie en onderhoud",
     "Groothandel",
     "Zakelijke dienstverlening"
+  ],
+  "status": "concept",
+  "fields": [
+    "Offertedatum en bedrag",
+    "Type werk",
+    "Wie beslist mee",
+    "Reden van verlies"
   ]
 }
