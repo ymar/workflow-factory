@@ -9,6 +9,7 @@ import KapotteLetters from '../components/KapotteLetters.astro';
 import Faq from '../components/Faq.astro';
 import ProductIcon from '../components/ProductIcon.astro';
 import { priceLabel } from '../lib/format';
+import { site } from '../lib/site';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 const faq = (await getCollection('faq'))
@@ -49,16 +50,22 @@ const jsonLd = [
 ];
 
 const story = [
-  { word: 'Gas', product: 'Blueprint', id: 'blueprint', text: 'Je positie is er al. Ze zit in hoe je bedrijf begon en in waarom klanten voor je kiezen. Ze is alleen nog niet zichtbaar. Blueprint legt haar vast, met het verhaal erbij.' },
-  { word: 'Buis', product: 'Build', id: 'build', text: 'Pagina\'s die je positionering laten zien. Elk met een formulier en een bedankpagina met een volgende stap.' },
-  { word: 'Stroom', product: 'Flow', id: 'flow', text: 'Automation die je verhaal elke dag vertelt, tot de tweede bestelling. Uit een bibliotheek van kant-en-klare journeys.' },
+  { word: 'Gas', product: 'Blueprint', id: 'blueprint', text: 'Waarom klanten voor je kiezen, weet je eigenlijk al. Het staat alleen nergens. Blueprint haalt het boven en zet het op je homepage.' },
+  { word: 'Buis', product: 'Build', id: 'build', text: 'Pagina\'s die die keuze laten zien. Met een formulier dat iets oplevert en een bedankpagina met een volgende stap.' },
+  { word: 'Stroom', product: 'Flow', id: 'flow', text: 'Opvolging die elke dag draait, tot de tweede bestelling. Ook als niemand eraan denkt.' },
+];
+const alternatives = [
+  { name: 'Meer campagnes', why: 'Je stuurt meer mensen naar hetzelfde verhaal. Je betaalt per klik om vaker nee te horen.' },
+  { name: 'Een nieuwe website', why: 'Mooier ontwerp, dezelfde zinnen. Kwaliteit, service, ontzorgen. Je concurrent zegt het ook.' },
+  { name: 'Een HubSpot-partner', why: 'Die bouwt wat je vraagt. Niemand vraagt eerst wat je eigenlijk moet zeggen.' },
+  { name: 'De prijs laten zakken', why: 'Werkt altijd. Stel: 5% korting op €1 miljoen omzet. Dat is €50.000 per jaar, elk jaar opnieuw.' },
 ];
 const nots = [
-  'Geen campagnes op een positionering die niet klopt.',
-  'Geen koude e-mail naar gekochte lijsten.',
-  'Geen Salesforce.',
-  'Geen volledige websiteredesign.',
-  'Geen facturatie per uur.',
+  ['Geen campagnes op een positionering die niet klopt.', 'Dan betaal je om sneller nee te horen.'],
+  ['Geen koude e-mail naar gekochte lijsten.', 'Het kost je naam meer dan het oplevert.'],
+  ['Geen Salesforce.', 'Liever twee systemen goed dan drie half.'],
+  ['Geen volledige websiteredesign.', 'Je hebt eerst betere woorden nodig, geen nieuw ontwerp.'],
+  ['Geen facturatie per uur.', 'Vaste prijs, vaste oplevering. Jij weet vooraf wat het kost.'],
 ];
 ---
 <Base title={title} description={description} path="/" jsonLd={jsonLd}>
@@ -66,17 +73,18 @@ const nots = [
   <section class="hero-glow">
     <div class="mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-between px-4 pb-10 pt-16 md:px-8 md:pt-28">
       <div>
-        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Voor traditionele B2B-bedrijven</p>
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Positionering en marketing automation voor traditionele B2B</p>
         <h1 class="mt-8 max-w-5xl text-[2.35rem] leading-[1.04] tracking-[-0.025em] md:text-8xl">
           Ik bouw marketing automation. En ik zeg vaak: <span class="neon-text flicker-once">nog niet.</span>
         </h1>
-        <p class="mt-8 max-w-xl text-lg text-paper/80 md:text-xl">
-          Eerst een positionering die helder en anders is. Dan pagina's en automation die werken.
+        <p class="mt-8 max-w-2xl text-lg text-paper/80 md:text-xl">
+          Eerst zoeken we in twee weken uit waarom klanten voor jou kiezen, en zetten we dat op je homepage. Daarna bouw ik de opvolging die het elke dag vertelt.
         </p>
         <div class="mt-10 flex flex-wrap gap-3">
           <Button href="/contact/">Plan een kennismaking</Button>
           <Button href="/teardowns/" variant="ghost-dark">Bekijk de teardowns</Button>
         </div>
+        <p class="mt-4 text-sm text-sage">Eerstvolgende start: {site.availability || <Placeholder label="beschikbaarheid" />}</p>
       </div>
       <ul class="mt-20 grid gap-3 border-t border-paper/15 pt-5 text-sm text-sage sm:grid-cols-3">
         <li>10 jaar marketing automation</li>
@@ -86,12 +94,20 @@ const nots = [
     </div>
   </section>
 
-  <Section id="herken" n="01" label="Herken je dit?" tone="dark" title="Herken je dit?" intro="Vink aan wat klopt. Er wordt niets opgeslagen of verstuurd.">
+  <Section id="herken" n="01" label="Herken je dit?" tone="dark" title="Herken je dit?" intro="Vink aan wat klopt. Twee of meer? Dan ligt het niet aan je campagnes.">
     <Checklist />
   </Section>
 
-  <Section id="principe" n="02" label="Het principe">
-    <p class="max-w-5xl font-display text-4xl leading-[1.08] tracking-[-0.02em] md:text-7xl">
+  <Section id="principe" n="02" label="Wat je nu probeert" title="Meer campagnes. Een nieuwe website. Een lagere prijs." intro="Het zijn de reflexen als de aanvragen tegenvallen. Ze maken het probleem allemaal groter.">
+    <ul class="grid gap-4 md:grid-cols-2">
+      {alternatives.map((a) => (
+        <li class="rounded-3xl border border-paper/15 p-8">
+          <p class="text-2xl">{a.name}</p>
+          <p class="mt-3 text-paper/80">{a.why}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-16 max-w-5xl font-display text-4xl leading-[1.08] tracking-[-0.02em] md:mt-24 md:text-7xl">
       Een systeem versterkt wat je erin stopt. Een vage positionering wordt alleen sneller vaag.
     </p>
     <div class="mt-16 rounded-3xl bg-forest p-8 md:mt-24 md:p-16">
@@ -106,7 +122,7 @@ const nots = [
           label="Voorbeeld: een zin met uitgeschakelde woorden"
         />
       </div>
-      <p class="mt-8 max-w-xl text-sm text-sage">Voorbeeld. De uitgeschakelde woorden zegt iedereen. Wat blijft branden, kun alleen jij zeggen.</p>
+      <p class="mt-8 max-w-xl text-sm text-sage">Voorbeeld. Zet de woorden uit die iedereen gebruikt. Wat blijft branden, is je positionering. Vaak is dat weinig.</p>
     </div>
   </Section>
 
@@ -123,7 +139,7 @@ const nots = [
     <p class="mt-12 font-display text-3xl md:text-4xl">Je verhaal is er al. Wij zetten er stroom op.</p>
   </Section>
 
-  <Section id="bewijs" n="04" label="Uit 10 jaar" title="Drie korte voorbeelden" intro="Geanonimiseerd. Vul hier echte cases met cijfers in, zodra je ze mag delen.">
+  <Section id="bewijs" n="04" label="Uit 10 jaar" title="Wat er verandert als de positionering klopt" intro="Drie voorbeelden, geanonimiseerd.">
     <ul class="grid gap-6 md:grid-cols-3">
       {[1, 2, 3].map((n) => (
         <li class="border-t border-paper pt-6">
@@ -136,7 +152,7 @@ const nots = [
     </ul>
   </Section>
 
-  <Section id="producten" n="05" label="Producten" title="Drie producten. Begin bij Blueprint." intro="Alle prijzen zijn voorstellen. We bevestigen ze in de kennismaking.">
+  <Section id="producten" n="05" label="Producten" title="Begin met twee weken. Niet met een jaarcontract." intro="Drie producten met een vaste prijs en een vaste oplevering. Je betaalt niet per uur. Alle prijzen zijn voorstellen, we bevestigen ze in de kennismaking.">
     <ul class="grid gap-4 md:grid-cols-3">
       {services.map((s) => {
         const start = s.id === 'blueprint';
@@ -165,13 +181,13 @@ const nots = [
     <a href="/journeys/" class="group mt-4 flex flex-col gap-4 rounded-3xl border border-paper/15 p-8 hover:border-mint/60 md:flex-row md:items-center md:justify-between">
       <span>
         <span class="block text-xs font-medium uppercase tracking-[0.18em] text-sage">Open journeybibliotheek</span>
-        <span class="mt-3 block text-2xl md:text-3xl">Van aanvraagopvolging tot contractverlenging. De opbouw is open, gebruik hem gerust.</span>
+        <span class="mt-3 block text-2xl md:text-3xl">Tien journeys, van aanvraagopvolging tot MJOP-vervangingen. De opbouw is open: gebruik hem gerust.</span>
       </span>
       <span class="inline-flex shrink-0 items-center gap-2 font-medium text-mint">Bekijk de bibliotheek <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span></span>
     </a>
   </Section>
 
-  <Section id="krijg" n="06" label="Blueprint" title="Wat je van Blueprint krijgt">
+  <Section id="krijg" n="06" label="Blueprint" title="Na twee weken heb je drie pagina's. Geen rapport van veertig." intro="Niemand leest een dik rapport. Je krijgt drie documenten van één pagina, en je kunt ze de volgende dag gebruiken.">
     <div class="grid gap-12 md:grid-cols-2">
       <ol class="border-b border-paper/15">
         {blueprint?.data.deliverables.map((d, i) => (
@@ -193,7 +209,7 @@ const nots = [
     </div>
   </Section>
 
-  <Section id="dag" n="07" label="Proces" title="Blueprint, dag voor dag" intro="Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.">
+  <Section id="dag" n="07" label="Proces" title="Zo zien de twee weken er precies uit" intro="Ongeveer 6 uur van jouw tijd. Het schrijven doe ik.">
     <ol class="border-b border-paper/15">
       {blueprint?.data.process.map((step) => (
         <li class="grid gap-1 border-t border-paper/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
@@ -205,13 +221,18 @@ const nots = [
     </ol>
   </Section>
 
-  <Section id="niet" n="08" label="Wat ik niet doe" tone="dark" title="Wat ik niet doe">
+  <Section id="niet" n="08" label="Wat ik niet doe" tone="dark" title="Waar ik nee tegen zeg">
     <ul class="border-b border-paper/15">
-      {nots.map((n) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-4xl">{n}</li>)}
+      {nots.map(([no, why]) => (
+        <li class="grid gap-2 border-t border-paper/15 py-6 md:grid-cols-[1fr_22rem] md:items-baseline md:gap-8">
+          <span class="font-display text-2xl md:text-3xl">{no}</span>
+          <span class="text-paper/75">{why}</span>
+        </li>
+      ))}
     </ul>
   </Section>
 
-  <Section id="teardowns" n="09" label="Kapotte letters" title="De nieuwste teardowns">
+  <Section id="teardowns" n="09" label="Kapotte letters" title="B2B-homepages, ontleed." intro="Ik zet de woorden uit die iedereen gebruikt. Wat overblijft, laat zien of er een positionering is.">
     <ul class="grid gap-4 md:grid-cols-3">
       {teardowns.length > 0
         ? teardowns.map((t) => (

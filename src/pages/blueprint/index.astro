@@ -4,26 +4,32 @@ import ServicePage from '../../components/ServicePage.astro';
 <ServicePage
   id="blueprint"
   kicker="Startpunt"
-  headline="Blueprint. Vind de positie"
-  accent="die niemand kan kopiëren."
+  headline="Blueprint. In twee weken weet je"
+  accent="waarom klanten voor jou kiezen."
   title="Blueprint · Positionering en homepage in 2 weken | neon"
-  description="Blueprint: je positionering vastgelegd en op je homepage gezet. We vinden wat geen concurrent kan kopiëren. 2 weken."
+  description="Blueprint: in twee weken je positionering op één pagina en een herschreven homepage. Vaste prijs, ongeveer 6 uur van jouw tijd."
+  signalsTitle={"Je hebt een positionerings\u00ADprobleem als:"}
   signals={[
-    'Je concurreert vooral op prijs.',
-    'Je website klinkt als die van de concurrent.',
+    'Je verliest offertes op prijs, terwijl je beter werk levert.',
+    'Zonder logo weet niemand meer van wie je homepage is.',
+    'Drie mensen in je bedrijf leggen op drie manieren uit wat jullie doen.',
     'Je kunt niet in één zin zeggen waarom klanten voor jou kiezen.',
-    'Campagnes leveren weinig reacties op.',
   ]}
+  deliverablesTitle="Na twee weken heb je drie pagina's. Geen rapport van veertig."
+  processTitle="Zo zien de twee weken er precies uit"
+  processIntro="Ongeveer 6 uur van jouw tijd. Het schrijven doe ik."
+  priceTitle="Prijs naar omvang"
+  priceIntro="Een groter bedrijf heeft meer mensen aan tafel, meer pagina's en meer te winnen. Het werk en de oplevering zijn hetzelfde."
 >
   <div slot="after-deliverables" class="mt-16 grid gap-8 md:grid-cols-[16rem_1fr]">
-    <h3 class="text-3xl">De vier checks</h3>
+    <h3 class="text-3xl">De vier vragen</h3>
     <div>
       <ol class="border-b border-paper/15">
         {['Klopt het?', 'Maakt het verschil voor de koper?', 'Kan een concurrent het zeggen?', 'Wint het ook de tweede order?'].map((q, i) => (
           <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-4 text-lg"><span class="text-paper/70">0{i + 1}</span>{q}</li>
         ))}
       </ol>
-      <p class="mt-6 text-paper/80">Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.</p>
+      <p class="mt-6 text-paper/80">Haalt je positionering er één niet, dan is ze niet af. Liever nu dan na een jaar campagnes.</p>
     </div>
   </div>
 </ServicePage>

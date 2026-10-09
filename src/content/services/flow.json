@@ -2,7 +2,7 @@
   "name": "Flow",
   "icon": "flow",
   "order": 3,
-  "summary": "Journeys uit de bibliotheek, ingericht in HubSpot of ActiveCampaign. Ze vertellen je verhaal elke dag, tot de tweede bestelling. Geen Salesforce.",
+  "summary": "Journeys uit de open bibliotheek, ingericht in HubSpot of ActiveCampaign. Ze volgen aanvragen, offertes en contracten op, tot de tweede bestelling.",
   "duration": "3 weken per journey",
   "priceStatus": "proposal",
   "prices": [
@@ -16,34 +16,34 @@
   "deliverables": [
     {
       "name": "Flowspecificatie",
-      "format": "Document",
+      "format": "Eén pagina met trigger, stappen en overdracht. Iedereen weet wat er gebeurt, en wanneer",
       "size": "1 pagina"
     },
     {
       "name": "De flow, live",
-      "format": "E-mails, verkooptaken met context en overdrachtsregels",
+      "format": "E-mails, belopdrachten met context en overdrachtsregels. Getest met echte gegevens",
       "size": "1 journey"
     },
     {
-      "name": "Dashboard",
-      "format": "Volume, conversie en doorlooptijd per stap",
+      "name": "Een dashboard",
+      "format": "Per stap: hoeveel, hoeveel procent, en hoe snel. Je ziet waar het lekt",
       "size": "1 dashboard"
     }
   ],
   "process": [
     {
       "when": "Week 1",
-      "what": "Flowspecificatie schrijven en goedkeuren",
+      "what": "Ik schrijf de flowspecificatie. Jij keurt hem goed.",
       "clientTime": "60 min"
     },
     {
       "when": "Week 2",
-      "what": "Flow bouwen in HubSpot of ActiveCampaign",
+      "what": "Ik bouw de flow in HubSpot of ActiveCampaign.",
       "clientTime": "30 min review"
     },
     {
       "when": "Week 3",
-      "what": "Testen, live zetten en dashboard opleveren",
+      "what": "We testen met echte gegevens, zetten hem live en je krijgt het dashboard.",
       "clientTime": "60 min"
     }
   ],

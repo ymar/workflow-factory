@@ -2,19 +2,45 @@
   "name": "Build",
   "icon": "build",
   "order": 2,
-  "summary": "Landingspagina's op je nieuwe positionering. Elke set heeft een formulier en een bedankpagina met een vervolgstap.",
+  "summary": "Landingspagina's op je nieuwe positionering. Met een formulier dat iets oplevert en een bedankpagina die de volgende stap zet.",
   "duration": "2 weken per set",
   "priceStatus": "proposal",
-  "prices": [{ "label": "Per set", "from": 2500, "to": 4500 }],
+  "prices": [
+    {
+      "label": "Per set",
+      "from": 2500,
+      "to": 4500
+    }
+  ],
   "requires": "Eerst Blueprint, of een positionering die de vier checks al doorstaat.",
   "deliverables": [
-    { "name": "De pagina", "format": "Landingspagina op je positionering", "size": "1 pagina" },
-    { "name": "Het formulier", "format": "Formulier met opvolging", "size": "1 formulier" },
-    { "name": "De bedankpagina", "format": "Met een duidelijke vervolgstap", "size": "1 pagina" }
+    {
+      "name": "De pagina",
+      "format": "Eén landingspagina, geschreven op je positionering. Niet op wat de concurrent zegt",
+      "size": "1 pagina"
+    },
+    {
+      "name": "Het formulier",
+      "format": "Alleen de vragen die verkoop echt nodig heeft. Elke extra vraag kost aanvragen",
+      "size": "1 formulier"
+    },
+    {
+      "name": "De bedankpagina",
+      "format": "Met een volgende stap. Niet alleen \"bedankt, we nemen contact op\"",
+      "size": "1 pagina"
+    }
   ],
   "process": [
-    { "when": "Week 1", "what": "Pagina en formulier bouwen op je positionering", "clientTime": "60 min review" },
-    { "when": "Week 2", "what": "Live zetten, testen en overdragen", "clientTime": "60 min" }
+    {
+      "when": "Week 1",
+      "what": "Ik schrijf en bouw de pagina, het formulier en de bedankpagina. Jij reviewt.",
+      "clientTime": "60 min review"
+    },
+    {
+      "when": "Week 2",
+      "what": "We zetten alles live, testen het formulier van begin tot eind en dragen over.",
+      "clientTime": "60 min"
+    }
   ],
   "notIncluded": [
     "Advertenties",

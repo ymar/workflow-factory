@@ -6,16 +6,21 @@ const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order -
 ---
 <ServicePage
   id="flow"
-  headline="Flow. Je verhaal, elke dag,"
-  accent="tot de tweede order."
+  headline="Flow. Opvolging die draait,"
+  accent="ook als niemand eraan denkt."
   title="Flow · Marketing automation in HubSpot of ActiveCampaign | neon"
-  description="Flow: journeys uit de bibliotheek, ingericht in HubSpot of ActiveCampaign. Van aanvraagopvolging tot contractverlenging en nabestellingen. 3 weken per journey."
+  description="Flow: journeys uit de open bibliotheek, ingericht in HubSpot of ActiveCampaign. Van aanvraagopvolging tot contractverlenging. 3 weken per journey."
+  signalsTitle="Je hebt een opvolgingsprobleem als:"
   signals={[
-    'Aanvragen en offertes blijven liggen.',
-    'Je hebt HubSpot, maar weet niet wat je erin moet zetten.',
-    'Contracten lopen af zonder dat iemand belt.',
-    'Je weet niet hoeveel aanvragen een order worden, of hoe lang dat duurt.',
+    'Een aanvraag ligt soms dagen voordat iemand belt.',
+    'Offertes gaan de deur uit en daarna hoor je niets meer.',
+    'Contracten lopen af zonder dat iemand het merkt.',
+    'Je hebt HubSpot, maar het is vooral een duur adresboek.',
   ]}
+  deliverablesTitle="Na drie weken draait er een journey"
+  processTitle="Zo zien de drie weken er precies uit"
+  priceTitle="Vaste prijs per journey"
+  priceIntro="De prijs hangt af van hoeveel systemen en velden de journey raakt. Dat weten we na de flowspecificatie."
 >
   <div slot="after-deliverables" class="mt-16 grid gap-8 md:grid-cols-[16rem_1fr]">
     <div>

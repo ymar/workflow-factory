@@ -16,8 +16,14 @@ interface Props {
   description: string;
   signals: string[];
   kicker?: string;
+  signalsTitle: string;
+  deliverablesTitle: string;
+  processTitle: string;
+  processIntro?: string;
+  priceTitle: string;
+  priceIntro?: string;
 }
-const { id, headline, accent, title, description, signals, kicker } = Astro.props;
+const { id, headline, accent, title, description, signals, kicker, signalsTitle, deliverablesTitle, processTitle, processIntro, priceTitle, priceIntro } = Astro.props;
 
 const service = await getEntry('services', id);
 if (!service) throw new Error(`Missing services/${id}.json`);
@@ -71,13 +77,13 @@ const next = () => String(++n).padStart(2, '0');
     </div>
   )}
 
-  <Section id="signalen" n={next()} label="Signalen" title="Dit is er misschien aan de hand">
+  <Section id="signalen" n={next()} label="Signalen" title={signalsTitle}>
     <ul class="border-b border-paper/15">
       {signals.map((s) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-3xl">{s}</li>)}
     </ul>
   </Section>
 
-  <Section id="lever" n={next()} label="Oplevering" title="Wat je krijgt">
+  <Section id="lever" n={next()} label="Oplevering" title={deliverablesTitle}>
     <ol class="grid gap-4 md:grid-cols-3">
       {deliverables.map((d, i) => (
         <li class="flex flex-col rounded-3xl border border-paper/15 p-8">
@@ -90,7 +96,7 @@ const next = () => String(++n).padStart(2, '0');
     <slot name="after-deliverables" />
   </Section>
 
-  <Section id="proces" n={next()} label="Proces" title="Het proces">
+  <Section id="proces" n={next()} label="Proces" title={processTitle} intro={processIntro}>
     <ol class="border-b border-paper/15">
       {process.map((step) => (
         <li class="grid gap-1 border-t border-paper/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
@@ -102,7 +108,7 @@ const next = () => String(++n).padStart(2, '0');
     </ol>
   </Section>
 
-  <Section id="prijs" n={next()} label="Prijs" title="Prijs" intro={proposal ? 'Voorstel. We bevestigen de prijs in de kennismaking.' : undefined}>
+  <Section id="prijs" n={next()} label="Prijs" title={priceTitle} intro={[priceIntro, proposal ? 'Voorstel, we bevestigen de prijs in de kennismaking.' : ''].filter(Boolean).join(' ')}>
     <ul class="grid gap-4 md:grid-cols-3">
       {prices.map((p) => (
         <li class="rounded-3xl border border-paper/15 p-8">
@@ -116,7 +122,7 @@ const next = () => String(++n).padStart(2, '0');
     <slot name="after-price" />
   </Section>
 
-  <Section id="niet" n={next()} label="Niet inbegrepen" tone="dark" title="Niet inbegrepen">
+  <Section id="niet" n={next()} label="Niet inbegrepen" tone="dark" title="Wat er niet in zit">
     <ul class="border-b border-paper/15">
       {notIncluded.map((x) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-3xl">{x}</li>)}
     </ul>
@@ -130,8 +136,8 @@ const next = () => String(++n).padStart(2, '0');
 
   <section class="on-dark border-t border-paper/10" aria-labelledby="cta">
     <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-32">
-      <h2 id="cta" class="max-w-4xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-6xl">Benieuwd of {name} nu de juiste stap is?</h2>
-      <p class="mt-6 max-w-xl text-lg text-paper/80">In 30 minuten hoor je het eerlijk. Ook als het antwoord "nog niet" is.</p>
+      <h2 id="cta" class="max-w-4xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-6xl">Is {name} nu de juiste stap?</h2>
+      <p class="mt-6 max-w-xl text-lg text-paper/80">In 30 minuten hoor je het. Ook als het antwoord "nog niet" is.</p>
       <div class="mt-10"><Button href="/contact/">Plan een kennismaking</Button></div>
     </div>
   </section>
