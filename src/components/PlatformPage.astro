@@ -45,7 +45,7 @@ const usedObjects = [...new Set(workflows.map((w) => w.data.enroll.object))];
   <Section id="workflows" n="01" label="Workflows" title={`Tien workflows in ${p.name}`} intro="Per workflow: op welk object hij draait en hoe hij start. Klik door voor de stappen, velden en metingen.">
     <div class="overflow-x-auto">
       <table class="w-full min-w-[44rem] text-left">
-        <thead class="text-xs uppercase tracking-[0.12em] text-muted">
+        <thead class="text-[13px] text-muted">
           <tr><th class="py-3 pr-4 font-medium">Workflow</th><th class="py-3 pr-4 font-medium">Fase</th><th class="py-3 pr-4 font-medium">Draait op</th><th class="py-3 font-medium">Start</th></tr>
         </thead>
         <tbody>
@@ -83,7 +83,7 @@ const usedObjects = [...new Set(workflows.map((w) => w.data.enroll.object))];
             </div>
           ))}
         </dl>
-        <p class="mt-6 rounded-2xl border border-fg/15 p-5 text-sm text-fg/80">{p.caveat}</p>
+        <p class="mt-6 rounded-xl border border-fg/15 p-5 text-sm text-fg/80">{p.caveat}</p>
       </div>
     </div>
   </Section>

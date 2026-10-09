@@ -5,26 +5,30 @@ import { library } from '../lib/site';
 import { mailBlocks, mailForm } from '../lib/library';
 interface Props {
   email: { goal: string; subject: string; preheader: string; body: string; cta?: { label: string; leads_to: string } };
-  labels: Map<string, string>;
+  fields: Map<string, { label: string; type: string; example: string }>;
 }
-const { email, labels } = Astro.props;
+const { email, fields } = Astro.props;
 const { greeting, closing } = mailForm[library.form];
 ---
-<div class="overflow-hidden rounded-3xl border border-fg/15 bg-white">
+<div class="max-w-2xl overflow-hidden rounded-xl border border-fg/15 bg-white">
   <dl class="grid gap-x-3 gap-y-0.5 border-b border-fg/10 px-5 py-4 text-sm sm:grid-cols-[5.5rem_1fr] sm:gap-y-1.5">
-    <dt class="text-muted">Van</dt><dd><MailText text="{{afzender.naam}}" labels={labels} /></dd>
-    <dt class="mt-2 text-muted sm:mt-0">Onderwerp</dt><dd class="font-medium"><MailText text={email.subject} labels={labels} /></dd>
-    <dt class="mt-2 text-muted sm:mt-0">Voorregel</dt><dd class="text-fg/80"><MailText text={email.preheader} labels={labels} /></dd>
+    <dt class="text-muted">Van</dt><dd><MailText text="{{afzender.naam}}" fields={fields} /></dd>
+    <dt class="mt-2 text-muted sm:mt-0">Onderwerp</dt><dd class="font-medium"><MailText text={email.subject} fields={fields} /></dd>
+    <dt class="mt-2 text-muted sm:mt-0">Voorregel</dt><dd class="text-fg/80"><MailText text={email.preheader} fields={fields} /></dd>
   </dl>
-  <div class="space-y-4 px-5 py-5 leading-relaxed">
-    <p>{greeting} <MailText text="{{contact.voornaam}}" labels={labels} />,</p>
+  <div class="space-y-3.5 px-5 py-5 text-[15.5px] leading-relaxed">
+    <p>{greeting} <MailText text="{{contact.voornaam}}" fields={fields} />,</p>
     {mailBlocks(email.body).map((b) =>
       'list' in b && b.list
-        ? <ul class="list-disc space-y-1 pl-5">{b.list.map((item) => <li><MailText text={item} labels={labels} /></li>)}</ul>
-        : <p>{(b.lines ?? []).map((line, i) => <>{i > 0 && <br />}<MailText text={line} labels={labels} /></>)}</p>
+        ? <ul class="list-disc space-y-1 pl-5">{b.list.map((item) => <li><MailText text={item} fields={fields} /></li>)}</ul>
+        : <p>{(b.lines ?? []).map((line, i) => <>{i > 0 && <br />}<MailText text={line} fields={fields} /></>)}</p>
     )}
-    {email.cta && <p><span class="inline-block rounded-full bg-forest px-5 py-2.5 text-sm font-medium text-paper">{email.cta.label}</span></p>}
-    <p>{closing}<br /><MailText text="{{afzender.naam}}" labels={labels} /><br /><MailText text="{{afzender.telefoon}}" labels={labels} /></p>
+    {email.cta && <p><span class="inline-block rounded-lg bg-forest px-4 py-2.5 text-sm font-medium text-paper">{email.cta.label}</span></p>}
+    <p>{closing}<br /><MailText text="{{afzender.naam}}" fields={fields} /><br /><MailText text="{{afzender.telefoon}}" fields={fields} /></p>
   </div>
 </div>
-{email.cta && <p class="mt-3 text-sm text-fg/75"><span class="text-muted">De knop leidt naar:</span> {email.cta.leads_to}</p>}
+<p class="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-muted">
+  <span><span class="mv"><span class="mv-ex">Onderstreept</span><code class="mv-f">{'{{veld}}'}</code></span> komt uit je CRM</span>
+  <span><mark class="mail-fill">[Geel]</mark> vul je zelf in</span>
+  {email.cta && <span>De knop leidt naar: {email.cta.leads_to}</span>}
+</p>

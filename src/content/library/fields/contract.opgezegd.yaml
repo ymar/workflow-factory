@@ -4,3 +4,6 @@ object: contract
 required: true
 source: Contractadministratie
 example: nee
+says:
+  ja: het contract opgezegd is
+  nee: het contract niet opgezegd is

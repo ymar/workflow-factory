@@ -33,7 +33,7 @@ const workflows = sortWorkflows(await getCollection('workflows'));
         {workflows.map((j) => (
           <li class="border-t border-fg/15">
             <a href={`/workflows/${j.id}/`} class="group flex items-center justify-between gap-4 py-4 text-lg hover:text-accent">
-              <span>{j.data.name}{!j.data.needs_blueprint && <span class="ml-3 rounded-full bg-mint px-2.5 py-0.5 align-middle text-[11px] font-semibold text-forest">Kan meteen</span>}</span>
+              <span>{j.data.name}{!j.data.needs_blueprint && <span class="ml-3 rounded-md bg-mint px-2 py-0.5 align-middle text-[11px] font-semibold text-forest">Kan meteen</span>}</span>
               <span aria-hidden="true" class="text-muted transition-transform group-hover:text-accent motion-safe:group-hover:translate-x-0.5">→</span>
             </a>
           </li>
@@ -42,7 +42,7 @@ const workflows = sortWorkflows(await getCollection('workflows'));
       <div class="mt-8"><Button href="/workflows/" variant="ghost-light">Bekijk de workflowbibliotheek</Button></div>
     </div>
   </div>
-  <div slot="after-price" class="mt-10 flex flex-col gap-4 rounded-3xl border border-accent/40 bg-accent/10 p-8 md:flex-row md:items-center md:justify-between">
+  <div slot="after-price" class="mt-10 flex flex-col gap-4 rounded-xl border border-accent/40 bg-accent/10 p-8 md:flex-row md:items-center md:justify-between">
     <p class="font-display text-3xl">Pilot</p>
     <p class="max-w-xl text-fg/85">De eerste drie klanten betalen de helft. In ruil daarvoor maken we samen een case met cijfers, en gaat jouw workflow in de bibliotheek van concept naar getest.</p>
   </div>

@@ -95,7 +95,7 @@ export function flowRows(steps: Step[]): Step[][] {
   return rows;
 }
 // "s1" in a condition reads as "stap 1" on the site.
-export const stepRefs = (text: string) => text.replace(/\bs(\d+)\b/g, 'stap $1');
+export const stepRefs = (text: string) => text.replace(/\b(?:stap\s+)?s(\d+)\b/g, 'stap $1');
 
 // Replace field ids with their labels, for readable conditions on the site.
 export const withLabels = (text: string, labels: Labels) => text.replace(FIELD_REF, (id) => labels.get(id) ?? id);
@@ -123,3 +123,83 @@ export function whenLabel(step: { at?: string; after?: string; on?: string }, la
 const PHASE_ORDER = ['specificeren', 'kiezen', 'gebruiken', 'onderhouden', 'uitbreiden', 'vervangen'];
 export const sortWorkflows = <T extends Workflow>(list: T[]) =>
   [...list].sort((a, b) => PHASE_ORDER.indexOf(a.data.phase) - PHASE_ORDER.indexOf(b.data.phase) || a.data.code.localeCompare(b.data.code));
+
+// A condition as a Dutch clause after "als" or "zodra": "het contract nog niet verlengd is".
+// Ja/nee fields use the `says` phrases from the dictionary; other conditions follow a few fixed patterns.
+type FieldInfo = { label: string; type: string; example: string; says?: { ja: string; nee: string } };
+const lc = (label: string) => (/^[A-Z]{2}/.test(label) ? label : label.charAt(0).toLowerCase() + label.slice(1));
+export function clause(cond: string, fields: Map<string, FieldInfo>): string {
+  const m = cond.match(/^([a-z]+\.[a-z_0-9]+)\s*(=|>=|<=)\s*(.+)$/);
+  if (m) {
+    const f = fields.get(m[1]);
+    const label = lc(f?.label ?? m[1]);
+    const value = m[3].trim();
+    if (m[2] === '=' && f?.says && (value === 'ja' || value === 'nee')) return f.says[value];
+    if (m[2] === '>=') return `${label} minstens ${value} is`;
+    if (m[2] === '<=') return `${label} hooguit ${value} is`;
+    return `${label} op ${value} staat`;
+  }
+  const s = cond.match(/^([a-z]+\.[a-z_0-9]+)\s+is\s+(.+)$/);
+  if (s) return `${lc(fields.get(s[1])?.label ?? s[1])} ${s[2]} is`;
+  return stepRefs(cond.replace(/\b([a-z]+\.[a-z_0-9]+)\b/g, (id) => lc(fields.get(id)?.label ?? id)));
+}
+export const joinOr = (parts: string[]) => (parts.length < 2 ? parts.join('') : `${parts.slice(0, -1).join(', ')} of ${parts.at(-1)}`);
+export const joinAnd = (parts: string[]) => (parts.length < 2 ? parts.join('') : `${parts.slice(0, -1).join(', ')} en ${parts.at(-1)}`);
+
+// The timeline counts in days (or weeks, months) from one moment: the date field the workflow starts from,
+// or the start itself. "Dag −75" is 75 days before that date.
+const UNIT_WORD: Record<string, string> = { d: 'Dag', w: 'Week', m: 'Maand' };
+const UNIT_PLURAL: Record<string, [string, string]> = { d: ['dag', 'dagen'], w: ['week', 'weken'], m: ['maand', 'maanden'] };
+const AT = /^([a-z]+\.[a-z_0-9]+)\s*(?:([+-])\s*(\d+)([dwm]))?$/;
+export function timeline(j: Workflow, fields: Map<string, FieldInfo>) {
+  const { enroll, steps } = j.data;
+  const start = enroll.at?.match(AT);
+  const anchor = start?.[1];
+  const unit = start?.[4] ?? steps.map((s) => s.at?.match(AT)).find((m) => anchor && m && m[1] === anchor && m[4])?.[4] ?? 'd';
+  const signed = (sign: string | undefined, n: string | undefined) => (n ? `${sign === '-' ? '−' : ''}${n}` : '0');
+  const dayOf = (s: Step): { main: string; sub?: string } => {
+    if (s.on) return { main: 'Zodra' };
+    if (s.at) {
+      const m = s.at.match(AT);
+      if (!m) return { main: 'Later' };
+      if (m[1] === anchor) return { main: `${UNIT_WORD[m[4] ?? unit]} ${signed(m[2], m[3])}` };
+      const label = lc(fields.get(m[1])?.label ?? m[1]);
+      if (!m[3]) return { main: 'Op de dag', sub: label };
+      return { main: `${m[3]} ${UNIT_PLURAL[m[4]][m[3] === '1' ? 0 : 1]}`, sub: `${m[2] === '-' ? 'voor' : 'na'} ${label}` };
+    }
+    if (s.after === 'direct') return { main: 'Dag 0' };
+    const a = s.after?.match(/^(\d+)([dwm])$/);
+    if (a) return { main: `${UNIT_WORD[a[2]]} ${a[1]}` };
+    const w = s.after?.match(/^(\d+)\s*werkdag/);
+    return w ? { main: `Werkdag ${w[1]}` } : { main: s.after ?? '' };
+  };
+  const startDay = anchor ? `${UNIT_WORD[start?.[4] ?? unit]} ${signed(start?.[2], start?.[3])}` : 'Dag 0';
+  const trigger = j.data.trigger.replace(/\.$/, '');
+  const zero = anchor
+    ? `${UNIT_WORD[unit]} 0 = ${lc(fields.get(anchor)?.label ?? anchor)}`
+    : `Dag 0 = ${trigger.charAt(0).toLowerCase()}${trigger.slice(1)}`;
+  // A workflow that counts down to a date ends on that date, unless a step waits for something after it.
+  const countsDown = Boolean(anchor && start?.[2] === '-' && !steps.some((s) => s.on));
+  const end = countsDown ? { main: `${UNIT_WORD[unit]} 0`, sub: lc(fields.get(anchor!)?.label ?? '') } : { main: 'Einde' };
+  return { dayOf, startDay, zero, end };
+}
+
+// Consecutive single steps with the same condition share one band in the timeline.
+export function timelineGroups(steps: Step[]) {
+  const groups: { cond?: string; rows: Step[][] }[] = [];
+  for (const row of flowRows(steps)) {
+    const cond = row.length === 1 ? row[0].if : undefined;
+    const last = groups.at(-1);
+    if (cond && last?.cond === cond) last.rows.push(row);
+    else groups.push({ cond, rows: [row] });
+  }
+  // A band of one step is just a step with a condition.
+  return groups.flatMap((g) => (g.cond && g.rows.length < 2 ? [{ cond: undefined, rows: g.rows }] : [g]));
+}
+
+export function formatExample(value: string, type: string) {
+  if (type === 'datum' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return new Date(`${value}T12:00:00Z`).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  }
+  return value;
+}

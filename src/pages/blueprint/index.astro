@@ -38,7 +38,7 @@ const alternatives = [
     <Section id="probeert" label="Wat je nu probeert" title="Meer campagnes. Een nieuwe website. Een lagere prijs." intro="Het zijn de reflexen als de aanvragen tegenvallen. Ze maken het probleem allemaal groter.">
       <ul class="grid gap-4 md:grid-cols-2">
         {alternatives.map((a) => (
-          <li class="rounded-3xl border border-fg/15 p-8">
+          <li class="rounded-xl border border-fg/15 p-8">
             <p class="text-2xl">{a.name}</p>
             <p class="mt-3 text-fg/80">{a.why}</p>
           </li>
@@ -47,8 +47,8 @@ const alternatives = [
       <p class="mt-16 max-w-5xl font-display text-4xl leading-[1.08] tracking-[-0.02em] md:mt-24 md:text-6xl">
         Een systeem versterkt wat je erin stopt. Een vage positionering wordt alleen sneller vaag.
       </p>
-      <div class="on-dark mt-12 rounded-3xl p-8 md:p-16">
-        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Zo klinkt het nu</p>
+      <div class="on-dark mt-12 rounded-xl p-8 md:p-16">
+        <p class="text-[13px] font-medium text-muted">Zo klinkt het nu</p>
         <div class="mt-8 max-w-4xl">
           <KapotteLetters
             parts={[

@@ -16,15 +16,15 @@ import { site } from '../../lib/site';
     <div class="mx-auto max-w-6xl px-4 pb-24 md:px-8 md:pb-32">
       <div class="grid gap-8 border-t border-fg/15 pt-8 md:grid-cols-3">
         <div>
-          <p class="text-xs uppercase tracking-[0.18em] text-muted">Kennismaking</p>
+          <p class="text-[13px] text-muted">Kennismaking</p>
           <div class="mt-4">{site.bookingUrl ? <Button href={site.bookingUrl}>Kies een moment</Button> : <Placeholder label="Boekingslink volgt" />}</div>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[0.18em] text-muted">E-mail</p>
+          <p class="text-[13px] text-muted">E-mail</p>
           <p class="mt-4 text-lg">{site.email ? <a class="underline underline-offset-4 hover:text-accent" href={`mailto:${site.email}?subject=Kennismaking`}>{site.email}</a> : <Placeholder label="e-mailadres" />}</p>
         </div>
         <div>
-          <p class="text-xs uppercase tracking-[0.18em] text-muted">Beschikbaarheid</p>
+          <p class="text-[13px] text-muted">Beschikbaarheid</p>
           <p class="mt-4 text-lg">{site.availability || <Placeholder label="bijvoorbeeld: eerste sprint vanaf januari" />}</p>
         </div>
       </div>

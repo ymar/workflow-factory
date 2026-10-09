@@ -1,15 +1,17 @@
 ---
-// One line of an example email: CRM fields link to the data section, [spots] are highlighted.
+// One line of an example email. A CRM field shows its example value (underlined) and, in the
+// "Velden" view, its {{field}} code instead. [Spots] the sender fills in are highlighted.
 import { library } from '../lib/site';
-import { fieldAnchor, mailTokens } from '../lib/library';
+import { formatExample, mailTokens } from '../lib/library';
 interface Props {
   text: string;
-  labels: Map<string, string>;
+  fields: Map<string, { label: string; type: string; example: string }>;
 }
-const { text, labels } = Astro.props;
+const { text, fields } = Astro.props;
 ---
-{mailTokens(text, library.form).map((t) =>
-  t.kind === 'field' ? <a href={`#${fieldAnchor(t.value)}`} class="mail-field" title={labels.get(t.value)}>{`{{${t.value}}}`}</a>
-  : t.kind === 'fill' ? <mark class="mail-fill">{t.value}</mark>
-  : t.value
-)}
+{mailTokens(text, library.form).map((t) => {
+  if (t.kind === 'text') return t.value;
+  if (t.kind === 'fill') return <mark class="mail-fill">{t.value}</mark>;
+  const f = fields.get(t.value);
+  return <span class="mv" title={f?.label}><span class="mv-ex">{f ? formatExample(f.example, f.type) : t.value}</span><code class="mv-f">{`{{${t.value}}}`}</code></span>;
+})}

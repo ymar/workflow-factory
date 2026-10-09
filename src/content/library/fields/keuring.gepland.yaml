@@ -4,3 +4,6 @@ object: keuring
 required: true
 source: Planning
 example: nee
+says:
+  ja: de keuring gepland is
+  nee: de keuring nog niet gepland is

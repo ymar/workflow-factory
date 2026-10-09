@@ -88,7 +88,7 @@ const next = () => String(++n).padStart(2, '0');
   <Section id="lever" n={next()} label="Oplevering" title={deliverablesTitle}>
     <ol class="grid gap-4 md:grid-cols-3">
       {deliverables.map((d, i) => (
-        <li class="flex flex-col rounded-3xl border border-fg/15 p-8">
+        <li class="flex flex-col rounded-xl border border-fg/15 p-8">
           <p class="flex justify-between text-sm text-fg/70"><span>0{i + 1}</span><span>{d.size}</span></p>
           <h3 class="mt-10 text-3xl">{d.name}</h3>
           <p class="mt-3 text-fg/80">{d.format}.</p>
@@ -113,7 +113,7 @@ const next = () => String(++n).padStart(2, '0');
   <Section id="prijs" n={next()} label="Prijs" title={priceTitle} intro={[priceIntro, proposal ? 'Voorstel, we bevestigen de prijs in de kennismaking.' : ''].filter(Boolean).join(' ')}>
     <ul class="grid gap-4 md:grid-cols-3">
       {prices.map((p) => (
-        <li class="rounded-3xl border border-fg/15 p-8">
+        <li class="rounded-xl border border-fg/15 p-8">
           <p class="text-sm text-fg/70">{p.label}</p>
           <p class="mt-6 font-display text-4xl tracking-[-0.01em] md:text-5xl">{priceLabel(p)}</p>
           <p class="mt-2 text-sm text-fg/70">{proposal ? 'Voorstel' : 'Vaste prijs'}</p>

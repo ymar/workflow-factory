@@ -79,6 +79,8 @@ const fields = defineCollection({
     example: z.coerce.string(),
     options: z.array(z.string()).optional(),
     check: z.string().optional(),
+    // For a ja/nee field: how a condition reads on the site, after "als" or "zodra".
+    says: z.object({ ja: z.string(), nee: z.string() }).optional(),
   }),
 });
 

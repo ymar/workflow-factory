@@ -24,9 +24,9 @@ const current = (href: string) => (href === active ? 'page' : undefined);
       </ul>
     </nav>
     <div class="flex items-center gap-2">
-      <a href="/contact/" class="hidden rounded-full bg-mint px-4 py-2 text-sm font-medium text-forest hover:brightness-95 sm:inline-flex">Plan een kennismaking</a>
+      <a href="/contact/" class="hidden rounded-[10px] bg-fg px-4 py-2 text-sm font-medium text-bg transition-colors hover:bg-accent sm:inline-flex">Plan een kennismaking</a>
       <details class="group lg:hidden">
-        <summary class="cursor-pointer list-none rounded-full border border-fg/25 px-4 py-2 text-sm [&::-webkit-details-marker]:hidden"><span class="group-open:hidden">Menu</span><span class="hidden group-open:inline">Sluit</span></summary>
+        <summary class="cursor-pointer list-none rounded-[10px] border border-fg/25 px-4 py-2 text-sm [&::-webkit-details-marker]:hidden"><span class="group-open:hidden">Menu</span><span class="hidden group-open:inline">Sluit</span></summary>
         <nav aria-label="Mobiel menu" class="absolute inset-x-0 top-16 h-[calc(100svh-4rem)] border-b border-fg/10 bg-bg px-4 pb-10 pt-6">
           <ul class="space-y-1">
             {[...links, { href: '/contact/', label: 'Contact' }].map((l) => (

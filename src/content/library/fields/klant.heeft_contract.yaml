@@ -4,3 +4,6 @@ object: klant
 required: false
 source: Contractadministratie
 example: nee
+says:
+  ja: de klant een onderhoudscontract heeft
+  nee: de klant nog geen onderhoudscontract heeft

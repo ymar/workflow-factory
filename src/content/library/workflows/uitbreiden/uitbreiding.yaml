@@ -19,10 +19,10 @@ enroll:
   object: klant
   'on': elk kwartaal
   if:
-  - klant.diensten bevat de ene dienst en niet de andere
+  - klant.diensten wel dienst A en niet dienst B bevat
   not_if:
   - klant.open_storing = ja
-  - klant.laatste_contact_op korter dan 30 dagen geleden
+  - klant.laatste_contact_op minder dan 30 dagen geleden is
 steps:
 - id: s1
   title: Uitleg over de tweede dienst
@@ -32,7 +32,7 @@ steps:
   brief: Uitleg over de tweede dienst, in de taal van wat de klant al heeft. Geen algemene nieuwsbrief.
 - id: s2
   title: Bellen na een klik of reactie
-  'on': klik of reactie op s1
+  'on': de klant klikt of reageert op s1
   action: taak
   owner: accountmanager
   sla: 2 werkdagen
@@ -40,11 +40,11 @@ steps:
 - id: s3
   title: Terug in de lijst voor volgend kwartaal
   after: 30d
-  if: geen reactie
+  if: er geen reactie is
   action: systeem
   brief: Terug in de lijst voor het volgende kwartaal.
 exit:
-- offerte gevraagd
+- er een offerte is gevraagd
 - na de laatste stap
 handover:
   won: 'Interesse: er wordt een offerte gemaakt en de offerteopvolging start.'

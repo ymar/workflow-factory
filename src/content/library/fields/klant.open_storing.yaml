@@ -5,3 +5,6 @@ required: false
 source: Storings- of planningssysteem
 example: nee
 check: Dagelijks bijgewerkt.
+says:
+  ja: er een storing openstaat
+  nee: er geen storing openstaat

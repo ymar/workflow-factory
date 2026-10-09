@@ -7,11 +7,15 @@ import WorkflowCard from '../components/WorkflowCard.astro';
 import LoopIndex from '../components/LoopIndex.astro';
 import ServicesGrid from '../components/ServicesGrid.astro';
 import Faq from '../components/Faq.astro';
+import TimelineMini from '../components/TimelineMini.astro';
 import { sortWorkflows } from '../lib/library';
 import { library } from '../lib/site';
 
 const workflows = sortWorkflows(await getCollection('workflows'));
-const [fieldCount, metricCount] = [(await getCollection('fields')).length, (await getCollection('metrics')).length];
+const allFields = await getCollection('fields');
+const [fieldCount, metricCount] = [allFields.length, (await getCollection('metrics')).length];
+const fieldInfo = new Map(allFields.map((f) => [f.id, { label: f.data.label, type: f.data.type, example: f.data.example, says: f.data.says }]));
+const example = workflows.find((w) => w.id === 'contractverlenging');
 const faq = (await getCollection('faq')).filter((f) => f.data.page === 'home').sort((a, b) => a.data.order - b.data.order);
 const n = workflows.length;
 
@@ -59,19 +63,24 @@ const contents = [
 ---
 <Base title={title} description={description} path="/" jsonLd={jsonLd}>
   <section class="hero-glow">
-    <div class="mx-auto max-w-6xl px-4 pb-12 pt-16 md:px-8 md:pb-16 md:pt-28">
-      <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Open workflowbibliotheek voor HubSpot en ActiveCampaign</p>
-      <h1 class="mt-8 max-w-5xl text-[2.35rem] leading-[1.04] tracking-[-0.03em] md:text-7xl">
-        Marketing automation workflows voor B2B. <span class="neon-text">Klaar om te bouwen.</span>
-      </h1>
-      <p class="mt-8 max-w-2xl text-lg text-fg/80 md:text-xl">
-        {n} workflows voor de opvolging die in de meeste bedrijven blijft liggen: aanvragen, offertes, contracten, keuringen en nabestellingen. Elk met trigger, stappen, CRM-velden en metingen. Gratis te gebruiken, of ik bouw hem voor je.
-      </p>
-      <div class="mt-10 flex flex-wrap gap-3">
-        <Button href="/workflows/">Bekijk de workflows</Button>
-        <Button href="/flow/" variant="ghost-dark">Laat er één bouwen</Button>
+    <div class="mx-auto max-w-6xl px-4 pb-16 pt-12 md:px-8 md:pb-20 md:pt-20">
+      <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+        <div class="lg:col-span-7">
+          <p class="text-[13px] font-medium text-muted">Open workflowbibliotheek voor HubSpot en ActiveCampaign</p>
+          <h1 class="mt-5 text-[2.5rem] leading-[1.02] tracking-[-0.035em] md:text-6xl">
+            Marketing automation workflows voor B2B. <span class="neon-text">Klaar om te bouwen.</span>
+          </h1>
+          <p class="mt-6 max-w-xl text-lg text-fg/80 md:text-xl">
+            {n} workflows voor de opvolging die in de meeste bedrijven blijft liggen: aanvragen, offertes, contracten, keuringen en nabestellingen. Gratis te gebruiken, of ik bouw hem voor je.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <Button href="/workflows/">Bekijk de workflows</Button>
+            <Button href="/flow/" variant="ghost-dark">Laat er één bouwen</Button>
+          </div>
+        </div>
+        {example && <div class="lg:col-span-5"><TimelineMini workflow={example} fields={fieldInfo} /></div>}
       </div>
-      <ul class="mt-16 grid gap-3 border-t border-fg/15 pt-5 text-sm text-muted sm:grid-cols-4">
+      <ul class="mt-16 grid gap-3 border-t border-fg/10 pt-5 text-sm text-muted sm:grid-cols-4">
         <li><span class="font-medium text-fg">{n}</span> workflows</li>
         <li><span class="font-medium text-fg">{fieldCount}</span> CRM-velden</li>
         <li><span class="font-medium text-fg">{metricCount}</span> metingen</li>
@@ -94,14 +103,14 @@ const contents = [
   <Section id="opbouw" n="03" label="Wat erin zit" title="Elke workflow heeft dezelfde opbouw" intro="Zodat je ze kunt vergelijken, combineren en in elk CRM kunt bouwen.">
     <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {contents.map(([t, d], i) => (
-        <li class="rounded-3xl border border-fg/15 p-8">
+        <li class="rounded-xl border border-fg/15 p-8">
           <p class="text-sm text-accent">0{i + 1}</p>
           <p class="mt-6 text-2xl">{t}</p>
           <p class="mt-2 text-fg/80">{d}</p>
         </li>
       ))}
     </ul>
-    <div class="on-dark mt-4 flex flex-col gap-4 rounded-3xl p-8 md:flex-row md:items-center md:justify-between">
+    <div class="on-dark mt-4 flex flex-col gap-4 rounded-xl p-8 md:flex-row md:items-center md:justify-between">
       {library.emailsPublic
         ? <p class="max-w-2xl text-lg"><span class="font-medium">Wat je zelf invult: de gele plekken in de voorbeeldmails.</span> <span class="text-fg/80">Daar zit het verschil. In Blueprint schrijven we ze op jouw positionering.</span></p>
         : <p class="max-w-2xl text-lg"><span class="font-medium">Wat er niet in zit: de teksten van de e-mails.</span> <span class="text-fg/80">Daar zit het verschil, dus die schrijven we op jouw positionering.</span></p>}
@@ -117,7 +126,7 @@ const contents = [
         ['/installatie-onderhoud/', 'Installatie en onderhoud', 'Van opleverdatum en MJOP naar workflows die vanzelf lopen.'],
       ].map(([href, t, d]) => (
         <li>
-          <a href={href} class="group block h-full rounded-3xl border border-fg/15 p-8 hover:border-accent">
+          <a href={href} class="group block h-full rounded-xl border border-fg/15 p-8 hover:border-accent">
             <p class="text-3xl">{t}</p>
             <p class="mt-3 text-fg/80">{d}</p>
             <span class="mt-8 inline-flex items-center gap-2 font-medium text-accent">Bekijk <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span></span>

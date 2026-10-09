@@ -47,7 +47,7 @@
   }
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.05;
     overflow-wrap: break-word;
@@ -89,9 +89,7 @@
 
 /* Page tops: a faint mint wash in the corner. */
 .hero-glow {
-  background:
-    radial-gradient(50% 70% at 90% 0%, rgba(95, 240, 184, 0.22), transparent 70%),
-    var(--color-bg);
+  background: var(--color-bg);
   color: var(--color-fg);
 }
 
@@ -155,38 +153,54 @@
   }
 }
 
-/* Flowchart: a dotted canvas, connector lines with an arrowhead, and the line that splits into parallel steps. */
-.flow-canvas {
-  background-color: color-mix(in srgb, white 55%, var(--color-bg));
-  background-image: radial-gradient(color-mix(in srgb, var(--color-fg) 14%, transparent) 1px, transparent 1px);
-  background-size: 18px 18px;
+/* Workflow timeline: day column, a rail with a dot per step, and the step itself.
+   On small screens the day moves into the line above the title. */
+.tl { list-style: none; margin: 0; padding: 0; border-top: 1px solid color-mix(in srgb, var(--color-fg) 12%, transparent); }
+.tl-row { display: grid; grid-template-columns: 20px minmax(0, 1fr); }
+.tl-day { display: none; }
+@media (min-width: 768px) {
+  .tl-row { grid-template-columns: 7rem 28px minmax(0, 1fr); }
+  .tl-day { display: block; padding: 1.15rem 0.75rem 0 0; text-align: right; font-variant-numeric: tabular-nums; }
+  .tl-day b { display: block; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .tl-day small { display: block; margin-top: 2px; font-size: 12px; line-height: 1.3; color: var(--color-muted); }
+  .tl-inline-day { display: none; }
 }
-.flow-line {
-  position: relative;
-  display: block;
-  width: 1.5px;
-  background: color-mix(in srgb, var(--color-fg) 32%, transparent);
-}
-.flow-line-dashed {
-  background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--color-fg) 32%, transparent) 0 4px, transparent 4px 8px);
-}
-.flow-arrow::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 6px solid color-mix(in srgb, var(--color-fg) 45%, transparent);
-}
-.flow-split {
-  height: 1.5px;
-  background: color-mix(in srgb, var(--color-fg) 32%, transparent);
-}
+.tl-inline-day { font-weight: 600; color: var(--color-fg); font-variant-numeric: tabular-nums; }
+.tl-rail { position: relative; }
+.tl-rail::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: color-mix(in srgb, var(--color-fg) 18%, transparent); }
+.tl > .tl-row:first-child .tl-rail::before { top: 1.6rem; }
+.tl > .tl-row:last-child .tl-rail::before { bottom: auto; height: 1.6rem; }
+.tl-dot { position: absolute; left: 50%; top: 1.35rem; width: 12px; height: 12px; margin-left: -6px; border-radius: 9999px; background: var(--color-bg); border: 2px solid var(--color-fg); }
+.tl-dot-mail { background: var(--color-accent); border-color: var(--color-accent); }
+.tl-dot-melding { background: var(--color-mint); border-color: var(--color-forest); }
+.tl-dot-systeem { border-color: var(--color-muted); }
+.tl-dot-start { width: 14px; height: 14px; margin-left: -7px; background: var(--color-forest); border-color: var(--color-forest); box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.tl-dot-end { border-color: var(--color-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.tl-body { min-width: 0; padding: 1rem 0 1.25rem 0.75rem; border-bottom: 1px solid color-mix(in srgb, var(--color-fg) 10%, transparent); }
+.tl > .tl-row:last-child .tl-body { border-bottom: 0; }
+.tl-kind { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; font-size: 13px; color: var(--color-muted); }
+.tl-title { margin-top: 0.25rem; font-size: 1.125rem; line-height: 1.35; letter-spacing: -0.015em; text-wrap: pretty; }
+.tl-cond { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.3rem; font-size: 13px; font-weight: 500; color: var(--color-accent); }
+.tl-band-label { display: flex; align-items: center; gap: 0.5rem; padding: 1rem 0 0.25rem 0.75rem; font-size: 13.5px; font-weight: 500; color: var(--color-accent); }
+.tl-grouped .tl-body { border-left: 2px solid color-mix(in srgb, var(--color-accent) 35%, transparent); background: linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 80%); padding-left: 1rem; }
+.tl-more { margin-top: 0.6rem; }
+.tl-more > summary { display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; list-style: none; font-size: 14px; font-weight: 500; color: var(--color-accent); }
+.tl-more > summary::-webkit-details-marker { display: none; }
+.tl-more > summary::after { content: "↓"; transition: transform 0.15s; }
+.tl-more[open] > summary::after { transform: rotate(180deg); }
+.tl-more > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-/* Example emails: a CRM field and a spot the sender fills in. */
-.mail-field {
+/* Show the example emails with example values, or with their {{field}} codes. */
+.tl-toggle { display: inline-flex; padding: 3px; border: 1px solid color-mix(in srgb, var(--color-fg) 20%, transparent); border-radius: 10px; background: white; font-size: 13.5px; }
+.tl-toggle label > span { display: block; cursor: pointer; padding: 0.3rem 0.8rem; border-radius: 7px; color: var(--color-muted); }
+.tl-toggle label:has(input:checked) > span { background: var(--color-fg); color: var(--color-bg); }
+.tl-toggle label:has(input:focus-visible) > span { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+.mv { text-decoration: underline dotted color-mix(in srgb, var(--color-accent) 60%, transparent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.mv-f { display: none; }
+.tl-mailmode:has(.tl-show-fields:checked) .mv { text-decoration: none; }
+.tl-mailmode:has(.tl-show-fields:checked) .mv-ex { display: none; }
+.tl-mailmode:has(.tl-show-fields:checked) .mv-f {
+  display: inline;
   border-radius: 0.375rem;
   background: color-mix(in srgb, var(--color-mint) 28%, white);
   padding: 0.05rem 0.3rem;
@@ -195,6 +209,8 @@
   color: var(--color-accent);
   overflow-wrap: anywhere;
 }
+
+/* Example emails: a spot the sender fills in. */
 .mail-fill {
   border-radius: 0.375rem;
   background: #fff1c2;
@@ -203,3 +219,12 @@
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
+
+/* Compact timeline on the homepage. */
+.tlm { list-style: none; margin: 0; padding: 0; }
+.tlm-row { display: grid; grid-template-columns: 4.75rem 20px minmax(0, 1fr); }
+.tlm-day { padding: 0.5rem 0.6rem 0 0; text-align: right; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tlm .tl-dot { top: 0.75rem; }
+.tlm > .tlm-row:first-child .tl-rail::before { top: 0.9rem; }
+.tlm > .tlm-row:last-child .tl-rail::before { bottom: auto; height: 0.9rem; }
+.tlm-body { padding: 0.4rem 0 0.4rem 0.6rem; font-size: 14.5px; line-height: 1.4; }

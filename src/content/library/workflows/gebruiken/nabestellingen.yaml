@@ -35,7 +35,7 @@ steps:
   brief: Bel als er nog niet besteld is.
 - id: s3
   title: 'Signaal: bestelt niet meer zoals eerst'
-  'on': stil voor twee keer bestelling.interval_dagen
+  'on': de klant twee bestelmomenten overslaat
   action: melding
   to: klant.accountmanager
   brief: 'Signaal: deze klant bestelt niet meer zoals eerst.'

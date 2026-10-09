@@ -5,3 +5,6 @@ required: true
 source: Contractadministratie
 example: nee
 check: Bijgewerkt zodra de klant tekent.
+says:
+  ja: het contract verlengd is
+  nee: het contract nog niet verlengd is

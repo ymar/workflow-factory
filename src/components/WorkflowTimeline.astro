@@ -1,0 +1,157 @@
+---
+// The workflow as a timeline: one row per moment, counted in days from the date the workflow starts from.
+// Steps that share a condition sit in one band; emails and checklists fold open. Everything comes from the YAML.
+import type { CollectionEntry } from 'astro:content';
+import EmailCard from './EmailCard.astro';
+import { library } from '../lib/site';
+import { clause, joinAnd, joinOr, timeline, timelineGroups } from '../lib/library';
+
+type Field = { label: string; type: string; example: string; says?: { ja: string; nee: string } };
+interface Props {
+  workflow: CollectionEntry<'workflows'>;
+  fields: Map<string, Field>;
+  next?: CollectionEntry<'workflows'>;
+}
+const { workflow, fields, next } = Astro.props;
+const { enroll, steps, exit, handover } = workflow.data;
+type Step = (typeof steps)[number];
+const say = (c: string) => clause(c, fields);
+const { dayOf, startDay, zero, end } = timeline(workflow, fields);
+const groups = timelineGroups(steps);
+const firstMail = steps.find((s) => s.email)?.id;
+const label = (id: string) => fields.get(id)?.label ?? id;
+const lcfirst = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
+
+const actionLabel: Record<string, string> = { 'e-mail': 'E-mail', taak: 'Taak', melding: 'Melding', systeem: 'Systeem' };
+const who = (s: Step) =>
+  s.action === 'e-mail' ? `aan ${lcfirst(label(s.to ?? 'de klant'))}`
+  : s.action === 'taak' ? (s.owner ?? '')
+  : s.action === 'melding' ? `aan ${lcfirst(label(s.to ?? 'de eigenaar'))}`
+  : '';
+const startConditions = [
+  enroll.if.length ? `alleen als ${joinAnd(enroll.if.map(say))}` : '',
+  enroll.not_if.length ? `niet als ${joinOr(enroll.not_if.map(say))}` : '',
+].filter(Boolean);
+const stopWhen = exit.filter((c) => !c.startsWith('na '));
+const stopAfter = exit.filter((c) => c.startsWith('na ')).map((c) => c.replace(/\b(?:stap\s+)?s(\d+)\b/g, 'stap $1'));
+const stopText = [stopWhen.length ? `zodra ${joinOr(stopWhen.map(say))}` : '', ...stopAfter].filter(Boolean).join(', of ');
+const hasMail = library.emailsPublic && steps.some((s) => s.email);
+const dot = (s: Step) => `tl-dot tl-dot-${s.action === 'e-mail' ? 'mail' : s.action}`;
+const sets = (s: Step) => (s.sets ? label(s.sets.split('=')[0].trim()) : undefined);
+---
+<div class="tl-mailmode">
+  <div class="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
+    <ul class="space-y-2 text-[15px] text-fg/85">
+      <li class="flex gap-2.5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="mt-1 size-4 shrink-0 text-accent" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+        <span>{zero}</span>
+      </li>
+      <li class="flex gap-2.5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="mt-1 size-4 shrink-0 text-accent" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+        <span>Stopt {stopText}.</span>
+      </li>
+    </ul>
+    {hasMail && (
+      <fieldset class="tl-toggle">
+        <legend class="sr-only">Toon de mails met</legend>
+        <label><input type="radio" name={`mails-${workflow.id}`} value="voorbeeld" checked class="sr-only" /><span>Voorbeeld</span></label>
+        <label><input type="radio" name={`mails-${workflow.id}`} value="velden" class="tl-show-fields sr-only" /><span>Velden</span></label>
+      </fieldset>
+    )}
+  </div>
+
+  <ol class="tl mt-8" aria-label={`Stappen van ${workflow.data.name.toLowerCase()}`}>
+    <li class="tl-row">
+      <div class="tl-day"><b>{startDay}</b><small>start</small></div>
+      <div class="tl-rail"><span class="tl-dot tl-dot-start"></span></div>
+      <div class="tl-body">
+        <p class="tl-kind"><span class="tl-inline-day">{startDay}</span><span class="font-semibold text-fg">Start</span>{startConditions.length > 0 && <span>{startConditions.join(', ')}</span>}</p>
+        <h3 class="tl-title">{workflow.data.trigger}</h3>
+      </div>
+    </li>
+
+    {groups.map((g) => (
+      <>
+        {g.cond && (
+          <li class="tl-row tl-band-head" aria-hidden="false">
+            <div class="tl-day"></div>
+            <div class="tl-rail"></div>
+            <p class="tl-band-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" class="size-3.5 shrink-0" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12z" /></svg>
+              Vanaf hier alleen als {say(g.cond)}
+            </p>
+          </li>
+        )}
+        {g.rows.map((row) => {
+          const day = dayOf(row[0]);
+          return (
+            <li class={`tl-row ${g.cond ? 'tl-grouped' : ''}`}>
+              <div class="tl-day"><b>{day.main}</b>{day.sub && <small>{day.sub}</small>}</div>
+              <div class="tl-rail"><span class={dot(row[0])}></span></div>
+              <div class={`tl-body ${row.length > 1 ? 'grid gap-x-8 gap-y-6 md:grid-cols-2' : ''}`}>
+                {row.map((s) => (
+                  <div id={`stap-${s.id}`} class="min-w-0 scroll-mt-24">
+                    <p class="tl-kind">
+                      <span class="tl-inline-day">{day.main}</span>
+                      <span class={`font-semibold ${s.action === 'e-mail' ? 'text-accent' : 'text-fg'}`}>{actionLabel[s.action]}</span>
+                      {who(s) && <span>{who(s)}</span>}
+                      {s.sla && <span>binnen {s.sla}</span>}
+                    </p>
+                    {s.on && <p class="tl-cond">Zodra {say(s.on)}</p>}
+                    {s.if && !g.cond && <p class="tl-cond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" class="size-3 shrink-0" aria-hidden="true"><path d="M12 3 21 12 12 21 3 12z" /></svg>Alleen als {say(s.if)}</p>}
+                    <h3 class="tl-title">{s.title}</h3>
+                    <p class="mt-1 text-[15px] text-fg/80">{s.email?.goal ?? s.brief}</p>
+                    {sets(s) && <p class="mt-1 text-[13px] text-muted">Vult het veld {sets(s)}.</p>}
+                    {s.checklist && (
+                      <details class="tl-more">
+                        <summary>Checklist ({s.checklist.length})</summary>
+                        <ul class="mt-3 space-y-2">
+                          {s.checklist.map((c) => (
+                            <li class="flex gap-3 text-[15px]">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="mt-1 size-4 shrink-0 text-accent" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7" /></svg>
+                              <span>{c}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    )}
+                    {s.email && (library.emailsPublic
+                      ? (
+                        <details class="tl-more" open={s.id === firstMail}>
+                          <summary>Bekijk de mail</summary>
+                          <div class="mt-3"><EmailCard email={s.email} fields={fields} /></div>
+                        </details>
+                      )
+                      : <p class="mt-2 text-[13px] text-muted">De tekst schrijven we op jouw positionering.</p>)}
+                    {s.action === 'e-mail' && !s.email && <p class="mt-2 text-[13px] text-muted">Voorbeeldmail volgt.</p>}
+                  </div>
+                ))}
+              </div>
+            </li>
+          );
+        })}
+      </>
+    ))}
+
+    <li class="tl-row">
+      <div class="tl-day"><b>{end.main}</b>{end.sub && <small>{end.sub}</small>}</div>
+      <div class="tl-rail"><span class="tl-dot tl-dot-end"></span></div>
+      <div class="tl-body">
+        <p class="tl-kind"><span class="tl-inline-day">{end.main}</span><span class="font-semibold text-fg">Einde</span></p>
+        <div class={`mt-2 grid gap-3 ${handover.lost ? 'md:grid-cols-2' : ''}`}>
+          <div class="rounded-lg border border-accent/30 bg-white px-4 py-3">
+            <p class="text-[13px] font-semibold text-accent">Gelukt</p>
+            <p class="mt-0.5 text-[15px]">{handover.won}</p>
+          </div>
+          {handover.lost && (
+            <div class="rounded-lg border border-fg/15 bg-white px-4 py-3">
+              <p class="text-[13px] font-semibold text-muted">Niet gelukt</p>
+              <p class="mt-0.5 text-[15px]">{handover.lost}</p>
+            </div>
+          )}
+        </div>
+        {next && <p class="mt-4 text-[15px]"><a href={`/workflows/${next.id}/`} class="font-medium text-accent hover:underline">Daarna: {next.data.name} <span aria-hidden="true">→</span></a></p>}
+      </div>
+    </li>
+  </ol>
+</div>

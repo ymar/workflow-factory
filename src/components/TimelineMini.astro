@@ -1,0 +1,31 @@
+---
+// A compact timeline for the homepage: day, a dot per step, the step's title. Links to the full workflow.
+import type { CollectionEntry } from 'astro:content';
+import { flowRows, timeline } from '../lib/library';
+
+interface Props {
+  workflow: CollectionEntry<'workflows'>;
+  fields: Map<string, { label: string; type: string; example: string; says?: { ja: string; nee: string } }>;
+}
+const { workflow, fields } = Astro.props;
+const { dayOf, startDay, end } = timeline(workflow, fields);
+const rows = flowRows(workflow.data.steps);
+const kind: Record<string, string> = { 'e-mail': 'E-mail', taak: 'Taak', melding: 'Melding', systeem: 'Systeem' };
+const dot = (a: string) => `tl-dot tl-dot-${a === 'e-mail' ? 'mail' : a}`;
+---
+<a href={`/workflows/${workflow.id}/`} class="group block rounded-xl border border-fg/15 bg-white p-5 transition-colors hover:border-fg/40 md:p-6">
+  <p class="flex items-baseline justify-between gap-4 text-[13px] text-muted"><span>Voorbeeld uit de bibliotheek</span><span>{workflow.data.code}</span></p>
+  <p class="mt-1 text-xl font-semibold tracking-[-0.02em]">{workflow.data.name}</p>
+  <ol class="tlm mt-4">
+    <li class="tlm-row"><span class="tlm-day">{startDay}</span><span class="tl-rail"><span class="tl-dot tl-dot-start"></span></span><span class="tlm-body"><span class="text-muted">Start</span></span></li>
+    {rows.map((row) => (
+      <li class="tlm-row">
+        <span class="tlm-day">{dayOf(row[0]).main}</span>
+        <span class="tl-rail"><span class={dot(row[0].action)}></span></span>
+        <span class="tlm-body">{row.map((s, i) => <>{i > 0 && <span class="text-muted"> + </span>}{!s.title.toLowerCase().startsWith(kind[s.action].toLowerCase()) && <><span class={s.action === 'e-mail' ? 'text-accent' : 'text-muted'}>{kind[s.action]}</span> </>}{s.title}</>)}</span>
+      </li>
+    ))}
+    <li class="tlm-row"><span class="tlm-day">{end.main}</span><span class="tl-rail"><span class="tl-dot tl-dot-end"></span></span><span class="tlm-body"><span class="text-muted">Einde: {workflow.data.handover.won.split('.')[0].toLowerCase()}</span></span></li>
+  </ol>
+  <p class="mt-4 text-[15px] font-medium text-accent">Bekijk de hele workflow <span aria-hidden="true" class="inline-block transition-transform motion-safe:group-hover:translate-x-0.5">→</span></p>
+</a>
