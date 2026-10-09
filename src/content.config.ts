@@ -1,5 +1,6 @@
 import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { phaseIds } from './lib/loop';
 
 const price = z.object({
   label: z.string(),
@@ -68,8 +69,7 @@ const journeys = defineCollection({
   schema: z.object({
     name: z.string(),
     order: z.number(),
-    side: z.enum(['eerste-order', 'tweede-order']),
-    stage: z.string(),
+    phase: z.enum(phaseIds),
     summary: z.string(),
     trigger: z.string(),
     goal: z.string(),

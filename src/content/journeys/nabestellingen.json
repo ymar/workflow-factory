@@ -1,8 +1,7 @@
 {
   "name": "Nabestellingen",
-  "order": 9,
-  "side": "tweede-order",
-  "stage": "Groei",
+  "order": 5,
+  "phase": "gebruiken",
   "summary": "Vaste klanten bestellen opnieuw voordat ze bij een ander gaan kijken.",
   "trigger": "Het gebruikelijke bestelmoment van een klant komt eraan, op basis van eerdere orders.",
   "goal": "De volgende bestelling, op het moment dat de klant iets nodig heeft.",

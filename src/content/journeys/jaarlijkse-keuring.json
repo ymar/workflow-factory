@@ -1,8 +1,7 @@
 {
   "name": "Jaarlijkse keuring",
   "order": 6,
-  "side": "tweede-order",
-  "stage": "Gebruik",
+  "phase": "onderhouden",
   "summary": "Keuringen worden ingepland voordat de klant eraan denkt.",
   "trigger": "6 weken voor de datum van de jaarlijkse keuring.",
   "goal": "Elke keuring op tijd gepland, zonder belrondes.",

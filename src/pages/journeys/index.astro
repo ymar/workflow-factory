@@ -5,19 +5,16 @@ import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
 import JourneyCard from '../../components/JourneyCard.astro';
-import Bowtie from '../../components/Bowtie.astro';
+import Loop from '../../components/Loop.astro';
 import { priceLabel } from '../../lib/format';
+import { phases } from '../../lib/loop';
 
 const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
 const flow = await getEntry('services', 'flow');
 if (!flow) throw new Error('Missing services/flow.json');
-const groups = [
-  { id: 'eerste-order', n: '01', title: 'Naar de eerste order', intro: 'Aanvragen en offertes. Deze twee kunnen meteen, ook zonder Blueprint.' },
-  { id: 'tweede-order', n: '02', title: 'Naar de tweede order', intro: 'Na de eerste opdracht: start, oplevering, contracten, keuringen en nabestellingen.' },
-] as const;
 
 const title = 'Journeybibliotheek · Marketing automation in HubSpot of ActiveCampaign | neon';
-const description = `${journeys.length} journeys met een trigger, vaste stappen, een overdrachtsregel en een dashboard. Van aanvraagopvolging tot contractverlenging.`;
+const description = `${journeys.length} journeys, verdeeld over de zes fasen van de loop. Elk met een trigger, vaste stappen, een overdrachtsregel en een dashboard.`;
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -38,42 +35,69 @@ const jsonLd = [
     kicker="Journeybibliotheek · Flow"
     title={`${journeys.length} journeys.`}
     accent="Kies waar het lekt."
-    intro="Elke journey heeft een trigger, vaste stappen, een overdrachtsregel en een dashboard. Je kiest er één, ik richt hem in. In HubSpot of ActiveCampaign."
+    intro="Je klant koopt niet één keer. Een klant doorloopt zes fasen, en in elke fase kan omzet weglekken. Elke journey dicht één lek, met een trigger, vaste stappen, een overdrachtsregel en een dashboard."
   >
     <Button href="/contact/">Plan een kennismaking</Button>
     <Button href="/flow/" variant="ghost-dark">Over Flow</Button>
   </PageHero>
-  <div>
-    <div class="mx-auto max-w-6xl px-4 pb-20 md:px-8 md:pb-28">
-      <div class="border-t border-paper/15 pt-10"><Bowtie /></div>
-    </div>
-  </div>
 
-  {groups.map((g) => (
-    <Section id={g.id} n={g.n} label={g.title} title={g.title} intro={g.intro}>
-      <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {journeys.filter((j) => j.data.side === g.id).map((j) => (
-          <li><JourneyCard journey={j} /></li>
+  <Section id="loop" n="01" label="De loop" title="Een loop, geen funnel" intro="Zes fasen, gezien vanaf de klant. Klik op een fase voor de journeys die daar horen.">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+      <div class="mx-auto w-full max-w-xl"><Loop /></div>
+      <ol class="border-b border-paper/15">
+        {phases.map((p, i) => (
+          <li class="border-t border-paper/15">
+            <a href={`#${p.id}`} class="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-4 hover:text-mint">
+              <span class="text-sm text-mint">0{i + 1}</span>
+              <span>
+                <span class="block font-medium">{p.name}</span>
+                <span class="block text-sm text-sage">{p.revenue}</span>
+              </span>
+              <span class="text-sm text-paper/70">{journeys.filter((j) => j.data.phase === p.id).length} journey{journeys.filter((j) => j.data.phase === p.id).length === 1 ? '' : 's'}</span>
+            </a>
+          </li>
         ))}
-        {g.id === 'eerste-order' && (
-          <li class="flex flex-col rounded-3xl bg-forest p-8">
-            <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Waarom hier beginnen</p>
-            <p class="mt-8 text-2xl leading-snug">Snel reageren en offertes opvolgen hoeft niet te wachten op je positionering.</p>
-            <p class="mt-3 text-paper/80">Voor de andere journeys geldt: eerst Blueprint.</p>
-            <a href="/blueprint/" class="mt-auto inline-flex items-center gap-2 pt-8 font-medium text-mint">Over Blueprint <span aria-hidden="true">→</span></a>
-          </li>
-        )}
-        {g.id === 'tweede-order' && (
-          <li class="flex flex-col rounded-3xl border border-dashed border-paper/30 p-8">
-            <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Maatwerk</p>
-            <p class="mt-8 text-2xl leading-snug">Staat jouw journey er niet bij?</p>
-            <p class="mt-3 text-paper/80">Dan schrijven we eerst een flowspecificatie voor jouw situatie.</p>
-            <a href="/contact/" class="mt-auto inline-flex items-center gap-2 pt-8 font-medium text-mint">Plan een kennismaking <span aria-hidden="true">→</span></a>
-          </li>
-        )}
-      </ul>
-    </Section>
-  ))}
+      </ol>
+    </div>
+  </Section>
+
+  <section aria-label="Journeys per fase">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      {phases.map((p, i) => (
+        <section id={p.id} aria-labelledby={`${p.id}-title`} class="scroll-mt-20 border-t border-paper/15 py-16 md:py-20">
+          <div class="grid gap-10 md:grid-cols-12">
+            <div class="md:col-span-4">
+              <p class="text-xs font-medium uppercase tracking-[0.18em] text-mint">Fase 0{i + 1}</p>
+              <h2 id={`${p.id}-title`} class="mt-4 text-4xl md:text-5xl">{p.name}</h2>
+              <p class="mt-2 text-sage">{p.revenue}</p>
+              <p class="mt-6 max-w-sm text-paper/80"><span class="text-paper">Waar het lekt:</span> {p.leak}</p>
+            </div>
+            <ul class="grid content-start gap-4 md:col-span-8 lg:grid-cols-2">
+              {journeys.filter((j) => j.data.phase === p.id).map((j) => (
+                <li><JourneyCard journey={j} /></li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <Section id="maatwerk" n="02" label="Maatwerk" title="Staat jouw journey er niet bij?">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-3xl bg-forest p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Waar je begint</p>
+        <p class="mt-6 text-2xl leading-snug">Aanvraag- en offerteopvolging kunnen meteen. Die hoeven niet te wachten op je positionering.</p>
+        <p class="mt-3 text-paper/80">Voor de andere journeys geldt: eerst Blueprint.</p>
+        <a href="/blueprint/" class="mt-8 inline-flex items-center gap-2 font-medium text-mint">Over Blueprint <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="rounded-3xl border border-dashed border-paper/30 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Maatwerk</p>
+        <p class="mt-6 text-2xl leading-snug">Past je proces er niet in? Dan schrijven we eerst een flowspecificatie voor jouw situatie.</p>
+        <a href="/contact/" class="mt-8 inline-flex items-center gap-2 font-medium text-mint">Plan een kennismaking <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </Section>
 
   <Section id="prijs" n="03" label="Prijs" tone="dark" title="Eén prijs per journey">
     <div class="grid gap-10 md:grid-cols-2">

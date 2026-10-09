@@ -1,0 +1,42 @@
+{
+  "name": "Uitbreiding",
+  "order": 9,
+  "phase": "uitbreiden",
+  "summary": "Klanten die één ding van je afnemen, horen op het juiste moment over het tweede.",
+  "trigger": "Een klant neemt één dienst of installatie van je af, en een tweede past erbij.",
+  "goal": "De uitbreiding bij jou, niet bij wie er toevallig is.",
+  "steps": [
+    {
+      "when": "Elk kwartaal",
+      "channel": "Systeem",
+      "what": "Lijst van klanten met de ene dienst en zonder de andere, met wat er bij die klant staat."
+    },
+    {
+      "when": "Direct daarna",
+      "channel": "E-mail",
+      "what": "Uitleg over de tweede dienst, in de taal van wat de klant al heeft. Geen algemene nieuwsbrief."
+    },
+    {
+      "when": "Bij een klik of reactie",
+      "channel": "Taak",
+      "what": "Belopdracht voor de accountmanager, met wat de klant al afneemt."
+    },
+    {
+      "when": "Na 30 dagen zonder reactie",
+      "channel": "Systeem",
+      "what": "De klant gaat terug in de lijst voor het volgende kwartaal."
+    }
+  ],
+  "handover": "Interesse: er wordt een offerte gemaakt en de offerteopvolging start.",
+  "next": "offerteopvolging",
+  "metrics": {
+    "volume": "Klanten met één dienst die in aanmerking komen voor een tweede",
+    "conversion": "Deel dat een tweede dienst afneemt",
+    "leadTime": "Tijd van eerste bericht tot offerte"
+  },
+  "fits": [
+    "Installatie en onderhoud",
+    "Groothandel",
+    "Zakelijke dienstverlening"
+  ]
+}

@@ -1,0 +1,51 @@
+---
+// The loop from the earlier site version: six phases on a ring, clockwise from the top, seen from the customer.
+// Each phase links to its journeys in the library.
+import { phases } from '../lib/loop';
+
+const W = 204;
+const H = 70;
+const cx = 300;
+const cy = 250;
+const r = 196;
+const points = [-90, -30, 30, 90, 150, 210].map((deg) => {
+  const a = (deg * Math.PI) / 180;
+  return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+});
+
+// Arrows between neighbouring boxes, trimmed so they start and end just outside each box.
+const connectors = points.map((a, i) => {
+  const b = points[(i + 1) % points.length];
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const length = Math.hypot(dx, dy);
+  const ux = dx / length;
+  const uy = dy / length;
+  const t = Math.min(ux === 0 ? Infinity : W / 2 / Math.abs(ux), uy === 0 ? Infinity : H / 2 / Math.abs(uy)) + 8;
+  return `M${a.x + ux * t} ${a.y + uy * t}L${b.x - ux * t} ${b.y - uy * t}`;
+});
+---
+<svg viewBox="0 0 600 500" class="h-auto w-full" role="group" aria-label="De loop: zes fasen, gezien vanaf de klant">
+  <defs>
+    <marker id="loop-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#a9c4b6" />
+    </marker>
+  </defs>
+  <g fill="none" stroke="#a9c4b6" stroke-width="1.5">
+    {connectors.map((d) => <path d={d} marker-end="url(#loop-arrow)" />)}
+  </g>
+  {points.map((p, i) => {
+    const phase = phases[i];
+    return (
+      <a href={`/journeys/#${phase.id}`} class="loop-phase">
+        <rect x={p.x - W / 2} y={p.y - H / 2} width={W} height={H} rx="14" fill="#0f2e23" stroke="#f5f3ec" stroke-opacity="0.25" stroke-width="1.5" />
+        <text x={p.x} y={p.y - 5} text-anchor="middle" font-size="21" font-weight="600" fill="#f5f3ec" class="loop-name">{phase.name}</text>
+        <text x={p.x} y={p.y + 21} text-anchor="middle" font-size="17" fill="#a9c4b6" class="loop-revenue">{phase.revenue}</text>
+      </a>
+    );
+  })}
+  <g class="neon-tube" font-size="22" font-weight="600" fill="#5ff0b8" text-anchor="middle">
+    <text x={cx} y={cy - 6}>Een loop,</text>
+    <text x={cx} y={cy + 22}>geen funnel</text>
+  </g>
+</svg>

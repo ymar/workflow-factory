@@ -1,8 +1,7 @@
 {
   "name": "Storingsopvolging",
   "order": 8,
-  "side": "tweede-order",
-  "stage": "Gebruik",
+  "phase": "onderhouden",
   "summary": "Na een storing volgt een check. Na de derde storing volgt een gesprek over vervanging.",
   "trigger": "Een storingsmelding wordt afgesloten.",
   "goal": "Minder losse storingen, meer contracten en vervangingen.",

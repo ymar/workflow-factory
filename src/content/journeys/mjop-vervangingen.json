@@ -1,8 +1,7 @@
 {
   "name": "MJOP-vervangingen",
-  "order": 7,
-  "side": "tweede-order",
-  "stage": "Groei",
+  "order": 10,
+  "phase": "vervangen",
   "summary": "Geplande vervangingen uit het meerjarenonderhoudsplan worden op tijd een offerte.",
   "trigger": "6 maanden voor een geplande vervanging in het MJOP.",
   "goal": "De vervanging als opdracht bij jou, niet als spoedklus bij een ander.",

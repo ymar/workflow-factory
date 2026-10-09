@@ -1,8 +1,7 @@
 {
   "name": "Contractverlenging",
-  "order": 5,
-  "side": "tweede-order",
-  "stage": "Verlenging",
+  "order": 7,
+  "phase": "onderhouden",
   "summary": "Onderhoudscontracten worden verlengd voordat ze aflopen. Niet erna.",
   "trigger": "90 dagen voor de einddatum van een onderhoudscontract.",
   "goal": "Verlenging, liefst met een contract dat past bij de komende jaren.",

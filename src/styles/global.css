@@ -115,3 +115,28 @@
 .hero-glow :focus-visible {
   outline-color: var(--color-mint);
 }
+
+/* Loop diagram: a phase lights up on hover and keyboard focus. */
+.loop-phase rect {
+  transition: stroke 150ms, stroke-opacity 150ms;
+}
+.loop-phase:hover rect,
+.loop-phase:focus-visible rect {
+  stroke: var(--color-mint);
+  stroke-opacity: 1;
+  stroke-width: 3;
+}
+.loop-phase:focus-visible {
+  outline: none;
+}
+
+/* On small screens the loop shows names only, larger. The list next to it carries the revenue type. */
+@media (max-width: 639px) {
+  .loop-revenue {
+    display: none;
+  }
+  .loop-name {
+    font-size: 27px;
+    transform: translateY(14px);
+  }
+}

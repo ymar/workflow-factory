@@ -5,6 +5,7 @@ import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
 import { priceLabel } from '../../lib/format';
+import { phaseById } from '../../lib/loop';
 
 export async function getStaticPaths() {
   const all = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
@@ -15,7 +16,8 @@ export async function getStaticPaths() {
 }
 
 const { journey, prev, following } = Astro.props;
-const { name, stage, summary, trigger, goal, steps, handover, metrics, fits, startsWithoutBlueprint } = journey.data;
+const { name, phase, summary, trigger, goal, steps, handover, metrics, fits, startsWithoutBlueprint } = journey.data;
+const loopPhase = phaseById(phase);
 const next = journey.data.next ? await getEntry(journey.data.next) : undefined;
 const flow = await getEntry('services', 'flow');
 if (!flow) throw new Error('Missing services/flow.json');
@@ -43,9 +45,9 @@ const jsonLd = [
 ];
 ---
 <Base title={`${name} · Journey | neon`} description={`${summary} ${trigger}`} path={`/journeys/${journey.id}/`} jsonLd={jsonLd}>
-  <PageHero icon="flow" kicker={`Journey · ${stage}`} title={name} intro={summary}>
+  <PageHero icon="flow" kicker={`Journey · Fase ${loopPhase.name}`} title={name} intro={summary}>
     <Button href="/contact/">Plan een kennismaking</Button>
-    <Button href="/journeys/" variant="ghost-dark">Alle journeys</Button>
+    <Button href={`/journeys/#${loopPhase.id}`} variant="ghost-dark">Alle journeys in {loopPhase.name}</Button>
   </PageHero>
   {startsWithoutBlueprint && (
     <div>

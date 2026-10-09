@@ -1,8 +1,7 @@
 {
   "name": "Aanvraagopvolging",
   "order": 1,
-  "side": "eerste-order",
-  "stage": "Aanvraag",
+  "phase": "specificeren",
   "startsWithoutBlueprint": true,
   "summary": "Elke aanvraag krijgt binnen minuten antwoord en binnen een werkdag een telefoontje.",
   "trigger": "Er komt een nieuwe aanvraag binnen via een formulier op je site.",

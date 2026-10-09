@@ -1,8 +1,7 @@
 {
   "name": "Onboarding",
   "order": 3,
-  "side": "tweede-order",
-  "stage": "Start",
+  "phase": "gebruiken",
   "summary": "Een nieuwe klant weet vanaf dag één wat er gebeurt, met wie en wanneer.",
   "trigger": "Een deal wordt gewonnen of een opdracht wordt getekend.",
   "goal": "Een goede start, zodat de eerste opdracht niet de laatste is.",

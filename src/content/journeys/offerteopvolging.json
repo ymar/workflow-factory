@@ -1,8 +1,7 @@
 {
   "name": "Offerteopvolging",
   "order": 2,
-  "side": "eerste-order",
-  "stage": "Offerte",
+  "phase": "kiezen",
   "startsWithoutBlueprint": true,
   "summary": "Geen offerte die stil blijft liggen. Elke offerte krijgt een vaste opvolging, tot ja of nee.",
   "trigger": "Een offerte wordt verstuurd en de deal komt in de fase Offerte.",

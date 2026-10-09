@@ -36,7 +36,7 @@ Copy `src/content/teardowns/voorbeeld-template.md`, fill it in and set `draft: f
 
 ### Adding a journey
 
-Copy a file in `src/content/journeys/`, give it a new file name (that becomes the URL, `/journeys/<name>/`) and fill it in. `side` is `eerste-order` or `tweede-order` and decides the group in the library. `next` (optional) names the journey that takes over at the handover. Set `startsWithoutBlueprint` to `true` only for journeys that do not need positioning first. To show a journey on the segment page, add its file name to `journeys` in the segment file.
+Copy a file in `src/content/journeys/`, give it a new file name (that becomes the URL, `/journeys/<name>/`) and fill it in. `phase` is one of the six loop phases (`specificeren`, `kiezen`, `gebruiken`, `onderhouden`, `uitbreiden`, `vervangen`, see `src/lib/loop.ts`) and decides where the journey sits in the library. `next` (optional) names the journey that takes over at the handover. Set `startsWithoutBlueprint` to `true` only for journeys that do not need positioning first. To show a journey on the segment page, add its file name to `journeys` in the segment file.
 
 ### Analytics
 

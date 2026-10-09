@@ -1,8 +1,7 @@
 {
   "name": "Nazorg na oplevering",
   "order": 4,
-  "side": "tweede-order",
-  "stage": "Oplevering",
+  "phase": "gebruiken",
   "summary": "Na de oplevering hoort de klant weer van je, voordat er iets kapot is.",
   "trigger": "De opleverdatum van een project.",
   "goal": "Een tevreden klant, een review en een onderhoudscontract.",
