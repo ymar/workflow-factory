@@ -1,0 +1,13 @@
+label: Bron van de aanvraag
+type: keuze
+object: aanvraag
+required: true
+source: Formulier of handmatig in het CRM
+example: Website
+options:
+- Website
+- Telefoon
+- E-mail
+- Doorverwijzing
+- Overig
+check: Nooit leeg.

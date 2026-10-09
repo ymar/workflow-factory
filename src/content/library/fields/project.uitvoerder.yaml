@@ -1,0 +1,6 @@
+label: Vaste contactpersoon uitvoering
+type: gebruiker
+object: project
+required: true
+source: Planning
+example: Projectleider West

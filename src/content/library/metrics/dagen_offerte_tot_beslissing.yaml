@@ -1,0 +1,5 @@
+label: Dagen tot beslissing
+type: doorlooptijd
+definition: Dagen van offerte verstuurd tot Gewonnen of Verloren.
+period: mediaan per kwartaal
+unit: dagen

@@ -1,0 +1,6 @@
+label: Startdatum project
+type: datum
+object: project
+required: true
+source: Planning
+example: '2026-11-20'

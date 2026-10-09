@@ -1,0 +1,6 @@
+label: Storing afgesloten op
+type: datum
+object: storing
+required: true
+source: Storingssysteem
+example: '2026-10-03'

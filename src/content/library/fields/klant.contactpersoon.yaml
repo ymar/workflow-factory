@@ -1,0 +1,7 @@
+label: Contactpersoon
+type: contact
+object: klant
+required: true
+source: CRM
+example: Inkoper of facilitair manager
+check: Elke klant heeft er één.

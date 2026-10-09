@@ -1,0 +1,5 @@
+label: Dagen tot contract
+type: doorlooptijd
+definition: Dagen van opleverdatum tot getekend onderhoudscontract.
+period: mediaan per kwartaal
+unit: dagen

@@ -1,0 +1,13 @@
+label: Reden van verlies
+type: keuze
+object: offerte
+required: false
+source: Verkoper
+example: Prijs
+options:
+- Prijs
+- Timing
+- Concurrent
+- Geen reactie
+- Overig
+check: Verplicht bij status Verloren.

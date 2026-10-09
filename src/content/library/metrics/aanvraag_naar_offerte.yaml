@@ -1,0 +1,6 @@
+label: Aanvraag wordt offerte
+type: conversie
+numerator: aanvragen met status Offerte gevraagd
+denominator: alle nieuwe aanvragen
+period: per maand
+unit: '%'

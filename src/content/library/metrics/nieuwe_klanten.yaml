@@ -1,0 +1,5 @@
+label: Nieuwe klanten
+type: volume
+definition: Aantal klanten met een eerste gewonnen offerte.
+period: per maand
+unit: aantal

@@ -1,0 +1,5 @@
+label: Tijd tot eerste contact
+type: doorlooptijd
+definition: Werkuren van aanvraag ontvangen tot eerste contact.
+period: mediaan per week
+unit: uren

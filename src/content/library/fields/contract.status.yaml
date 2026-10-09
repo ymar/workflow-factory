@@ -1,0 +1,10 @@
+label: Status contract
+type: keuze
+object: contract
+required: true
+source: Contractadministratie
+example: Actief
+options:
+- Actief
+- Opgezegd
+- Verlopen

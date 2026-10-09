@@ -1,0 +1,6 @@
+label: Laatste bestelling op
+type: datum
+object: bestelling
+required: true
+source: ERP of webshop
+example: '2026-09-18'

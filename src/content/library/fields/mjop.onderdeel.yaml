@@ -1,0 +1,6 @@
+label: Onderdeel
+type: tekst
+object: mjop
+required: true
+source: Meerjarenonderhoudsplan
+example: Ketel, gebouw B

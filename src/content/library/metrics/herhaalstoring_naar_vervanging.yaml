@@ -1,0 +1,6 @@
+label: Herhaalde storing wordt vervanging of contract
+type: conversie
+numerator: installaties met drie of meer storingen die binnen 90 dagen vervangen worden of een contract krijgen
+denominator: installaties met drie of meer storingen in 12 maanden
+period: per kwartaal
+unit: '%'

@@ -1,0 +1,5 @@
+label: Storingen per maand
+type: volume
+definition: Aantal afgesloten storingen, per installatie.
+period: per maand
+unit: aantal

@@ -1,0 +1,5 @@
+label: Geplande vervangingen
+type: volume
+definition: MJOP-regels met een vervanging in de komende 12 maanden.
+period: per jaar
+unit: aantal

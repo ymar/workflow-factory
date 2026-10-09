@@ -1,0 +1,5 @@
+label: Contracten die aflopen
+type: volume
+definition: Actieve contracten met een einddatum in de periode.
+period: per kwartaal, op einddatum
+unit: aantal

@@ -1,0 +1,10 @@
+label: Uitkomst nazorgcheck
+type: keuze
+object: project
+required: false
+source: Reactie van de klant of belnotitie
+example: Goed
+options:
+- Goed
+- Probleem
+- Geen reactie

@@ -1,0 +1,6 @@
+label: Contract opgezegd
+type: ja/nee
+object: contract
+required: true
+source: Contractadministratie
+example: nee

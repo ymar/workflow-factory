@@ -1,0 +1,5 @@
+label: Dagen van voorstel tot verlenging
+type: doorlooptijd
+definition: Dagen van verlengingsvoorstel verstuurd tot contract verlengd.
+period: mediaan per kwartaal
+unit: dagen

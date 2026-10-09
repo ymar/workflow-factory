@@ -9,8 +9,13 @@ import Loop from '../../components/Loop.astro';
 import { priceLabel } from '../../lib/format';
 import { phases } from '../../lib/loop';
 import { statusLabel } from '../../lib/status';
+import { assertLibrary } from '../../lib/library-check';
+import { sortJourneys } from '../../lib/library';
 
-const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
+await assertLibrary();
+
+const journeys = sortJourneys(await getCollection('journeys'));
+const [fieldCount, metricCount] = [(await getCollection('fields')).length, (await getCollection('metrics')).length];
 const flow = await getEntry('services', 'flow');
 if (!flow) throw new Error('Missing services/flow.json');
 
@@ -39,7 +44,7 @@ const jsonLd = [
     intro="Je klant koopt niet één keer. Een klant doorloopt zes fasen, en in elke fase kan omzet weglekken. Elke journey dicht één lek, met een trigger, vaste stappen, een overdrachtsregel en een dashboard."
   >
     <Button href="/contact/">Plan een kennismaking</Button>
-    <Button href="/flow/" variant="ghost-dark">Over Flow</Button>
+    <Button href="/journeys/data/" variant="ghost-dark">Velden en metingen</Button>
   </PageHero>
 
   <Section id="loop" n="01" label="De loop" title="Een loop, geen funnel" intro="Zes fasen, gezien vanaf de klant. Klik op een fase voor de journeys die daar horen.">
@@ -95,6 +100,7 @@ const jsonLd = [
           <li>Wat het dashboard meet</li>
           <li>De velden die je in je CRM nodig hebt</li>
         </ul>
+        <a href="/journeys/data/" class="mt-6 inline-flex items-center gap-2 font-medium text-mint">{fieldCount} velden en {metricCount} metingen, elk één keer gedefinieerd <span aria-hidden="true">→</span></a>
       </div>
       <div class="rounded-3xl bg-forest p-8">
         <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Niet open</p>

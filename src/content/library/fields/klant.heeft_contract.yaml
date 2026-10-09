@@ -1,0 +1,6 @@
+label: Heeft onderhoudscontract
+type: ja/nee
+object: klant
+required: false
+source: Contractadministratie
+example: nee

@@ -1,0 +1,7 @@
+label: Aanvraag ontvangen op
+type: datum en tijd
+object: aanvraag
+required: true
+source: Formulier op de site
+example: 2026-10-12 09:14
+check: Automatisch gevuld bij elk formulier.

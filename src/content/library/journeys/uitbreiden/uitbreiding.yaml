@@ -1,0 +1,58 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: UIT-01
+name: Uitbreiding
+version: 1.0.0
+status: concept
+phase: uitbreiden
+segments:
+- installatie-onderhoud
+- groothandel
+- zakelijke-dienstverlening
+needs_blueprint: true
+owner: accountmanager
+priority: 4
+summary: Klanten die één ding van je afnemen, horen op het juiste moment over het tweede.
+trigger: Een klant neemt één dienst of installatie van je af, en een tweede past erbij.
+goal: De uitbreiding bij jou, niet bij wie er toevallig is.
+enroll:
+  object: klant
+  'on': elk kwartaal
+  if:
+  - klant.diensten bevat de ene dienst en niet de andere
+  not_if:
+  - klant.open_storing = ja
+  - klant.laatste_contact_op korter dan 30 dagen geleden
+steps:
+- id: s1
+  after: direct
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Uitleg over de tweede dienst, in de taal van wat de klant al heeft. Geen algemene nieuwsbrief.
+- id: s2
+  'on': klik of reactie op s1
+  action: taak
+  owner: accountmanager
+  sla: 2 werkdagen
+  brief: Bel, met wat de klant al afneemt.
+- id: s3
+  after: 30d
+  if: geen reactie
+  action: systeem
+  brief: Terug in de lijst voor het volgende kwartaal.
+exit:
+- offerte gevraagd
+- na de laatste stap
+handover:
+  won: 'Interesse: er wordt een offerte gemaakt en de offerteopvolging start.'
+next: offerteopvolging
+fields:
+- klant.diensten
+- klant.laatste_contact_op
+- klant.open_storing
+- klant.contactpersoon
+- klant.accountmanager
+- installatie.type
+metrics:
+- kandidaten_uitbreiding
+- uitbreiding_afgenomen
+- dagen_bericht_tot_offerte

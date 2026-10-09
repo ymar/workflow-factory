@@ -1,0 +1,6 @@
+label: Verlengingsvoorstel verstuurd op
+type: datum
+object: contract
+required: false
+source: Gevuld door de journey
+example: '2027-01-15'

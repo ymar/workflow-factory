@@ -1,0 +1,6 @@
+label: Locatie
+type: tekst
+object: installatie
+required: true
+source: Installatieadministratie
+example: Hoofdkantoor, Breda

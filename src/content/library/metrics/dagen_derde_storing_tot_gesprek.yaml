@@ -1,0 +1,5 @@
+label: Dagen tot gesprek
+type: doorlooptijd
+definition: Dagen van derde storing tot gesprek over vervanging.
+period: mediaan per kwartaal
+unit: dagen

@@ -21,27 +21,32 @@
     {
       "term": "Opleverdatum",
       "becomes": "De start van de nazorg. Stel: 7 dagen na oplevering een korte check, en na 30 dagen de vraag of er een onderhoudscontract bij hoort.",
-      "journey": "nazorg-na-oplevering"
+      "journey": "nazorg-na-oplevering",
+      "field": "project.opleverdatum"
     },
     {
       "term": "Onderhoudscontract",
       "becomes": "Een deal met een einddatum. Stel: 90 dagen voor die datum start de verlengingsjourney, met een taak voor de accountmanager.",
-      "journey": "contractverlenging"
+      "journey": "contractverlenging",
+      "field": "contract.einddatum"
     },
     {
       "term": "Jaarlijkse keuring",
       "becomes": "Een terugkerende datum. Stel: 6 weken vooraf een uitnodiging om in te plannen, en een belactie als er geen reactie komt.",
-      "journey": "jaarlijkse-keuring"
+      "journey": "jaarlijkse-keuring",
+      "field": "keuring.datum"
     },
     {
       "term": "MJOP",
       "becomes": "Een lijst met geplande vervangingen per jaar. Stel: elke regel wordt 6 maanden vooraf een offertevoorstel.",
-      "journey": "mjop-vervangingen"
+      "journey": "mjop-vervangingen",
+      "field": "mjop.vervanging_op"
     },
     {
       "term": "Storingsmelding",
       "becomes": "Een ticket met een datum. Stel: na de derde storing in een jaar een taak voor een gesprek over vervanging of een contract.",
-      "journey": "storingsopvolging"
+      "journey": "storingsopvolging",
+      "field": "storing.aantal_12m"
     }
   ]
 }

@@ -1,0 +1,11 @@
+label: Status offerte
+type: keuze
+object: offerte
+required: true
+source: CRM
+example: Verstuurd
+options:
+- Verstuurd
+- Gewonnen
+- Verloren
+- Later

@@ -1,0 +1,7 @@
+label: Einddatum contract
+type: datum
+object: contract
+required: true
+source: Contractadministratie of ERP
+example: '2027-03-31'
+check: Nooit leeg bij status Actief.

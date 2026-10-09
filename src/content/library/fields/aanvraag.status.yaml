@@ -1,0 +1,11 @@
+label: Status aanvraag
+type: keuze
+object: aanvraag
+required: true
+source: CRM
+example: In contact
+options:
+- Nieuw
+- In contact
+- Offerte gevraagd
+- Gesloten

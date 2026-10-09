@@ -1,0 +1,6 @@
+label: Op tijd verlengd
+type: conversie
+numerator: contracten verlengd vóór de einddatum
+denominator: contracten met een einddatum in de periode
+period: per kwartaal, op einddatum
+unit: '%'

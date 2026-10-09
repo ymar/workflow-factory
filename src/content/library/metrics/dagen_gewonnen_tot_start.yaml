@@ -1,0 +1,5 @@
+label: Dagen tot start
+type: doorlooptijd
+definition: Dagen van offerte gewonnen tot startdatum project.
+period: mediaan per maand
+unit: dagen

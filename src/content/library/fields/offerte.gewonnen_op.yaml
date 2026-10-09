@@ -1,0 +1,6 @@
+label: Offerte gewonnen op
+type: datum
+object: offerte
+required: false
+source: CRM
+example: '2026-11-02'

@@ -1,0 +1,10 @@
+label: Uitslag keuring
+type: keuze
+object: keuring
+required: false
+source: Keuringsrapport
+example: Met adviezen
+options:
+- Goedgekeurd
+- Met adviezen
+- Afgekeurd

@@ -1,0 +1,52 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: OND-03
+name: Storingsopvolging
+version: 1.0.0
+status: concept
+phase: onderhouden
+segments:
+- installatie-onderhoud
+needs_blueprint: true
+owner: accountmanager
+priority: 1
+summary: Na een storing volgt een check. Na de derde storing volgt een gesprek over vervanging.
+trigger: Een storingsmelding wordt afgesloten.
+goal: Minder losse storingen, meer contracten en vervangingen.
+enroll:
+  object: storing
+  'on': storing.afgesloten_op is ingevuld
+steps:
+- id: s1
+  after: 1d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Korte check: is het opgelost? Met een directe lijn als het terugkomt.'
+- id: s2
+  after: 7d
+  if: klant.heeft_contract = nee
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Uitleg over een onderhoudscontract: wat het voorkomt en wat het inhoudt.'
+- id: s3
+  after: direct
+  if: storing.aantal_12m >= 3
+  action: taak
+  owner: accountmanager
+  sla: 10 werkdagen
+  brief: Gesprek over vervanging of een contract, met de storingshistorie erbij.
+exit:
+- na de laatste stap
+handover:
+  won: 'De klant wil vervangen: er wordt een offerte gemaakt en de offerteopvolging start.'
+next: offerteopvolging
+fields:
+- storing.afgesloten_op
+- storing.aantal_12m
+- installatie.type
+- klant.heeft_contract
+- klant.contactpersoon
+- klant.accountmanager
+metrics:
+- storingen_per_maand
+- herhaalstoring_naar_vervanging
+- dagen_derde_storing_tot_gesprek

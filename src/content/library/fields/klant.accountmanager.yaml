@@ -1,0 +1,6 @@
+label: Accountmanager
+type: gebruiker
+object: klant
+required: true
+source: CRM
+example: Accountmanager Zuid

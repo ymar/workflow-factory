@@ -1,0 +1,6 @@
+label: Gepland zonder belactie
+type: conversie
+numerator: keuringen ingepland voor de belopdracht
+denominator: alle keuringen in de periode
+period: per maand
+unit: '%'

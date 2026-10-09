@@ -1,0 +1,74 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: SPE-01
+name: Aanvraagopvolging
+version: 1.0.0
+status: concept
+phase: specificeren
+segments:
+- installatie-onderhoud
+- groothandel
+- zakelijke-dienstverlening
+needs_blueprint: false
+owner: verkoper
+priority: 1
+summary: Elke aanvraag krijgt binnen minuten antwoord en binnen een werkdag een telefoontje.
+trigger: Er komt een nieuwe aanvraag binnen via een formulier op je site.
+goal: Van aanvraag naar een afspraak of een offerte, zonder dat er iets blijft liggen.
+enroll:
+  object: aanvraag
+  'on': aanvraag.status = Nieuw
+steps:
+- id: s1
+  after: direct
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Bevestiging: we hebben je vraag, dit gebeurt er nu, en dit is wie je belt.'
+- id: s2
+  after: direct
+  action: taak
+  owner: verkoper
+  sla: 1 werkdag
+  brief: Bel binnen een werkdag. Met de vraag, de pagina waar de aanvraag vandaan kwam en eerdere contacten.
+- id: s3
+  after: 1 werkdag
+  if: aanvraag.eerste_contact_op is leeg
+  action: melding
+  to: teamleider
+  brief: Nog niet gebeld. Melding aan verkoper en teamleider.
+- id: s4
+  after: 2d
+  if: aanvraag.status = Nieuw
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Korte mail met een link om zelf een moment te kiezen.
+- id: s5
+  after: 5d
+  if: aanvraag.status = Nieuw
+  action: taak
+  owner: verkoper
+  sla: 1 werkdag
+  brief: Tweede belpoging, met wat er al geprobeerd is.
+- id: s6
+  after: 10d
+  if: aanvraag.status = Nieuw
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Laatste bericht: zullen we je vraag sluiten, of wil je nog contact?'
+exit:
+- aanvraag.status = Offerte gevraagd
+- aanvraag.status = Gesloten
+handover:
+  won: 'Afspraak gemaakt of offerte gevraagd: de aanvraag wordt een offerte, met alle context erbij.'
+  lost: 'Geen reactie na 14 dagen: status Gesloten.'
+next: offerteopvolging
+fields:
+- aanvraag.ontvangen_op
+- aanvraag.bron
+- aanvraag.eigenaar
+- aanvraag.eerste_contact_op
+- aanvraag.status
+- klant.contactpersoon
+metrics:
+- aanvragen_per_week
+- aanvraag_naar_offerte
+- tijd_tot_eerste_contact

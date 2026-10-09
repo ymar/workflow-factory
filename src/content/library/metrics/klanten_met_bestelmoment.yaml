@@ -1,0 +1,5 @@
+label: Klanten met een verwacht bestelmoment
+type: volume
+definition: Vaste klanten met een volgende bestelling verwacht in de periode.
+period: per maand
+unit: aantal

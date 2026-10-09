@@ -1,0 +1,7 @@
+label: Contract verlengd
+type: ja/nee
+object: contract
+required: true
+source: Contractadministratie
+example: nee
+check: Bijgewerkt zodra de klant tekent.

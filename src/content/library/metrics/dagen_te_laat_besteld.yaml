@@ -1,0 +1,5 @@
+label: Dagen na verwacht moment
+type: doorlooptijd
+definition: Dagen tussen verwacht en echt bestelmoment.
+period: mediaan per maand
+unit: dagen

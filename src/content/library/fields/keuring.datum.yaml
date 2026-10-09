@@ -1,0 +1,7 @@
+label: Datum jaarlijkse keuring
+type: datum
+object: keuring
+required: true
+source: Planning of installatieadministratie
+example: '2027-02-10'
+check: Elke installatie met keuringsplicht heeft een datum.

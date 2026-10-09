@@ -1,0 +1,5 @@
+label: Aanvragen per week
+type: volume
+definition: Aantal nieuwe aanvragen, per bron.
+period: per week
+unit: aantal

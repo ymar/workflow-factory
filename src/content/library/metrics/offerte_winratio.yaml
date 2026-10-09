@@ -1,0 +1,6 @@
+label: Gewonnen offertes
+type: conversie
+numerator: offertes met status Gewonnen
+denominator: offertes met status Gewonnen of Verloren
+period: per kwartaal
+unit: '%'

@@ -1,0 +1,5 @@
+label: Dagen tot gepland
+type: doorlooptijd
+definition: Dagen van uitnodiging tot keuring ingepland.
+period: mediaan per maand
+unit: dagen

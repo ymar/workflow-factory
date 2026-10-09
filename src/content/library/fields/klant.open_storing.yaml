@@ -1,0 +1,7 @@
+label: Open storing
+type: ja/nee
+object: klant
+required: false
+source: Storings- of planningssysteem
+example: nee
+check: Dagelijks bijgewerkt.

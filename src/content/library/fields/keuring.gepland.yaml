@@ -1,0 +1,6 @@
+label: Keuring ingepland
+type: ja/nee
+object: keuring
+required: true
+source: Planning
+example: nee

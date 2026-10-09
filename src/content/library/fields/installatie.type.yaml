@@ -1,0 +1,6 @@
+label: Type installatie
+type: keuze
+object: installatie
+required: true
+source: Installatieadministratie
+example: Warmtepomp

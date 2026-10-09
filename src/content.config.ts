@@ -1,6 +1,7 @@
 import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { phaseIds } from './lib/loop';
+import { objectIds, segmentIds } from './lib/library';
 
 const price = z.object({
   label: z.string(),
@@ -42,7 +43,7 @@ const segments = defineCollection({
     name: z.string(),
     problems: z.array(z.string()),
     journeys: z.array(reference('journeys')),
-    glossary: z.array(z.object({ term: z.string(), becomes: z.string(), journey: reference('journeys').optional() })),
+    glossary: z.array(z.object({ term: z.string(), becomes: z.string(), field: reference('fields').optional(), journey: reference('journeys').optional() })),
   }),
 });
 
@@ -63,26 +64,89 @@ const teardowns = defineCollection({
   }),
 });
 
-// Journey library: each journey is a ready-made Flow with a trigger, steps, a handover rule and a dashboard.
-const journeys = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/journeys' }),
+// Journey library: four layers. Fields and metrics are defined once and referenced by id.
+// Ids come from the file name, so `contract.einddatum.yaml` is field `contract.einddatum`.
+const idFromFile = ({ entry }: { entry: string }) => entry.split('/').pop()!.replace(/\.(ya?ml|json)$/, '');
+
+const fields = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/library/fields', generateId: idFromFile }),
   schema: z.object({
-    name: z.string(),
-    order: z.number(),
-    phase: z.enum(phaseIds),
-    summary: z.string(),
-    trigger: z.string(),
-    goal: z.string(),
-    steps: z.array(z.object({ when: z.string(), channel: z.enum(['E-mail', 'Taak', 'Systeem']), what: z.string() })),
-    handover: z.string(),
-    next: reference('journeys').optional(),
-    metrics: z.object({ volume: z.string(), conversion: z.string(), leadTime: z.string() }),
-    fits: z.array(z.string()),
-    startsWithoutBlueprint: z.boolean().default(false),
-    // concept: designed, not yet built for a client. getest: built and running at a client. bewezen: running with measured results.
-    status: z.enum(['concept', 'getest', 'bewezen']).default('concept'),
-    fields: z.array(z.string()).default([]),
+    label: z.string(),
+    type: z.enum(['datum', 'datum en tijd', 'keuze', 'meerkeuze', 'ja/nee', 'getal', 'bedrag', 'tekst', 'gebruiker', 'contact']),
+    object: z.enum(objectIds),
+    required: z.boolean(),
+    source: z.string(),
+    example: z.coerce.string(),
+    options: z.array(z.string()).optional(),
+    check: z.string().optional(),
   }),
 });
 
-export const collections = { services, faq, segments, teardowns, journeys };
+const metrics = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/library/metrics', generateId: idFromFile }),
+  schema: z
+    .object({
+      label: z.string(),
+      type: z.enum(['volume', 'conversie', 'doorlooptijd', 'omzet']),
+      definition: z.string().optional(),
+      numerator: z.string().optional(),
+      denominator: z.string().optional(),
+      period: z.string(),
+      unit: z.string(),
+    })
+    .refine((m) => (m.type === 'conversie' ? m.numerator && m.denominator : m.definition), {
+      message: 'A conversie metric needs numerator and denominator; other metrics need a definition.',
+    }),
+});
+
+const step = z
+  .object({
+    id: z.string(),
+    at: z.string().optional(),
+    after: z.coerce.string().optional(),
+    on: z.string().optional(),
+    if: z.string().optional(),
+    action: z.enum(['e-mail', 'taak', 'melding', 'systeem']),
+    owner: z.string().optional(),
+    to: z.string().optional(),
+    sla: z.string().optional(),
+    sets: z.string().optional(),
+    brief: z.string(),
+  })
+  .refine((s) => [s.at, s.after, s.on].filter(Boolean).length === 1, { message: 'A step needs exactly one of at, after or on.' });
+
+const journeys = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/library/journeys', generateId: idFromFile }),
+  schema: z.object({
+    code: z.string().regex(/^[A-Z]{3}-\d{2}$/),
+    name: z.string(),
+    version: z.string().regex(/^\d+\.\d+\.\d+$/),
+    // concept: designed, not yet built for a client. getest: live at a client. bewezen: live with measured results.
+    status: z.enum(['concept', 'getest', 'bewezen']),
+    phase: z.enum(phaseIds),
+    segments: z.array(z.enum(segmentIds)).min(1),
+    needs_blueprint: z.boolean(),
+    owner: z.string(),
+    priority: z.number().int().min(1),
+    summary: z.string(),
+    trigger: z.string(),
+    goal: z.string(),
+    enroll: z
+      .object({
+        object: z.enum(objectIds),
+        at: z.string().optional(),
+        on: z.string().optional(),
+        if: z.array(z.string()).default([]),
+        not_if: z.array(z.string()).default([]),
+      })
+      .refine((e) => Boolean(e.at) !== Boolean(e.on), { message: 'Enroll needs exactly one of at or on.' }),
+    steps: z.array(step).min(1),
+    exit: z.array(z.string()).min(1),
+    handover: z.object({ won: z.string(), lost: z.string().optional() }),
+    next: reference('journeys').optional(),
+    fields: z.array(reference('fields')).min(1),
+    metrics: z.array(reference('metrics')).min(1),
+  }),
+});
+
+export const collections = { services, faq, segments, teardowns, journeys, fields, metrics };

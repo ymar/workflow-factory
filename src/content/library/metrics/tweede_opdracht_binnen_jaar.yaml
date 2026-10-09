@@ -1,0 +1,6 @@
+label: Tweede opdracht binnen een jaar
+type: conversie
+numerator: nieuwe klanten met een tweede gewonnen offerte binnen 12 maanden
+denominator: nieuwe klanten van 12 maanden geleden
+period: per kwartaal
+unit: '%'

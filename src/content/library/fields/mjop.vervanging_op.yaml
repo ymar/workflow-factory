@@ -1,0 +1,7 @@
+label: Geplande vervanging
+type: datum
+object: mjop
+required: true
+source: Meerjarenonderhoudsplan
+example: '2027-06-01'
+check: Per regel in het MJOP.

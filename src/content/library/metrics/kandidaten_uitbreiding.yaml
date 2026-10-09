@@ -1,0 +1,5 @@
+label: Klanten die in aanmerking komen
+type: volume
+definition: Klanten met de ene dienst en zonder de andere, die erbij past.
+period: per kwartaal
+unit: aantal

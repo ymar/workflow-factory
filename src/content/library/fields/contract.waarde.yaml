@@ -1,0 +1,6 @@
+label: Contractwaarde per jaar
+type: bedrag
+object: contract
+required: true
+source: Contractadministratie
+example: € 1.200

@@ -1,0 +1,5 @@
+label: Opleveringen
+type: volume
+definition: Aantal projecten met een opleverdatum in de periode.
+period: per maand
+unit: aantal

@@ -1,0 +1,7 @@
+label: Opleverdatum
+type: datum
+object: project
+required: true
+source: Planning of projectadministratie
+example: '2027-01-15'
+check: Ingevuld bij afronding van het project.

@@ -1,0 +1,6 @@
+label: Offertebedrag
+type: bedrag
+object: offerte
+required: true
+source: CRM of offertesoftware
+example: € 18.500

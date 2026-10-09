@@ -1,0 +1,6 @@
+label: Volgende bestelling verwacht op
+type: datum
+object: bestelling
+required: true
+source: 'Berekend: laatste bestelling plus interval'
+example: '2026-10-30'

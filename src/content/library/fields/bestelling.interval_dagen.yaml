@@ -1,0 +1,7 @@
+label: Gemiddelde dagen tussen bestellingen
+type: getal
+object: bestelling
+required: true
+source: Berekend uit de orderhistorie
+example: '42'
+check: Minimaal drie eerdere bestellingen.

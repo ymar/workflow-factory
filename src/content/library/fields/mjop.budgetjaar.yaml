@@ -1,0 +1,6 @@
+label: Budgetjaar van de klant
+type: getal
+object: mjop
+required: false
+source: Klant of MJOP
+example: '2027'

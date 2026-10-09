@@ -1,0 +1,69 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: KIE-01
+name: Offerteopvolging
+version: 1.0.0
+status: concept
+phase: kiezen
+segments:
+- installatie-onderhoud
+- groothandel
+- zakelijke-dienstverlening
+needs_blueprint: false
+owner: verkoper
+priority: 1
+summary: Geen offerte die stil blijft liggen. Elke offerte krijgt een vaste opvolging, tot ja of nee.
+trigger: Een offerte wordt verstuurd.
+goal: Een duidelijk ja of nee op elke offerte, en weten waarom.
+enroll:
+  object: offerte
+  'on': offerte.status = Verstuurd
+steps:
+- id: s1
+  after: direct
+  action: e-mail
+  to: klant.contactpersoon
+  brief: De offerte, met een samenvatting in gewone woorden en de vraag wie er nog meebeslist.
+- id: s2
+  after: 3d
+  action: taak
+  owner: verkoper
+  sla: 2 werkdagen
+  brief: 'Bel: is de offerte goed aangekomen, zijn er vragen? Leg vast wie er meebeslist.'
+- id: s3
+  after: 7d
+  if: offerte.status = Verstuurd
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Antwoord op de vraag die bij dit type werk het vaakst komt, of een voorbeeld van vergelijkbaar werk.
+- id: s4
+  after: 14d
+  if: offerte.status = Verstuurd
+  action: taak
+  owner: verkoper
+  sla: 2 werkdagen
+  brief: 'Tweede gesprek: wat is er nodig om te beslissen?'
+- id: s5
+  after: 21d
+  if: offerte.status = Verstuurd
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Is het nog actueel? Met de vraag om ja, nee of later.
+exit:
+- offerte.status = Gewonnen
+- offerte.status = Verloren
+handover:
+  won: De onboarding start.
+  lost: Reden van verlies vastleggen. Na 6 maanden een taak om opnieuw contact op te nemen.
+next: onboarding
+fields:
+- offerte.verstuurd_op
+- offerte.bedrag
+- offerte.type_werk
+- offerte.beslissers
+- offerte.status
+- offerte.reden_verlies
+- klant.contactpersoon
+metrics:
+- offertes_per_maand
+- offerte_winratio
+- dagen_offerte_tot_beslissing

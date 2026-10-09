@@ -1,0 +1,6 @@
+label: Eerste contact op
+type: datum en tijd
+object: aanvraag
+required: false
+source: Belactiviteit in het CRM
+example: 2026-10-12 11:02

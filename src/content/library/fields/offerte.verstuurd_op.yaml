@@ -1,0 +1,7 @@
+label: Offerte verstuurd op
+type: datum
+object: offerte
+required: true
+source: CRM of offertesoftware
+example: '2026-10-14'
+check: Gevuld zodra de offerte de deur uitgaat.

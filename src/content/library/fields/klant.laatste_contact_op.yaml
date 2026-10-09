@@ -1,0 +1,6 @@
+label: Laatste contact op
+type: datum
+object: klant
+required: false
+source: CRM, automatisch uit activiteiten
+example: '2026-08-30'

@@ -1,0 +1,70 @@
+# Referentie-journey. Kopieer dit bestand voor een nieuwe journey.
+# Velden en metingen definieer je in ../../fields en ../../metrics, niet hier.
+# De build faalt als een journey een veld gebruikt dat niet in het woordenboek of in `fields` staat.
+code: OND-02
+name: Contractverlenging
+version: 1.0.0
+status: concept            # concept | getest | bewezen
+phase: onderhouden         # moet gelijk zijn aan de map waarin dit bestand staat
+segments: [installatie-onderhoud, zakelijke-dienstverlening]
+needs_blueprint: true
+owner: accountmanager      # een rol, geen persoon
+priority: 2                # valt een klant in meerdere journeys, dan wint het laagste getal
+
+summary: Onderhoudscontracten worden verlengd voordat ze aflopen. Niet erna.
+trigger: 90 dagen voor de einddatum van een onderhoudscontract.
+goal: Contract verlengd vóór de einddatum.
+
+enroll:
+  object: contract
+  at: contract.einddatum - 90d
+  if:
+    - contract.status = Actief
+    - contract.opgezegd = nee
+  not_if:
+    - klant.open_storing = ja        # eerst de storing oplossen, dan over verlengen praten
+
+# Elke stap heeft precies één moment: at (ten opzichte van een datumveld),
+# after (ten opzichte van de start) of on (zodra iets gebeurt).
+steps:
+  - id: s1
+    at: contract.einddatum - 90d
+    action: taak
+    owner: accountmanager
+    sla: 5 werkdagen
+    brief: Bekijk het contract en de storingen en keuringen van het afgelopen jaar.
+  - id: s2
+    at: contract.einddatum - 75d
+    action: e-mail
+    to: klant.contactpersoon
+    brief: Jaaroverzicht plus verlengingsvoorstel.   # de tekst zelf is niet open
+    sets: contract.voorstel_verstuurd_op = vandaag
+  - id: s3
+    at: contract.einddatum - 45d
+    if: contract.verlengd = nee
+    action: taak
+    owner: accountmanager
+    sla: 5 werkdagen
+    brief: Bel over het voorstel.
+  - id: s4
+    at: contract.einddatum - 30d
+    if: contract.verlengd = nee
+    action: e-mail
+    to: klant.contactpersoon
+    brief: Herinnering, met de datum waarop het contract afloopt.
+  - id: s5
+    at: contract.einddatum - 14d
+    if: contract.verlengd = nee
+    action: melding
+    to: teamleider
+    brief: Nog niet verlengd. De teamleider beslist wie er belt.
+
+exit:
+  - contract.verlengd = ja
+  - contract.opgezegd = ja
+handover:
+  won: Nieuwe einddatum. Volgend jaar start deze journey opnieuw.
+  lost: Reden van opzegging vastleggen.
+
+fields: [contract.einddatum, contract.status, contract.waarde, contract.verlengd, contract.opgezegd, contract.voorstel_verstuurd_op, klant.open_storing, klant.contactpersoon, klant.accountmanager]
+metrics: [contracten_aflopend, verlengd_voor_einddatum, dagen_voorstel_tot_verlenging, verlengde_waarde]

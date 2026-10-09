@@ -1,0 +1,59 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: OND-01
+name: Jaarlijkse keuring
+version: 1.0.0
+status: concept
+phase: onderhouden
+segments:
+- installatie-onderhoud
+needs_blueprint: true
+owner: planner
+priority: 2
+summary: Keuringen worden ingepland voordat de klant eraan denkt.
+trigger: 6 weken voor de datum van de jaarlijkse keuring.
+goal: Elke keuring op tijd gepland, zonder belrondes.
+enroll:
+  object: keuring
+  at: keuring.datum - 42d
+  if:
+  - keuring.gepland = nee
+steps:
+- id: s1
+  at: keuring.datum - 42d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Uitnodiging om de keuring in te plannen, met een link om zelf een moment te kiezen.
+- id: s2
+  at: keuring.datum - 28d
+  if: keuring.gepland = nee
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Tweede bericht, korter.
+- id: s3
+  at: keuring.datum - 21d
+  if: keuring.gepland = nee
+  action: taak
+  owner: planner
+  sla: 3 werkdagen
+  brief: Bel om de keuring in te plannen.
+- id: s4
+  'on': keuring.uitslag is ingevuld
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Uitslag en adviezen, met een offerte als er iets vervangen moet worden.
+exit:
+- na stap s4
+handover:
+  won: 'Advies om te vervangen: er wordt een offerte gemaakt en de offerteopvolging start.'
+next: offerteopvolging
+fields:
+- keuring.datum
+- keuring.gepland
+- keuring.uitslag
+- installatie.type
+- installatie.locatie
+- klant.contactpersoon
+metrics:
+- keuringen_per_maand
+- zonder_belactie_gepland
+- dagen_uitnodiging_tot_planning

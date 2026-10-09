@@ -1,0 +1,51 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: GEB-03
+name: Nabestellingen
+version: 1.0.0
+status: concept
+phase: gebruiken
+segments:
+- groothandel
+needs_blueprint: true
+owner: binnendienst
+priority: 3
+summary: Vaste klanten bestellen opnieuw voordat ze bij een ander gaan kijken.
+trigger: Het gebruikelijke bestelmoment van een klant komt eraan, op basis van eerdere orders.
+goal: De volgende bestelling, op het moment dat de klant iets nodig heeft.
+enroll:
+  object: bestelling
+  at: bestelling.volgende_verwacht_op - 5d
+  if:
+  - bestelling.interval_dagen is ingevuld
+steps:
+- id: s1
+  at: bestelling.volgende_verwacht_op - 5d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Herinnering met de vorige bestelling, klaar om opnieuw te bestellen.
+- id: s2
+  at: bestelling.volgende_verwacht_op + 2d
+  if: bestelling.laatste_datum is niet bijgewerkt
+  action: taak
+  owner: binnendienst
+  sla: 2 werkdagen
+  brief: Bel als er nog niet besteld is.
+- id: s3
+  'on': stil voor twee keer bestelling.interval_dagen
+  action: melding
+  to: klant.accountmanager
+  brief: 'Signaal: deze klant bestelt niet meer zoals eerst.'
+exit:
+- bestelling.laatste_datum is bijgewerkt
+handover:
+  won: 'Bestelling geplaatst: het volgende bestelmoment wordt opnieuw berekend en de journey start weer.'
+fields:
+- bestelling.laatste_datum
+- bestelling.interval_dagen
+- bestelling.volgende_verwacht_op
+- klant.contactpersoon
+- klant.accountmanager
+metrics:
+- klanten_met_bestelmoment
+- op_tijd_herbesteld
+- dagen_te_laat_besteld

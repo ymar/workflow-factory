@@ -1,0 +1,6 @@
+label: Oplevering wordt contract
+type: conversie
+numerator: opleveringen met een onderhoudscontract binnen 90 dagen
+denominator: alle opleveringen
+period: per kwartaal
+unit: '%'

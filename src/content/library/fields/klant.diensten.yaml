@@ -1,0 +1,7 @@
+label: Afgenomen diensten
+type: meerkeuze
+object: klant
+required: false
+source: Contractadministratie
+example: Onderhoud, Beveiliging
+check: Bijgewerkt bij elk nieuw contract.

@@ -1,0 +1,11 @@
+label: Type werk
+type: keuze
+object: offerte
+required: false
+source: CRM
+example: Vervanging
+options:
+- Nieuwbouw
+- Vervanging
+- Uitbreiding
+- Onderhoud

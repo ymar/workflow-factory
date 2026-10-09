@@ -1,0 +1,6 @@
+label: Op tijd herbesteld
+type: conversie
+numerator: klanten die binnen 7 dagen na het verwachte moment bestellen
+denominator: klanten met een verwacht bestelmoment
+period: per maand
+unit: '%'

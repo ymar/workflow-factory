@@ -1,0 +1,7 @@
+label: Storingen in 12 maanden
+type: getal
+object: storing
+required: true
+source: Berekend uit het storingssysteem
+example: '3'
+check: Per installatie, niet per klant.

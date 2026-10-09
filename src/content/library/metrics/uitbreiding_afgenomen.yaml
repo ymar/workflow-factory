@@ -1,0 +1,6 @@
+label: Tweede dienst afgenomen
+type: conversie
+numerator: kandidaten die binnen 6 maanden een tweede dienst afnemen
+denominator: kandidaten aan het begin van de periode
+period: per kwartaal
+unit: '%'

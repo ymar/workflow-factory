@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import { fieldAnchor, journeyFieldRefs, metricAnchor, objectIds, objectLabel, sortJourneys } from '../../lib/library';
+import { assertLibrary } from '../../lib/library-check';
+
+await assertLibrary();
+const fields = await getCollection('fields');
+const metrics = await getCollection('metrics');
+const journeys = sortJourneys(await getCollection('journeys'));
+
+// Reverse lookup: which journeys use a field or metric. Computed, never stored, so it cannot drift.
+const usedByField = (id: string) => journeys.filter((j) => j.data.fields.some((f) => f.id === id) || journeyFieldRefs(j).includes(id));
+const usedByMetric = (id: string) => journeys.filter((j) => j.data.metrics.some((m) => m.id === id));
+
+const metricTypes = [
+  { id: 'volume', label: 'Volume', intro: 'Hoeveel er binnenkomt.' },
+  { id: 'conversie', label: 'Conversie', intro: 'Welk deel de volgende stap haalt.' },
+  { id: 'doorlooptijd', label: 'Doorlooptijd', intro: 'Hoe lang het duurt.' },
+  { id: 'omzet', label: 'Omzet', intro: 'Wat het oplevert.' },
+] as const;
+---
+<Base
+  title="Velden en metingen · Journeybibliotheek | neon"
+  description={`Het datawoordenboek van de journeybibliotheek: ${fields.length} velden en ${metrics.length} metingen, elk één keer gedefinieerd.`}
+  path="/journeys/data/"
+>
+  <PageHero
+    icon="flow"
+    kicker="Journeybibliotheek · Data"
+    title="Velden en metingen."
+    accent="Eén keer gedefinieerd."
+    intro={`Elke journey verwijst naar dezelfde ${fields.length} velden en ${metrics.length} metingen. Zo betekent "opleverdatum" overal hetzelfde, en kun je journeys met elkaar vergelijken.`}
+  >
+    <Button href="/journeys/" variant="ghost-dark">Terug naar de bibliotheek</Button>
+  </PageHero>
+
+  <Section id="velden" n="01" label="Velden" title="Wat er in je CRM moet staan" intro="Per object. Bij elk veld: het type, waar het vandaan komt, een voorbeeld en de check die je data schoon houdt.">
+    <div class="space-y-16">
+      {objectIds.filter((o) => fields.some((f) => f.data.object === o)).map((o) => (
+        <div>
+          <h3 class="text-3xl">{objectLabel[o]}</h3>
+          <ul class="mt-6 border-b border-paper/15">
+            {fields.filter((f) => f.data.object === o).map((f) => (
+              <li id={fieldAnchor(f.id)} class="scroll-mt-24 grid gap-3 border-t border-paper/15 py-6 md:grid-cols-[18rem_1fr] md:gap-8">
+                <div>
+                  <p class="text-lg font-medium">{f.data.label}</p>
+                  <p class="mt-1 font-mono text-xs text-sage">{f.id}</p>
+                  <p class="mt-3 flex flex-wrap gap-2 text-xs">
+                    <span class="rounded-full border border-paper/30 px-3 py-0.5">{f.data.type}</span>
+                    {f.data.required && <span class="rounded-full border border-mint/50 px-3 py-0.5 text-mint">verplicht</span>}
+                  </p>
+                </div>
+                <dl class="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-[7rem_1fr]">
+                  <dt class="text-sage">Bron</dt><dd class="text-paper/85">{f.data.source}</dd>
+                  <dt class="text-sage">Voorbeeld</dt><dd class="text-paper/85">{f.data.example}</dd>
+                  {f.data.options && <><dt class="text-sage">Waarden</dt><dd class="text-paper/85">{f.data.options.join(', ')}</dd></>}
+                  {f.data.check && <><dt class="text-sage">Check</dt><dd class="text-paper/85">{f.data.check}</dd></>}
+                  <dt class="text-sage">Gebruikt in</dt>
+                  <dd>{usedByField(f.id).map((j, i) => <>{i > 0 && ', '}<a href={`/journeys/${j.id}/`} class="text-mint hover:underline">{j.data.name}</a></>)}</dd>
+                </dl>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="metingen" n="02" label="Metingen" title="Wat het dashboard meet" intro="Volume, conversie en doorlooptijd per stap, en waar het kan de omzet. Conversies hebben altijd een teller en een noemer.">
+    <div class="space-y-16">
+      {metricTypes.filter((t) => metrics.some((m) => m.data.type === t.id)).map((t) => (
+        <div>
+          <h3 class="text-3xl">{t.label}</h3>
+          <p class="mt-2 text-paper/75">{t.intro}</p>
+          <ul class="mt-6 border-b border-paper/15">
+            {metrics.filter((m) => m.data.type === t.id).map((m) => (
+              <li id={metricAnchor(m.id)} class="scroll-mt-24 grid gap-3 border-t border-paper/15 py-6 md:grid-cols-[18rem_1fr] md:gap-8">
+                <div>
+                  <p class="text-lg font-medium">{m.data.label}</p>
+                  <p class="mt-1 font-mono text-xs text-sage">{m.id}</p>
+                </div>
+                <dl class="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-[7rem_1fr]">
+                  {m.data.type === 'conversie'
+                    ? <><dt class="text-sage">Teller</dt><dd class="text-paper/85">{m.data.numerator}</dd><dt class="text-sage">Noemer</dt><dd class="text-paper/85">{m.data.denominator}</dd></>
+                    : <><dt class="text-sage">Definitie</dt><dd class="text-paper/85">{m.data.definition}</dd></>}
+                  <dt class="text-sage">Periode</dt><dd class="text-paper/85">{m.data.period}</dd>
+                  <dt class="text-sage">Eenheid</dt><dd class="text-paper/85">{m.data.unit}</dd>
+                  <dt class="text-sage">Gebruikt in</dt>
+                  <dd>{usedByMetric(m.id).map((j, i) => <>{i > 0 && ', '}<a href={`/journeys/${j.id}/`} class="text-mint hover:underline">{j.data.name}</a></>)}</dd>
+                </dl>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </Section>
+</Base>

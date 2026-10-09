@@ -1,0 +1,6 @@
+label: Vervanging bij jou
+type: conversie
+numerator: geplande vervangingen die bij jou als opdracht terechtkomen
+denominator: alle geplande vervangingen in de periode
+period: per jaar
+unit: '%'

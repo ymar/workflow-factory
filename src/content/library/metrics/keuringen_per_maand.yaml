@@ -1,0 +1,5 @@
+label: Keuringen per maand
+type: volume
+definition: Aantal keuringen met een keuringsdatum in de periode.
+period: per maand
+unit: aantal

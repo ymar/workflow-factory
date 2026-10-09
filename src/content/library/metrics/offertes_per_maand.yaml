@@ -1,0 +1,5 @@
+label: Offertes per maand
+type: volume
+definition: Aantal verstuurde offertes, per type werk.
+period: per maand
+unit: aantal

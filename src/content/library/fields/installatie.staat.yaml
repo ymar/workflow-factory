@@ -1,0 +1,10 @@
+label: Staat van de installatie
+type: keuze
+object: installatie
+required: false
+source: Laatste keuring of onderhoudsbeurt
+example: Matig
+options:
+- Goed
+- Matig
+- Slecht

@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntries, getEntry } from 'astro:content';
+import { fieldAnchor } from '../../lib/library';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
@@ -10,6 +11,7 @@ const segment = await getEntry('segments', 'installatie-onderhoud');
 if (!segment) throw new Error('Missing segments/installatie-onderhoud.json');
 const { name, problems, glossary } = segment.data;
 const journeys = await getEntries(segment.data.journeys);
+const fieldLabels = new Map((await getCollection('fields')).map((f) => [f.id, f.data.label]));
 const faq = (await getCollection('faq')).filter((f) => f.data.page === 'segment').sort((a, b) => a.data.order - b.data.order);
 const title = 'Marketing automation voor installatie- en onderhoudsbedrijven | neon';
 const description =
@@ -45,7 +47,10 @@ const jsonLd = faq.length
           <dt class="font-display text-3xl">{g.term}</dt>
           <dd class="text-paper/80 md:text-lg">
             {g.becomes}
-            {g.journey && <a href={`/journeys/${g.journey.id}/`} class="mt-3 block font-medium text-mint hover:underline">Bekijk de journey →</a>}
+            <span class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+              {g.field && <a href={`/journeys/data/#${fieldAnchor(g.field.id)}`} class="font-medium text-sage hover:text-mint hover:underline">In het systeem: {fieldLabels.get(g.field.id)}</a>}
+              {g.journey && <a href={`/journeys/${g.journey.id}/`} class="font-medium text-mint hover:underline">Bekijk de journey →</a>}
+            </span>
           </dd>
         </div>
       ))}

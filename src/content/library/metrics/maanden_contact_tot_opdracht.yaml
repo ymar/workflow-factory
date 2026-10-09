@@ -1,0 +1,5 @@
+label: Maanden tot opdracht
+type: doorlooptijd
+definition: Maanden van eerste contact over de vervanging tot gewonnen offerte.
+period: mediaan per jaar
+unit: maanden

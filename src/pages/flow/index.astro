@@ -2,7 +2,8 @@
 import { getCollection } from 'astro:content';
 import ServicePage from '../../components/ServicePage.astro';
 import Button from '../../components/Button.astro';
-const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
+import { sortJourneys } from '../../lib/library';
+const journeys = sortJourneys(await getCollection('journeys'));
 ---
 <ServicePage
   id="flow"
@@ -32,7 +33,7 @@ const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order -
         {journeys.map((j) => (
           <li class="border-t border-paper/15">
             <a href={`/journeys/${j.id}/`} class="group flex items-center justify-between gap-4 py-4 text-lg hover:text-mint">
-              <span>{j.data.name}{j.data.startsWithoutBlueprint && <span class="ml-3 rounded-full bg-mint px-2.5 py-0.5 align-middle text-[11px] font-semibold text-forest">Kan meteen</span>}</span>
+              <span>{j.data.name}{!j.data.needs_blueprint && <span class="ml-3 rounded-full bg-mint px-2.5 py-0.5 align-middle text-[11px] font-semibold text-forest">Kan meteen</span>}</span>
               <span aria-hidden="true" class="text-sage transition-transform group-hover:text-mint motion-safe:group-hover:translate-x-0.5">→</span>
             </a>
           </li>

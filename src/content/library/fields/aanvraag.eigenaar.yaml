@@ -1,0 +1,7 @@
+label: Verkoper van de aanvraag
+type: gebruiker
+object: aanvraag
+required: true
+source: Toewijzingsregel in het CRM
+example: Verkoper Noord
+check: Binnen een uur toegewezen.

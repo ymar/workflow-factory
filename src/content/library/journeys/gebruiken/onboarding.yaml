@@ -1,0 +1,58 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: GEB-01
+name: Onboarding
+version: 1.0.0
+status: concept
+phase: gebruiken
+segments:
+- installatie-onderhoud
+- groothandel
+- zakelijke-dienstverlening
+needs_blueprint: true
+owner: projectleider
+priority: 2
+summary: Een nieuwe klant weet vanaf dag één wat er gebeurt, met wie en wanneer.
+trigger: Een offerte wordt gewonnen.
+goal: Een goede start, zodat de eerste opdracht niet de laatste is.
+enroll:
+  object: offerte
+  'on': offerte.status = Gewonnen
+steps:
+- id: s1
+  after: direct
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Welkom, met de planning, de vaste contactpersoon en wat de klant zelf moet regelen.
+- id: s2
+  after: direct
+  action: taak
+  owner: verkoper
+  sla: 2 werkdagen
+  brief: 'Overdracht naar uitvoering: wat is beloofd, en wat is belangrijk voor deze klant.'
+- id: s3
+  at: project.startdatum - 7d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Herinnering aan de planning en wat er klaar moet staan.
+- id: s4
+  at: project.startdatum + 3d
+  action: taak
+  owner: projectleider
+  sla: 2 werkdagen
+  brief: 'Kort belmoment: loopt alles zoals afgesproken?'
+exit:
+- project.opleverdatum is ingevuld
+handover:
+  won: 'Opleverdatum ingevuld: de nazorg na oplevering neemt het over.'
+next: nazorg-na-oplevering
+fields:
+- offerte.status
+- offerte.gewonnen_op
+- project.startdatum
+- project.uitvoerder
+- project.opleverdatum
+- klant.contactpersoon
+metrics:
+- nieuwe_klanten
+- tweede_opdracht_binnen_jaar
+- dagen_gewonnen_tot_start

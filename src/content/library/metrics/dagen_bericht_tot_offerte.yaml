@@ -1,0 +1,5 @@
+label: Dagen tot offerte
+type: doorlooptijd
+definition: Dagen van eerste bericht tot offerte verstuurd.
+period: mediaan per kwartaal
+unit: dagen
