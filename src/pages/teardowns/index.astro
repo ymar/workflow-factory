@@ -43,7 +43,7 @@ const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', ye
             <li class="border-t border-paper/15">
               <a href={`/teardowns/${t.id}/`} class="group grid gap-2 py-6 md:grid-cols-[12rem_1fr_auto] md:items-baseline md:gap-8">
                 <span class="text-sm text-paper/70">{fmt.format(t.data.date)}</span>
-                <span class="font-serif text-2xl group-hover:underline md:text-3xl">{t.data.title}</span>
+                <span class="font-display text-2xl group-hover:underline md:text-3xl">{t.data.title}</span>
                 <span class="text-sm text-paper/70">{t.data.type}</span>
               </a>
             </li>
@@ -51,7 +51,7 @@ const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', ye
         : [1, 2, 3].map((n) => (
             <li class="grid gap-2 border-t border-paper/15 py-6 md:grid-cols-[12rem_1fr_auto] md:gap-8">
               <span class="text-sm text-paper/70">Nog niet gepubliceerd</span>
-              <span class="font-serif text-2xl md:text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></span>
+              <span class="font-display text-2xl md:text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></span>
             </li>
           ))}
     </ul>

@@ -9,7 +9,7 @@ import Faq from './Faq.astro';
 import { priceLabel } from '../lib/format';
 
 interface Props {
-  id: 'rewind' | 'play' | 'autoplay';
+  id: 'blueprint' | 'build' | 'flow';
   headline: string;
   accent: string;
   title: string;
@@ -73,7 +73,7 @@ const next = () => String(++n).padStart(2, '0');
 
   <Section id="signalen" n={next()} label="Signalen" title="Dit is er misschien aan de hand">
     <ul class="border-b border-paper/15">
-      {signals.map((s) => <li class="border-t border-paper/15 py-5 font-serif text-2xl md:text-3xl">{s}</li>)}
+      {signals.map((s) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-3xl">{s}</li>)}
     </ul>
   </Section>
 
@@ -107,7 +107,7 @@ const next = () => String(++n).padStart(2, '0');
       {prices.map((p) => (
         <li class="rounded-3xl border border-paper/15 p-8">
           <p class="text-sm text-paper/70">{p.label}</p>
-          <p class="mt-6 font-serif text-4xl tracking-[-0.01em] md:text-5xl">{priceLabel(p)}</p>
+          <p class="mt-6 font-display text-4xl tracking-[-0.01em] md:text-5xl">{priceLabel(p)}</p>
           <p class="mt-2 text-sm text-paper/70">{proposal ? 'Voorstel' : 'Vaste prijs'}</p>
         </li>
       ))}
@@ -118,7 +118,7 @@ const next = () => String(++n).padStart(2, '0');
 
   <Section id="niet" n={next()} label="Niet inbegrepen" tone="dark" title="Niet inbegrepen">
     <ul class="border-b border-paper/15">
-      {notIncluded.map((x) => <li class="border-t border-paper/15 py-5 font-serif text-2xl md:text-3xl">{x}</li>)}
+      {notIncluded.map((x) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-3xl">{x}</li>)}
     </ul>
   </Section>
 

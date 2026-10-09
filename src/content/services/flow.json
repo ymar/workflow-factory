@@ -1,8 +1,8 @@
 {
-  "name": "Autoplay",
-  "icon": "🔁",
+  "name": "Flow",
+  "icon": "flow",
   "order": 3,
-  "summary": "Journeys in HubSpot of ActiveCampaign die het verhaal elke dag vertellen, tot de tweede bestelling. Geen Salesforce.",
+  "summary": "Journeys in HubSpot of ActiveCampaign die je verhaal elke dag vertellen, tot de tweede bestelling. Geen Salesforce.",
   "duration": "3 weken per journey",
   "priceStatus": "proposal",
   "prices": [{ "label": "Per journey", "from": 3500, "to": 6500 }],
@@ -18,7 +18,7 @@
     { "when": "Week 3", "what": "Testen, live zetten en dashboard opleveren", "clientTime": "60 min" }
   ],
   "notIncluded": [
-    "Campagnes op een verhaal dat niet klopt",
+    "Campagnes op een positionering die niet klopt",
     "Koude e-mail naar gekochte lijsten",
     "Salesforce"
   ]

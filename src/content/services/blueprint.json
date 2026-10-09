@@ -1,8 +1,8 @@
 {
-  "name": "Rewind",
-  "icon": "⏪",
+  "name": "Blueprint",
+  "icon": "blueprint",
   "order": 1,
-  "summary": "Terug naar waar je bedrijf begon, om te vinden wat geen concurrent kan kopiëren. Daarna herschrijven we je homepage.",
+  "summary": "Je positionering, vastgelegd en op je homepage. We gaan terug naar waar je bedrijf begon en zoeken wat geen concurrent kan kopiëren.",
   "duration": "2 weken",
   "priceStatus": "proposal",
   "prices": [
@@ -11,15 +11,15 @@
     { "label": "Omzet boven €25M", "from": 4950 }
   ],
   "deliverables": [
-    { "name": "Kernverhaal", "format": "Document, getoetst aan vier checks", "size": "1 pagina" },
-    { "name": "Homepage", "format": "Wireframe met productieklare Nederlandse tekst", "size": "1 pagina" },
+    { "name": "Positionering en kernverhaal", "format": "Voor wie je de beste keuze bent, tegen welk alternatief, en waarom. Plus het verhaal dat die positie vertelt. Getoetst aan vier checks", "size": "1 pagina" },
+    { "name": "Homepage", "format": "Wireframe met productieklare Nederlandse tekst op je nieuwe positionering", "size": "1 pagina" },
     { "name": "Verbeterplan", "format": "Je 5 belangrijkste pagina's, op volgorde van impact", "size": "1 pagina" }
   ],
   "process": [
     { "when": "Vooraf", "what": "Intakeformulier en toegang tot je analytics", "clientTime": "45 min" },
     { "when": "Week 1, maandag", "what": "Founder-interview: waar begon het, waarom kiezen klanten jou", "clientTime": "90 min" },
-    { "when": "Week 1, woensdag", "what": "Workshop: de kern en de vier checks", "clientTime": "60 min" },
-    { "when": "Week 1, donderdag en vrijdag", "what": "Schrijven", "clientTime": "geen" },
+    { "when": "Week 1, woensdag", "what": "Workshop: je positionering en de vier checks", "clientTime": "60 min" },
+    { "when": "Week 1, donderdag en vrijdag", "what": "Positionering en kernverhaal schrijven", "clientTime": "geen" },
     { "when": "Week 2, maandag", "what": "Eerste versie van de homepage", "clientTime": "30 min review" },
     { "when": "Week 2, dinsdag", "what": "Live review", "clientTime": "60 min" },
     { "when": "Week 2, vrijdag", "what": "Overdracht", "clientTime": "60 min" }

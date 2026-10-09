@@ -7,7 +7,7 @@ import Placeholder from '../components/Placeholder.astro';
 import Checklist from '../components/Checklist.astro';
 import KapotteLetters from '../components/KapotteLetters.astro';
 import Faq from '../components/Faq.astro';
-import MediaIcon from '../components/MediaIcon.astro';
+import ProductIcon from '../components/ProductIcon.astro';
 import { priceLabel } from '../lib/format';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -17,11 +17,11 @@ const faq = (await getCollection('faq'))
 const teardowns = (await getCollection('teardowns', (t) => !t.data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
-const rewind = services.find((s) => s.id === 'rewind');
+const blueprint = services.find((s) => s.id === 'blueprint');
 
-const title = 'neon · Marketing automation. Eerst het verhaal, dan de automation';
+const title = 'neon · Marketing automation. Eerst positionering, dan automation';
 const description =
-  'Ik bouw marketing automation voor traditionele B2B-bedrijven. Eerst een verhaal dat helder en anders is. Dan pagina\'s en automation die werken.';
+  'Ik bouw marketing automation voor traditionele B2B-bedrijven. Eerst een positionering die helder en anders is. Dan pagina\'s en automation die werken.';
 
 const jsonLd = [
   {
@@ -49,12 +49,12 @@ const jsonLd = [
 ];
 
 const story = [
-  { word: 'Gas', product: 'Rewind', id: 'rewind', text: 'Je verhaal is er al. Het zit in je bedrijf en in wat klanten over je zeggen. Het is alleen nog niet zichtbaar. Rewind vindt het.' },
-  { word: 'Buis', product: 'Play', id: 'play', text: 'Pagina\'s die het verhaal vorm geven. Elk met een formulier en een bedankpagina met een volgende stap.' },
-  { word: 'Stroom', product: 'Autoplay', id: 'autoplay', text: 'Automation die het verhaal elke dag vertelt, tot de tweede bestelling.' },
+  { word: 'Gas', product: 'Blueprint', id: 'blueprint', text: 'Je positie is er al. Ze zit in hoe je bedrijf begon en in waarom klanten voor je kiezen. Ze is alleen nog niet zichtbaar. Blueprint legt haar vast, met het verhaal erbij.' },
+  { word: 'Buis', product: 'Build', id: 'build', text: 'Pagina\'s die je positionering laten zien. Elk met een formulier en een bedankpagina met een volgende stap.' },
+  { word: 'Stroom', product: 'Flow', id: 'flow', text: 'Automation die je verhaal elke dag vertelt, tot de tweede bestelling.' },
 ];
 const nots = [
-  'Geen campagnes op een verhaal dat niet klopt.',
+  'Geen campagnes op een positionering die niet klopt.',
   'Geen koude e-mail naar gekochte lijsten.',
   'Geen Salesforce.',
   'Geen volledige websiteredesign.',
@@ -67,11 +67,11 @@ const nots = [
     <div class="mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-between px-4 pb-10 pt-16 md:px-8 md:pt-28">
       <div>
         <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Voor traditionele B2B-bedrijven</p>
-        <h1 class="mt-8 max-w-5xl text-[2.75rem] leading-[1.02] tracking-[-0.025em] md:text-8xl">
+        <h1 class="mt-8 max-w-5xl text-[2.35rem] leading-[1.04] tracking-[-0.025em] md:text-8xl">
           Ik bouw marketing automation. En ik zeg vaak: <span class="neon-text flicker-once">nog niet.</span>
         </h1>
         <p class="mt-8 max-w-xl text-lg text-paper/80 md:text-xl">
-          Eerst een verhaal dat helder en anders is. Dan pagina's en automation die werken.
+          Eerst een positionering die helder en anders is. Dan pagina's en automation die werken.
         </p>
         <div class="mt-10 flex flex-wrap gap-3">
           <Button href="/contact/">Plan een kennismaking</Button>
@@ -91,8 +91,8 @@ const nots = [
   </Section>
 
   <Section id="principe" n="02" label="Het principe">
-    <p class="max-w-5xl font-serif text-4xl leading-[1.08] tracking-[-0.02em] md:text-7xl">
-      Een systeem versterkt wat je erin stopt. Een vaag verhaal wordt alleen sneller vaag.
+    <p class="max-w-5xl font-display text-4xl leading-[1.08] tracking-[-0.02em] md:text-7xl">
+      Een systeem versterkt wat je erin stopt. Een vage positionering wordt alleen sneller vaag.
     </p>
     <div class="mt-16 rounded-3xl bg-forest p-8 md:mt-24 md:p-16">
       <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Zo klinkt het nu</p>
@@ -114,20 +114,20 @@ const nots = [
     <ol class="grid gap-px overflow-hidden rounded-3xl border border-paper/15 bg-paper/15 md:grid-cols-3">
       {story.map((s) => (
         <li class="flex flex-col bg-night p-8 md:p-10">
-          <p class="font-serif text-5xl tracking-[-0.02em] md:text-6xl">{s.word}</p>
+          <p class="font-display text-5xl tracking-[-0.02em] md:text-6xl">{s.word}</p>
           <p class="mt-8 text-paper/80">{s.text}</p>
-          <p class="mt-auto flex items-center gap-2 pt-10 text-sm font-medium"><MediaIcon id={s.id} class="size-5" /> {s.product}</p>
+          <p class="mt-auto flex items-center gap-2 pt-10 text-sm font-medium"><ProductIcon id={s.id} class="size-5" /> {s.product}</p>
         </li>
       ))}
     </ol>
-    <p class="mt-12 font-serif text-3xl md:text-4xl">Je verhaal is er al. Wij zetten er stroom op.</p>
+    <p class="mt-12 font-display text-3xl md:text-4xl">Je verhaal is er al. Wij zetten er stroom op.</p>
   </Section>
 
   <Section id="bewijs" n="04" label="Uit 10 jaar" title="Drie korte voorbeelden" intro="Geanonimiseerd. Vul hier echte cases met cijfers in, zodra je ze mag delen.">
     <ul class="grid gap-6 md:grid-cols-3">
       {[1, 2, 3].map((n) => (
         <li class="border-t border-paper pt-6">
-          <p class="font-serif text-5xl text-paper/70">0{n}</p>
+          <p class="font-display text-5xl text-paper/70">0{n}</p>
           <p class="mt-6 font-medium"><Placeholder label="Sector en uitgangssituatie" /></p>
           <p class="mt-3 text-paper/80"><Placeholder label="Wat we veranderden" /></p>
           <p class="mt-3 text-paper/80"><Placeholder label="Resultaat in cijfers, na X weken" /></p>
@@ -136,14 +136,14 @@ const nots = [
     </ul>
   </Section>
 
-  <Section id="producten" n="05" label="Producten" title="Drie producten. Begin bij Rewind." intro="Alle prijzen zijn voorstellen. We bevestigen ze in de kennismaking.">
+  <Section id="producten" n="05" label="Producten" title="Drie producten. Begin bij Blueprint." intro="Alle prijzen zijn voorstellen. We bevestigen ze in de kennismaking.">
     <ul class="grid gap-4 md:grid-cols-3">
       {services.map((s) => {
-        const start = s.id === 'rewind';
+        const start = s.id === 'blueprint';
         return (
           <li class={`flex flex-col rounded-3xl p-8 ${start ? 'on-dark' : 'border border-paper/15'}`}>
             <div class="flex items-center justify-between">
-              <MediaIcon id={s.id} class={`size-8 ${start ? 'text-mint' : 'text-paper'}`} />
+              <ProductIcon id={s.id} class={`size-8 ${start ? 'text-mint' : 'text-paper'}`} />
               {start && <span class="rounded-full bg-mint px-3 py-1 text-xs font-semibold text-forest">Startpunt</span>}
             </div>
             <h3 class="mt-10 text-4xl">{s.data.name}</h3>
@@ -164,14 +164,14 @@ const nots = [
     </ul>
   </Section>
 
-  <Section id="krijg" n="06" label="Rewind" title="Wat je van Rewind krijgt">
+  <Section id="krijg" n="06" label="Blueprint" title="Wat je van Blueprint krijgt">
     <div class="grid gap-12 md:grid-cols-2">
       <ol class="border-b border-paper/15">
-        {rewind?.data.deliverables.map((d, i) => (
+        {blueprint?.data.deliverables.map((d, i) => (
           <li class="grid grid-cols-[3rem_1fr] border-t border-paper/15 py-6">
-            <span class="font-serif text-2xl text-paper/70">0{i + 1}</span>
+            <span class="font-display text-2xl text-paper/70">0{i + 1}</span>
             <div>
-              <p class="font-serif text-3xl">{d.name}</p>
+              <p class="font-display text-3xl">{d.name}</p>
               <p class="mt-2 text-paper/80">{d.format}. {d.size}.</p>
             </div>
           </li>
@@ -179,16 +179,16 @@ const nots = [
       </ol>
       <figure>
         <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-paper/5 p-8 text-center text-paper/75">
-          <Placeholder label="Voorbeeldafbeelding: een pagina van het kernverhaal" />
+          <Placeholder label="Voorbeeldafbeelding: een pagina van de positionering" />
         </div>
         <figcaption class="mt-3 text-sm text-paper/70">Vervang door een echt voorbeeld, zodra die er is.</figcaption>
       </figure>
     </div>
   </Section>
 
-  <Section id="dag" n="07" label="Proces" title="Rewind, dag voor dag" intro="Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.">
+  <Section id="dag" n="07" label="Proces" title="Blueprint, dag voor dag" intro="Ongeveer 6 uur van jouw tijd. Het schrijven doen wij.">
     <ol class="border-b border-paper/15">
-      {rewind?.data.process.map((step) => (
+      {blueprint?.data.process.map((step) => (
         <li class="grid gap-1 border-t border-paper/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
           <span class="font-medium">{step.when}</span>
           <span class="text-paper/80">{step.what}</span>
@@ -200,7 +200,7 @@ const nots = [
 
   <Section id="niet" n="08" label="Wat ik niet doe" tone="dark" title="Wat ik niet doe">
     <ul class="border-b border-paper/15">
-      {nots.map((n) => <li class="border-t border-paper/15 py-5 font-serif text-2xl md:text-4xl">{n}</li>)}
+      {nots.map((n) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-4xl">{n}</li>)}
     </ul>
   </Section>
 
@@ -211,14 +211,14 @@ const nots = [
             <li>
               <a href={`/teardowns/${t.id}/`} class="block h-full rounded-3xl border border-paper/15 p-8 hover:border-paper">
                 <p class="text-sm text-paper/70">{t.data.company} · {t.data.type}</p>
-                <p class="mt-6 font-serif text-3xl">{t.data.title}</p>
+                <p class="mt-6 font-display text-3xl">{t.data.title}</p>
               </a>
             </li>
           ))
         : [1, 2, 3].map((n) => (
             <li class="rounded-3xl border border-dashed border-paper/30 p-8">
               <p class="text-sm text-paper/70">Nog geen gepubliceerde teardown</p>
-              <p class="mt-6 font-serif text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
+              <p class="mt-6 font-display text-3xl"><Placeholder label={`Teardown ${n}: titel`} /></p>
             </li>
           ))}
     </ul>
@@ -232,7 +232,7 @@ const nots = [
   <section class="on-dark border-t border-paper/10" aria-labelledby="cta">
     <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-40">
       <h2 id="cta" class="max-w-5xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-7xl">
-        Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst <span class="neon-text">je verhaal</span> moet fixen.
+        Plan 30 minuten. Ik zeg je eerlijk of je klaar bent voor campagnes, of eerst <span class="neon-text">je positionering</span> moet fixen.
       </h2>
       <div class="mt-12"><Button href="/contact/">Plan een kennismaking</Button></div>
     </div>

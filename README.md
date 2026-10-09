@@ -49,7 +49,7 @@ Cloudflare Web Analytics loads only when `PUBLIC_CF_ANALYTICS_TOKEN` is set as a
 - Proof on the homepage: three anonymised cases with numbers
 - Number of teardowns in the hero credibility line (`[X]`)
 - At least three teardowns
-- Preview image of a kernverhaal (homepage, "Wat je van Rewind krijgt")
+- Preview image of the positioning page (homepage, "Wat je van Blueprint krijgt")
 - About page: career in 2 or 3 sentences, and a photo
 - Privacy page: date, retention period, name of the booking tool, and a legal check
 - Domain: the name is now neon, but `SITE` still says neeeon.nl. Update it once the domain is known.

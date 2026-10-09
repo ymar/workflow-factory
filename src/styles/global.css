@@ -8,8 +8,8 @@
   --color-paper: #f5f3ec;
   --color-ink: #13201b;
   --color-dim: #7f9a8d;
-  --font-serif: "Newsreader Variable", Georgia, serif;
-  --font-sans: "Geist Variable", system-ui, sans-serif;
+  --font-display: "Inter Variable", system-ui, sans-serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
 }
 
 @layer base {
@@ -29,11 +29,13 @@
   body {
     font-size: 1.0625rem;
     line-height: 1.6;
+    font-feature-settings: "cv11", "ss03";
   }
   h1, h2, h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    line-height: 1.1;
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
     text-wrap: balance;
   }
   :focus-visible {

@@ -22,7 +22,7 @@ const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', ye
     <header class="hero-glow">
       <div class="mx-auto max-w-6xl px-4 pb-20 pt-16 md:px-8 md:pb-28 md:pt-28">
         <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">{fmt.format(date)} · {type}</p>
-        <h1 class="mt-6 max-w-5xl text-[2.6rem] leading-[1.03] tracking-[-0.02em] md:text-7xl">{title}</h1>
+        <h1 class="mt-6 max-w-5xl text-[2.25rem] leading-[1.05] tracking-[-0.02em] md:text-7xl">{title}</h1>
         <p class="mt-6 text-sage">{company}</p>
         <div class="mt-16 border-t border-paper/15 pt-8">
           <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Voor</p>
@@ -37,14 +37,14 @@ const fmt = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', ye
         <thead><tr class="text-sm text-paper/70"><th class="pb-3 font-medium">Criterium</th><th class="pb-3 text-right font-medium">Score</th></tr></thead>
         <tbody>
           {scorecard.map((s) => (
-            <tr class="border-t border-paper/15"><td class="py-5 pr-4 text-lg">{s.criterion}</td><td class="py-5 text-right font-serif text-2xl">{s.score}/5</td></tr>
+            <tr class="border-t border-paper/15"><td class="py-5 pr-4 text-lg">{s.criterion}</td><td class="py-5 text-right font-display text-2xl">{s.score}/5</td></tr>
           ))}
         </tbody>
       </table>
     </Section>
 
     <Section id="na" n="02" label="Na" title="Na">
-      <p class="max-w-4xl font-serif text-3xl leading-snug md:text-4xl">{after}</p>
+      <p class="max-w-4xl font-display text-3xl leading-snug md:text-4xl">{after}</p>
     </Section>
 
     <Section id="les" n="03" label="De les" title="De les">

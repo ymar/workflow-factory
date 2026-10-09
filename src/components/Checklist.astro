@@ -9,11 +9,11 @@ const items = [
 ];
 const verdicts = [
   'Niets aangevinkt. Lees toch even verder. Misschien herken je het later.',
-  'Een paar dingen herken je. Begin dan bij het verhaal, niet bij de campagnes.',
-  'Een paar dingen herken je. Begin dan bij het verhaal, niet bij de campagnes.',
-  'Dan ligt het niet aan je campagnes. Het ligt aan het verhaal.',
-  'Dan ligt het niet aan je campagnes. Het ligt aan het verhaal.',
-  'Dan ligt het niet aan je campagnes. Het ligt aan het verhaal.',
+  'Een paar dingen herken je. Begin dan bij je positionering, niet bij de campagnes.',
+  'Een paar dingen herken je. Begin dan bij je positionering, niet bij de campagnes.',
+  'Dan ligt het niet aan je campagnes. Het ligt aan je positionering.',
+  'Dan ligt het niet aan je campagnes. Het ligt aan je positionering.',
+  'Dan ligt het niet aan je campagnes. Het ligt aan je positionering.',
 ];
 ---
 <div data-checklist>
@@ -24,7 +24,7 @@ const verdicts = [
         <li>
           <label class="check-item flex cursor-pointer items-center gap-5 border-t border-paper/15 py-5 md:py-6">
             <input type="checkbox" name="herken" value={String(i)} class="check-box" />
-            <span class="check-text font-serif text-xl leading-snug text-paper/85 md:text-3xl">{text}</span>
+            <span class="check-text font-display text-xl leading-snug text-paper/85 md:text-3xl">{text}</span>
           </label>
         </li>
       ))}

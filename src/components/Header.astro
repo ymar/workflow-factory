@@ -1,9 +1,9 @@
 ---
 import Wordmark from './Wordmark.astro';
 const links = [
-  { href: '/rewind/', label: 'Rewind' },
-  { href: '/play/', label: 'Play' },
-  { href: '/autoplay/', label: 'Autoplay' },
+  { href: '/blueprint/', label: 'Blueprint' },
+  { href: '/build/', label: 'Build' },
+  { href: '/flow/', label: 'Flow' },
   { href: '/installatie-onderhoud/', label: 'Installatie & onderhoud' },
   { href: '/teardowns/', label: 'Teardowns' },
   { href: '/over/', label: 'Over' },
@@ -28,7 +28,7 @@ const current = (href: string) => (path.startsWith(href) ? 'page' : undefined);
         <nav aria-label="Mobiel menu" class="absolute inset-x-0 top-16 h-[calc(100svh-4rem)] border-b border-paper/10 bg-night px-4 pb-10 pt-6">
           <ul class="space-y-1">
             {[...links, { href: '/contact/', label: 'Contact' }].map((l) => (
-              <li><a href={l.href} aria-current={current(l.href)} class="block rounded py-2 font-serif text-3xl text-paper aria-[current=page]:text-mint">{l.label}</a></li>
+              <li><a href={l.href} aria-current={current(l.href)} class="block rounded py-2 font-display text-3xl text-paper aria-[current=page]:text-mint">{l.label}</a></li>
             ))}
           </ul>
         </nav>

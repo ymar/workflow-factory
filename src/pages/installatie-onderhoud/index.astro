@@ -33,7 +33,7 @@ const jsonLd = faq.length
 
   <Section id="herken" n="01" label="Wat we vaak horen" title="Wat we vaak horen">
     <ul class="border-b border-paper/15">
-      {problems.map((p) => <li class="border-t border-paper/15 py-5 font-serif text-2xl md:text-3xl">"{p}"</li>)}
+      {problems.map((p) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-3xl">"{p}"</li>)}
     </ul>
   </Section>
 
@@ -41,7 +41,7 @@ const jsonLd = faq.length
     <dl class="border-b border-paper/15">
       {glossary.map((g) => (
         <div class="grid gap-2 border-t border-paper/15 py-6 md:grid-cols-[16rem_1fr] md:gap-8">
-          <dt class="font-serif text-3xl">{g.term}</dt>
+          <dt class="font-display text-3xl">{g.term}</dt>
           <dd class="text-paper/80 md:text-lg">{g.becomes}</dd>
         </div>
       ))}
@@ -50,11 +50,11 @@ const jsonLd = faq.length
 
   <Section id="journeys" n="03" label="Journeys" tone="dark" title="Journeys die hier passen">
     <ul class="border-b border-paper/15">
-      {journeys.map((j) => <li class="border-t border-paper/15 py-5 font-serif text-2xl md:text-3xl">{j}</li>)}
+      {journeys.map((j) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-3xl">{j}</li>)}
     </ul>
     <p class="mt-10 max-w-2xl text-sage">
-      Eén uitzondering op "eerst het verhaal": opvolging van aanvragen en offertes kan meteen.
-      De rest begint bij <a href="/rewind/" class="text-mint underline underline-offset-4">Rewind</a>.
+      Eén uitzondering op "eerst de positionering": opvolging van aanvragen en offertes kan meteen.
+      De rest begint bij <a href="/blueprint/" class="text-mint underline underline-offset-4">Blueprint</a>.
     </p>
   </Section>
 

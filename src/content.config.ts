@@ -30,7 +30,7 @@ const faq = defineCollection({
   schema: z.object({
     question: z.string(),
     answer: z.string(),
-    page: z.enum(['home', 'rewind', 'play', 'autoplay', 'segment', 'teardowns', 'over', 'contact', 'privacy']),
+    page: z.enum(['home', 'blueprint', 'build', 'flow', 'segment', 'teardowns', 'over', 'contact', 'privacy']),
     order: z.number(),
   }),
 });

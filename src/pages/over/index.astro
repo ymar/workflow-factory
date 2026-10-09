@@ -7,18 +7,18 @@ import { site } from '../../lib/site';
 ---
 <Base
   title="Over · Waarom ik vaak 'nog niet' zeg | neon"
-  description="10 jaar marketing automation, CRM en RevOps. Waarom ik eerst naar je verhaal kijk, en pas daarna automation bouw."
+  description="10 jaar marketing automation, CRM en RevOps. Waarom ik eerst naar je positionering kijk, en pas daarna automation bouw."
   path="/over/"
 >
   <PageHero kicker="Over" title={`Ik ben ${site.founder}. Ik zeg vaak:`} accent="nog niet." />
 
-  <Section id="verhaal" n="01" label="Waarom nog niet">
+  <Section id="waarom" n="01" label="Waarom nog niet">
     <div class="grid gap-12 md:grid-cols-12">
       <div class="max-w-prose space-y-6 text-lg md:col-span-7 md:text-xl">
         <p>Ik werk al 10 jaar in marketing automation, CRM en RevOps. Ik heb veel systemen gebouwd. De meeste deden precies wat ze moesten doen. Ze verstuurden mails, maakten taken aan en vulden dashboards.</p>
-        <p>Toch werkte het niet altijd. Niet door de techniek, maar door wat erin ging. Een systeem versterkt wat je erin stopt. Een vaag verhaal wordt alleen sneller vaag.</p>
-        <p>Daarom zeg ik vaak: nog niet. Eerst een verhaal dat helder en anders is. Dan pagina's en automation die werken.</p>
-        <p class="font-serif text-3xl leading-snug md:text-4xl">Helder is de weg. Onderscheidend is het doel.</p>
+        <p>Toch werkte het niet altijd. Niet door de techniek, maar door wat erin ging. Een systeem versterkt wat je erin stopt. Een vage positionering wordt alleen sneller vaag.</p>
+        <p>Daarom zeg ik vaak: nog niet. Eerst een positionering die helder en anders is. Dan pagina's en automation die werken.</p>
+        <p class="font-display text-3xl leading-snug md:text-4xl">Helder is de weg. Onderscheidend is het doel.</p>
       </div>
       <figure class="md:col-span-4 md:col-start-9">
         <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-paper/5 p-6 text-center"><Placeholder label="Foto" /></div>
@@ -30,7 +30,7 @@ import { site } from '../../lib/site';
     <p class="max-w-3xl text-lg md:text-xl">Ik denk in de bowtie. Elke stap in je verkoop, en daarna, heeft een volume, een conversiepercentage en een doorlooptijd. Zo zie je waar het lekt. Het is de basis van mijn werk, geen certificering.</p>
     <ul class="mt-12 grid gap-4 md:grid-cols-3">
       {['Volume', 'Conversie', 'Doorlooptijd'].map((w, i) => (
-        <li class="rounded-3xl border border-paper/15 p-8"><p class="text-sm text-paper/70">0{i + 1}</p><p class="mt-8 font-serif text-3xl">{w}</p></li>
+        <li class="rounded-3xl border border-paper/15 p-8"><p class="text-sm text-paper/70">0{i + 1}</p><p class="mt-8 font-display text-3xl">{w}</p></li>
       ))}
     </ul>
   </Section>

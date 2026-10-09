@@ -13,9 +13,9 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
   redirects: {
-    '/methode/': '/rewind/',
+    '/methode/': '/blueprint/',
     '/artikelen/': '/teardowns/',
-    '/en/method/': '/rewind/',
+    '/en/method/': '/blueprint/',
     '/en/writing/': '/teardowns/',
   },
 });
