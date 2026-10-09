@@ -1,0 +1,9 @@
+# Keep Cloudflare's own hostnames out of search results. Only the real domain should be indexed.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:worker.:subdomain.workers.dev/*
+  X-Robots-Tag: noindex

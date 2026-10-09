@@ -1,0 +1,10 @@
+// Preview deploy: a Cloudflare Worker with static assets, separate from the future production project.
+// Run: npm run deploy:preview  ->  https://neon-preview.ymar.workers.dev
+{
+  "name": "neon-preview",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "../dist",
+    "html_handling": "auto-trailing-slash"
+  }
+}

@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy:preview": "astro build && npx -y wrangler@4.149.0 deploy --config deploy/preview.wrangler.jsonc"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

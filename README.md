@@ -12,6 +12,12 @@ npm run build    # output in dist/
 
 Cloudflare Pages settings: build command `npm run build`, output directory `dist`.
 
+### Preview
+
+`npm run deploy:preview` builds the site and uploads it to https://neon-preview.ymar.workers.dev (a Cloudflare Worker with static assets, config in `deploy/preview.wrangler.jsonc`). It needs `CLOUDFLARE_API_TOKEN` with Workers permissions. `public/_headers` keeps every `workers.dev` and `pages.dev` address out of search results, so only the real domain gets indexed.
+
+The preview is deliberately not a Pages project: a Pages project made by direct upload can never be connected to GitHub later. Keep the name `neon` free for the production project that deploys from `main`.
+
 ## Where things live
 
 | What | Where |
