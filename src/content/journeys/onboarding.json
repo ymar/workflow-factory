@@ -1,0 +1,48 @@
+{
+  "name": "Onboarding",
+  "order": 3,
+  "side": "tweede-order",
+  "stage": "Start",
+  "summary": "Een nieuwe klant weet vanaf dag één wat er gebeurt, met wie en wanneer.",
+  "trigger": "Een deal wordt gewonnen of een opdracht wordt getekend.",
+  "goal": "Een goede start, zodat de eerste opdracht niet de laatste is.",
+  "steps": [
+    {
+      "when": "Dag 0",
+      "channel": "E-mail",
+      "what": "Welkom, met de planning, de vaste contactpersoon en wat de klant zelf moet regelen."
+    },
+    {
+      "when": "Dag 0",
+      "channel": "Taak",
+      "what": "Overdracht van verkoop naar uitvoering: wat is beloofd, en wat is belangrijk voor deze klant."
+    },
+    {
+      "when": "Een week voor de start",
+      "channel": "E-mail",
+      "what": "Herinnering aan de planning en wat er klaar moet staan."
+    },
+    {
+      "when": "Na de start",
+      "channel": "Taak",
+      "what": "Kort belmoment: loopt alles zoals afgesproken?"
+    },
+    {
+      "when": "Na afronding",
+      "channel": "Systeem",
+      "what": "De opleverdatum wordt vastgelegd. Dat start de nazorg."
+    }
+  ],
+  "handover": "Opleverdatum ingevuld: de nazorg na oplevering neemt het over.",
+  "next": "nazorg-na-oplevering",
+  "metrics": {
+    "volume": "Nieuwe klanten per maand",
+    "conversion": "Deel van de nieuwe klanten dat binnen een jaar een tweede opdracht geeft",
+    "leadTime": "Tijd van gewonnen deal tot start van het werk"
+  },
+  "fits": [
+    "Installatie en onderhoud",
+    "Groothandel",
+    "Zakelijke dienstverlening"
+  ]
+}

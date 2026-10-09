@@ -1,0 +1,91 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import JourneyCard from '../../components/JourneyCard.astro';
+import Bowtie from '../../components/Bowtie.astro';
+import { priceLabel } from '../../lib/format';
+
+const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
+const flow = await getEntry('services', 'flow');
+if (!flow) throw new Error('Missing services/flow.json');
+const groups = [
+  { id: 'eerste-order', n: '01', title: 'Naar de eerste order', intro: 'Aanvragen en offertes. Deze twee kunnen meteen, ook zonder Blueprint.' },
+  { id: 'tweede-order', n: '02', title: 'Naar de tweede order', intro: 'Na de eerste opdracht: start, oplevering, contracten, keuringen en nabestellingen.' },
+] as const;
+
+const title = 'Journeybibliotheek · Marketing automation in HubSpot of ActiveCampaign | neon';
+const description = `${journeys.length} journeys met een trigger, vaste stappen, een overdrachtsregel en een dashboard. Van aanvraagopvolging tot contractverlenging.`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Journeybibliotheek',
+    itemListElement: journeys.map((j, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: j.data.name,
+      url: new URL(`/journeys/${j.id}/`, Astro.site).href,
+    })),
+  },
+];
+---
+<Base title={title} description={description} path="/journeys/" jsonLd={jsonLd}>
+  <PageHero
+    icon="flow"
+    kicker="Journeybibliotheek · Flow"
+    title={`${journeys.length} journeys.`}
+    accent="Kies waar het lekt."
+    intro="Elke journey heeft een trigger, vaste stappen, een overdrachtsregel en een dashboard. Je kiest er één, ik richt hem in. In HubSpot of ActiveCampaign."
+  >
+    <Button href="/contact/">Plan een kennismaking</Button>
+    <Button href="/flow/" variant="ghost-dark">Over Flow</Button>
+  </PageHero>
+  <div>
+    <div class="mx-auto max-w-6xl px-4 pb-20 md:px-8 md:pb-28">
+      <div class="border-t border-paper/15 pt-10"><Bowtie /></div>
+    </div>
+  </div>
+
+  {groups.map((g) => (
+    <Section id={g.id} n={g.n} label={g.title} title={g.title} intro={g.intro}>
+      <ul class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {journeys.filter((j) => j.data.side === g.id).map((j) => (
+          <li><JourneyCard journey={j} /></li>
+        ))}
+        {g.id === 'eerste-order' && (
+          <li class="flex flex-col rounded-3xl bg-forest p-8">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Waarom hier beginnen</p>
+            <p class="mt-8 text-2xl leading-snug">Snel reageren en offertes opvolgen hoeft niet te wachten op je positionering.</p>
+            <p class="mt-3 text-paper/80">Voor de andere journeys geldt: eerst Blueprint.</p>
+            <a href="/blueprint/" class="mt-auto inline-flex items-center gap-2 pt-8 font-medium text-mint">Over Blueprint <span aria-hidden="true">→</span></a>
+          </li>
+        )}
+        {g.id === 'tweede-order' && (
+          <li class="flex flex-col rounded-3xl border border-dashed border-paper/30 p-8">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Maatwerk</p>
+            <p class="mt-8 text-2xl leading-snug">Staat jouw journey er niet bij?</p>
+            <p class="mt-3 text-paper/80">Dan schrijven we eerst een flowspecificatie voor jouw situatie.</p>
+            <a href="/contact/" class="mt-auto inline-flex items-center gap-2 pt-8 font-medium text-mint">Plan een kennismaking <span aria-hidden="true">→</span></a>
+          </li>
+        )}
+      </ul>
+    </Section>
+  ))}
+
+  <Section id="prijs" n="03" label="Prijs" tone="dark" title="Eén prijs per journey">
+    <div class="grid gap-10 md:grid-cols-2">
+      <div>
+        {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}
+        <p class="mt-4 text-paper/80">{flow.data.prices[0]?.label}, {flow.data.duration}. Voorstel.</p>
+        {flow.data.priceNote && <p class="mt-2 text-paper/80">{flow.data.priceNote} Ook dit is een voorstel.</p>}
+      </div>
+      <div class="space-y-4 text-paper/80">
+        <p>Elke journey levert hetzelfde op: een flowspecificatie van één pagina, de flow live met e-mails, verkooptaken en overdrachtsregels, en een dashboard met volume, conversie en doorlooptijd per stap.</p>
+        <div class="pt-4"><Button href="/contact/">Plan een kennismaking</Button></div>
+      </div>
+    </div>
+  </Section>
+</Base>

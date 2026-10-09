@@ -1,0 +1,46 @@
+{
+  "name": "Contractverlenging",
+  "order": 5,
+  "side": "tweede-order",
+  "stage": "Verlenging",
+  "summary": "Onderhoudscontracten worden verlengd voordat ze aflopen. Niet erna.",
+  "trigger": "90 dagen voor de einddatum van een onderhoudscontract.",
+  "goal": "Verlenging, liefst met een contract dat past bij de komende jaren.",
+  "steps": [
+    {
+      "when": "90 dagen vooraf",
+      "channel": "Taak",
+      "what": "Seintje aan de accountmanager, met het contract en de storingen en keuringen van het afgelopen jaar."
+    },
+    {
+      "when": "75 dagen vooraf",
+      "channel": "E-mail",
+      "what": "Overzicht aan de klant: wat we het afgelopen jaar deden, en het voorstel voor verlenging."
+    },
+    {
+      "when": "45 dagen vooraf",
+      "channel": "Taak",
+      "what": "Belopdracht over het voorstel."
+    },
+    {
+      "when": "30 dagen vooraf",
+      "channel": "E-mail",
+      "what": "Herinnering, met de datum waarop het contract afloopt."
+    },
+    {
+      "when": "14 dagen vooraf",
+      "channel": "Systeem",
+      "what": "Nog niet verlengd? Melding aan de teamleider."
+    }
+  ],
+  "handover": "Verlengd: nieuwe einddatum, en volgend jaar start deze journey opnieuw.",
+  "metrics": {
+    "volume": "Contracten die per kwartaal aflopen",
+    "conversion": "Deel dat op tijd verlengd wordt",
+    "leadTime": "Dagen tussen voorstel en verlenging"
+  },
+  "fits": [
+    "Installatie en onderhoud",
+    "Zakelijke dienstverlening"
+  ]
+}

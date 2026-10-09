@@ -1,0 +1,141 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import { priceLabel } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
+  return all.map((journey, i) => ({
+    params: { slug: journey.id },
+    props: { journey, prev: all[i - 1], following: all[i + 1] },
+  }));
+}
+
+const { journey, prev, following } = Astro.props;
+const { name, stage, summary, trigger, goal, steps, handover, metrics, fits, startsWithoutBlueprint } = journey.data;
+const next = journey.data.next ? await getEntry(journey.data.next) : undefined;
+const flow = await getEntry('services', 'flow');
+if (!flow) throw new Error('Missing services/flow.json');
+const segmentLinks: Record<string, string> = { 'Installatie en onderhoud': '/installatie-onderhoud/' };
+const channelStyle = {
+  'E-mail': 'border-paper/30 text-paper',
+  Taak: 'border-mint/50 text-mint',
+  Systeem: 'border-sage/40 text-sage',
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${name}: journey in HubSpot of ActiveCampaign`,
+    description: summary,
+    provider: { '@type': 'ProfessionalService', name: 'neon' },
+    areaServed: 'NL',
+    offers: flow.data.prices.map((p) => ({
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      priceSpecification: { '@type': 'PriceSpecification', minPrice: p.from, maxPrice: p.to ?? p.from, priceCurrency: 'EUR' },
+    })),
+  },
+];
+---
+<Base title={`${name} · Journey | neon`} description={`${summary} ${trigger}`} path={`/journeys/${journey.id}/`} jsonLd={jsonLd}>
+  <PageHero icon="flow" kicker={`Journey · ${stage}`} title={name} intro={summary}>
+    <Button href="/contact/">Plan een kennismaking</Button>
+    <Button href="/journeys/" variant="ghost-dark">Alle journeys</Button>
+  </PageHero>
+  {startsWithoutBlueprint && (
+    <div>
+      <div class="mx-auto max-w-6xl px-4 pb-16 md:px-8">
+        <p class="flex max-w-2xl items-start gap-3 border-t border-paper/15 pt-5 text-sage">
+          <span class="mt-0.5 rounded-full bg-mint px-3 py-1 text-xs font-semibold text-forest">Kan meteen</span>
+          Deze journey hoeft niet te wachten op je positionering.
+        </p>
+      </div>
+    </div>
+  )}
+
+  <Section id="trigger" n="01" label="Trigger en doel">
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-3xl border border-paper/15 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Start bij</p>
+        <p class="mt-6 text-2xl leading-snug md:text-3xl">{trigger}</p>
+      </div>
+      <div class="rounded-3xl border border-paper/15 p-8">
+        <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">Doel</p>
+        <p class="mt-6 text-2xl leading-snug md:text-3xl">{goal}</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="stappen" n="02" label="Stappen" title="Zo loopt het" intro="Voorbeeldopzet. We stemmen de timing af op jouw verkoopproces.">
+    <ol class="border-b border-paper/15">
+      {steps.map((s) => (
+        <li class="grid gap-2 border-t border-paper/15 py-5 md:grid-cols-[14rem_7rem_1fr] md:items-baseline md:gap-8">
+          <span class="font-medium">{s.when}</span>
+          <span><span class={`inline-block rounded-full border px-3 py-0.5 text-xs font-medium ${channelStyle[s.channel]}`}>{s.channel}</span></span>
+          <span class="text-paper/80 md:text-lg">{s.what}</span>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="overdracht" n="03" label="Overdracht" title="Waar het stopt">
+    <p class="max-w-3xl text-2xl leading-snug md:text-3xl">{handover}</p>
+    {next && (
+      <div class="mt-10"><Button href={`/journeys/${next.id}/`} variant="ghost-light">Volgende journey: {next.data.name}</Button></div>
+    )}
+  </Section>
+
+  <Section id="dashboard" n="04" label="Dashboard" title="Wat je dashboard laat zien" intro="Per stap: hoeveel, hoeveel procent, en hoe snel.">
+    <ul class="grid gap-4 md:grid-cols-3">
+      {[['Volume', metrics.volume], ['Conversie', metrics.conversion], ['Doorlooptijd', metrics.leadTime]].map(([label, text]) => (
+        <li class="rounded-3xl border border-paper/15 p-8">
+          <p class="text-xs font-medium uppercase tracking-[0.18em] text-sage">{label}</p>
+          <p class="mt-6 text-xl leading-snug">{text}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="past" n="05" label="Past bij" title="Voor wie">
+    <ul class="flex flex-wrap gap-3">
+      {fits.map((f) => (
+        <li>
+          {segmentLinks[f]
+            ? <a href={segmentLinks[f]} class="inline-block rounded-full border border-paper/30 px-4 py-2 hover:border-mint hover:text-mint">{f} →</a>
+            : <span class="inline-block rounded-full border border-paper/15 px-4 py-2 text-paper/80">{f}</span>}
+        </li>
+      ))}
+    </ul>
+    <p class="mt-8 text-paper/80">Werkt in HubSpot of ActiveCampaign. Geen Salesforce.</p>
+  </Section>
+
+  <Section id="prijs" n="06" label="Prijs" tone="dark" title={`${name}, ingericht in ${flow.data.duration.replace(' per journey', '')}`}>
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div>
+        {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}
+        <p class="mt-3 text-paper/80">Per journey. Voorstel. {flow.data.priceNote}</p>
+      </div>
+      <Button href="/contact/">Plan een kennismaking</Button>
+    </div>
+  </Section>
+
+  <nav aria-label="Andere journeys" class="mx-auto grid max-w-6xl gap-4 px-4 pb-24 md:grid-cols-2 md:px-8">
+    {prev ? (
+      <a href={`/journeys/${prev.id}/`} class="rounded-3xl border border-paper/15 p-6 hover:border-mint/60">
+        <span class="text-xs uppercase tracking-[0.18em] text-sage">← Vorige</span>
+        <span class="mt-2 block text-2xl">{prev.data.name}</span>
+      </a>
+    ) : <span />}
+    {following && (
+      <a href={`/journeys/${following.id}/`} class="rounded-3xl border border-paper/15 p-6 text-right hover:border-mint/60">
+        <span class="text-xs uppercase tracking-[0.18em] text-sage">Volgende →</span>
+        <span class="mt-2 block text-2xl">{following.data.name}</span>
+      </a>
+    )}
+  </nav>
+</Base>

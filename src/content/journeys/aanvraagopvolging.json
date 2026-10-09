@@ -1,0 +1,54 @@
+{
+  "name": "Aanvraagopvolging",
+  "order": 1,
+  "side": "eerste-order",
+  "stage": "Aanvraag",
+  "startsWithoutBlueprint": true,
+  "summary": "Elke aanvraag krijgt binnen minuten antwoord en binnen een werkdag een telefoontje.",
+  "trigger": "Er komt een nieuwe aanvraag binnen via een formulier op je site.",
+  "goal": "Van aanvraag naar een afspraak of een offerte, zonder dat er iets blijft liggen.",
+  "steps": [
+    {
+      "when": "Direct",
+      "channel": "E-mail",
+      "what": "Bevestiging aan de klant: we hebben je vraag, dit gebeurt er nu, en dit is wie je belt."
+    },
+    {
+      "when": "Direct",
+      "channel": "Taak",
+      "what": "Belopdracht voor de verkoper, met de vraag, de pagina waar de aanvraag vandaan kwam en eerdere contacten."
+    },
+    {
+      "when": "Na 1 werkdag",
+      "channel": "Systeem",
+      "what": "Nog niet gebeld? Melding aan de verkoper en de teamleider."
+    },
+    {
+      "when": "Dag 2",
+      "channel": "E-mail",
+      "what": "Nog geen contact? Een korte mail met een link om zelf een moment te kiezen."
+    },
+    {
+      "when": "Dag 5",
+      "channel": "Taak",
+      "what": "Tweede belpoging, met wat er al geprobeerd is."
+    },
+    {
+      "when": "Dag 10",
+      "channel": "E-mail",
+      "what": "Laatste bericht: zullen we je vraag sluiten, of wil je nog contact?"
+    }
+  ],
+  "handover": "Afspraak gemaakt of offerte gevraagd: de aanvraag wordt een deal in de fase Offerte, met alle context erbij.",
+  "next": "offerteopvolging",
+  "metrics": {
+    "volume": "Aanvragen per week, per bron",
+    "conversion": "Deel van de aanvragen dat een offerte wordt",
+    "leadTime": "Tijd van aanvraag tot eerste contact, en tot offerte"
+  },
+  "fits": [
+    "Installatie en onderhoud",
+    "Groothandel",
+    "Zakelijke dienstverlening"
+  ]
+}

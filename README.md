@@ -22,6 +22,7 @@ Cloudflare Pages settings: build command `npm run build`, output directory `dist
 | FAQ per page | `src/content/faq/*.json` (field `page`) |
 | Segment page | `src/content/segments/installatie-onderhoud.json` |
 | Teardowns | `src/content/teardowns/*.md` |
+| Journey library (Flow) | `src/content/journeys/*.json` |
 | Redirects | `astro.config.mjs` and `public/_redirects` (the `/en/*` wildcard only works in `_redirects`) |
 | Brand tokens (dark theme: `night` base, `forest` for highlighted blocks) | `src/styles/global.css` |
 
@@ -32,6 +33,10 @@ Prices have `"priceStatus": "proposal"` and show as "voorstel". Set it to `"conf
 ### Adding a teardown
 
 Copy `src/content/teardowns/voorbeeld-template.md`, fill it in and set `draft: false`. Drafts never reach the build. In `before`, mark generic words with `~tildes~` (switched off) and distinct words with `*asterisks*` (lit).
+
+### Adding a journey
+
+Copy a file in `src/content/journeys/`, give it a new file name (that becomes the URL, `/journeys/<name>/`) and fill it in. `side` is `eerste-order` or `tweede-order` and decides the group in the library. `next` (optional) names the journey that takes over at the handover. Set `startsWithoutBlueprint` to `true` only for journeys that do not need positioning first. To show a journey on the segment page, add its file name to `journeys` in the segment file.
 
 ### Analytics
 

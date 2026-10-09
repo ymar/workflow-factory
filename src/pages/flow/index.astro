@@ -1,12 +1,15 @@
 ---
+import { getCollection } from 'astro:content';
 import ServicePage from '../../components/ServicePage.astro';
+import Button from '../../components/Button.astro';
+const journeys = (await getCollection('journeys')).sort((a, b) => a.data.order - b.data.order);
 ---
 <ServicePage
   id="flow"
   headline="Flow. Je verhaal, elke dag,"
   accent="tot de tweede order."
   title="Flow · Marketing automation in HubSpot of ActiveCampaign | neon"
-  description="Flow: journeys in HubSpot of ActiveCampaign voor leadopvolging, offerteopvolging, onboarding, contractverlenging en nabestellingen. 3 weken per journey."
+  description="Flow: journeys uit de bibliotheek, ingericht in HubSpot of ActiveCampaign. Van aanvraagopvolging tot contractverlenging en nabestellingen. 3 weken per journey."
   signals={[
     'Aanvragen en offertes blijven liggen.',
     'Je hebt HubSpot, maar weet niet wat je erin moet zetten.',
@@ -15,14 +18,22 @@ import ServicePage from '../../components/ServicePage.astro';
   ]}
 >
   <div slot="after-deliverables" class="mt-16 grid gap-8 md:grid-cols-[16rem_1fr]">
-    <h3 class="text-3xl">Voorbeelden van journeys</h3>
+    <div>
+      <h3 class="text-3xl">De journeybibliotheek</h3>
+      <p class="mt-4 text-paper/80">Kies een journey. Elke journey heeft een eigen pagina met de trigger, de stappen en wat het dashboard meet.</p>
+    </div>
     <div>
       <ul class="border-b border-paper/15">
-        {['Leadopvolging', 'Offerteopvolging', 'Onboarding', 'Contractverlenging', 'Nabestellingen'].map((j) => (
-          <li class="border-t border-paper/15 py-4 text-lg">{j}</li>
+        {journeys.map((j) => (
+          <li class="border-t border-paper/15">
+            <a href={`/journeys/${j.id}/`} class="group flex items-center justify-between gap-4 py-4 text-lg hover:text-mint">
+              <span>{j.data.name}{j.data.startsWithoutBlueprint && <span class="ml-3 rounded-full bg-mint px-2.5 py-0.5 align-middle text-[11px] font-semibold text-forest">Kan meteen</span>}</span>
+              <span aria-hidden="true" class="text-sage transition-transform group-hover:text-mint motion-safe:group-hover:translate-x-0.5">→</span>
+            </a>
+          </li>
         ))}
       </ul>
-      <p class="mt-6 text-paper/80">Ik werk in HubSpot of ActiveCampaign. Geen Salesforce.</p>
+      <div class="mt-8"><Button href="/journeys/" variant="ghost-light">Bekijk de journeybibliotheek</Button></div>
     </div>
   </div>
   <div slot="after-price" class="mt-10 flex flex-col gap-4 rounded-3xl border border-mint/40 bg-mint/10 p-8 md:flex-row md:items-center md:justify-between">

@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection, getEntries, getEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
@@ -8,7 +8,8 @@ import Faq from '../../components/Faq.astro';
 
 const segment = await getEntry('segments', 'installatie-onderhoud');
 if (!segment) throw new Error('Missing segments/installatie-onderhoud.json');
-const { name, problems, journeys, glossary } = segment.data;
+const { name, problems, glossary } = segment.data;
+const journeys = await getEntries(segment.data.journeys);
 const faq = (await getCollection('faq')).filter((f) => f.data.page === 'segment').sort((a, b) => a.data.order - b.data.order);
 const title = 'Marketing automation voor installatie- en onderhoudsbedrijven | neon';
 const description =
@@ -42,7 +43,10 @@ const jsonLd = faq.length
       {glossary.map((g) => (
         <div class="grid gap-2 border-t border-paper/15 py-6 md:grid-cols-[16rem_1fr] md:gap-8">
           <dt class="font-display text-3xl">{g.term}</dt>
-          <dd class="text-paper/80 md:text-lg">{g.becomes}</dd>
+          <dd class="text-paper/80 md:text-lg">
+            {g.becomes}
+            {g.journey && <a href={`/journeys/${g.journey.id}/`} class="mt-3 block font-medium text-mint hover:underline">Bekijk de journey →</a>}
+          </dd>
         </div>
       ))}
     </dl>
@@ -50,7 +54,13 @@ const jsonLd = faq.length
 
   <Section id="journeys" n="03" label="Journeys" tone="dark" title="Journeys die hier passen">
     <ul class="border-b border-paper/15">
-      {journeys.map((j) => <li class="border-t border-paper/15 py-5 font-display text-2xl md:text-3xl">{j}</li>)}
+      {journeys.map((j) => (
+        <li class="border-t border-paper/15">
+          <a href={`/journeys/${j.id}/`} class="group flex items-center justify-between gap-4 py-5 font-display text-2xl hover:text-mint md:text-3xl">
+            {j.data.name}<span aria-hidden="true" class="text-sage group-hover:text-mint">→</span>
+          </a>
+        </li>
+      ))}
     </ul>
     <p class="mt-10 max-w-2xl text-sage">
       Eén uitzondering op "eerst de positionering": opvolging van aanvragen en offertes kan meteen.

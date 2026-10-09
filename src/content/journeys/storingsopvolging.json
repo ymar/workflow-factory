@@ -1,0 +1,36 @@
+{
+  "name": "Storingsopvolging",
+  "order": 8,
+  "side": "tweede-order",
+  "stage": "Gebruik",
+  "summary": "Na een storing volgt een check. Na de derde storing volgt een gesprek over vervanging.",
+  "trigger": "Een storingsmelding wordt afgesloten.",
+  "goal": "Minder losse storingen, meer contracten en vervangingen.",
+  "steps": [
+    {
+      "when": "Na de oplossing",
+      "channel": "E-mail",
+      "what": "Korte check: is het opgelost? Met een directe lijn als het terugkomt."
+    },
+    {
+      "when": "Geen contract",
+      "channel": "E-mail",
+      "what": "Uitleg over een onderhoudscontract: wat het voorkomt en wat het inhoudt."
+    },
+    {
+      "when": "Derde storing in 12 maanden",
+      "channel": "Taak",
+      "what": "Gesprek over vervanging of een contract, met de storingshistorie erbij."
+    }
+  ],
+  "handover": "De klant wil vervangen: er wordt een offerte gemaakt en de offerteopvolging start.",
+  "next": "offerteopvolging",
+  "metrics": {
+    "volume": "Storingen per maand, per installatie",
+    "conversion": "Deel van de klanten met herhaalde storingen dat kiest voor vervanging of een contract",
+    "leadTime": "Tijd van derde storing tot gesprek"
+  },
+  "fits": [
+    "Installatie en onderhoud"
+  ]
+}

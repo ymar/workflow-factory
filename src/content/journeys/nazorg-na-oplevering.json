@@ -1,0 +1,41 @@
+{
+  "name": "Nazorg na oplevering",
+  "order": 4,
+  "side": "tweede-order",
+  "stage": "Oplevering",
+  "summary": "Na de oplevering hoort de klant weer van je, voordat er iets kapot is.",
+  "trigger": "De opleverdatum van een project.",
+  "goal": "Een tevreden klant, een review en een onderhoudscontract.",
+  "steps": [
+    {
+      "when": "Dag 7",
+      "channel": "E-mail",
+      "what": "Korte check: werkt alles? Met een directe lijn voor vragen."
+    },
+    {
+      "when": "Dag 30",
+      "channel": "E-mail",
+      "what": "De vraag om een review, alleen als de check goed was."
+    },
+    {
+      "when": "Dag 30",
+      "channel": "Taak",
+      "what": "Belopdracht: hoort er een onderhoudscontract bij deze installatie?"
+    },
+    {
+      "when": "Dag 60",
+      "channel": "E-mail",
+      "what": "Uitleg over onderhoud: wat het voorkomt en wat een contract inhoudt."
+    }
+  ],
+  "handover": "Contract getekend: de einddatum gaat in het systeem en de contractverlenging staat klaar.",
+  "next": "contractverlenging",
+  "metrics": {
+    "volume": "Opleveringen per maand",
+    "conversion": "Deel van de opleveringen met een onderhoudscontract",
+    "leadTime": "Tijd van oplevering tot contract"
+  },
+  "fits": [
+    "Installatie en onderhoud"
+  ]
+}

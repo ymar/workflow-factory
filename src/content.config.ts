@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const price = z.object({
@@ -40,8 +40,8 @@ const segments = defineCollection({
   schema: z.object({
     name: z.string(),
     problems: z.array(z.string()),
-    journeys: z.array(z.string()),
-    glossary: z.array(z.object({ term: z.string(), becomes: z.string() })),
+    journeys: z.array(reference('journeys')),
+    glossary: z.array(z.object({ term: z.string(), becomes: z.string(), journey: reference('journeys').optional() })),
   }),
 });
 
@@ -62,4 +62,24 @@ const teardowns = defineCollection({
   }),
 });
 
-export const collections = { services, faq, segments, teardowns };
+// Journey library: each journey is a ready-made Flow with a trigger, steps, a handover rule and a dashboard.
+const journeys = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/journeys' }),
+  schema: z.object({
+    name: z.string(),
+    order: z.number(),
+    side: z.enum(['eerste-order', 'tweede-order']),
+    stage: z.string(),
+    summary: z.string(),
+    trigger: z.string(),
+    goal: z.string(),
+    steps: z.array(z.object({ when: z.string(), channel: z.enum(['E-mail', 'Taak', 'Systeem']), what: z.string() })),
+    handover: z.string(),
+    next: reference('journeys').optional(),
+    metrics: z.object({ volume: z.string(), conversion: z.string(), leadTime: z.string() }),
+    fits: z.array(z.string()),
+    startsWithoutBlueprint: z.boolean().default(false),
+  }),
+});
+
+export const collections = { services, faq, segments, teardowns, journeys };

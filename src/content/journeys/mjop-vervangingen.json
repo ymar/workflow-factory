@@ -1,0 +1,36 @@
+{
+  "name": "MJOP-vervangingen",
+  "order": 7,
+  "side": "tweede-order",
+  "stage": "Groei",
+  "summary": "Geplande vervangingen uit het meerjarenonderhoudsplan worden op tijd een offerte.",
+  "trigger": "6 maanden voor een geplande vervanging in het MJOP.",
+  "goal": "De vervanging als opdracht bij jou, niet als spoedklus bij een ander.",
+  "steps": [
+    {
+      "when": "6 maanden vooraf",
+      "channel": "Taak",
+      "what": "Seintje aan de accountmanager, met de regel uit het MJOP en de staat van de installatie."
+    },
+    {
+      "when": "5 maanden vooraf",
+      "channel": "E-mail",
+      "what": "Bericht aan de klant: deze vervanging staat gepland, en zo bereiden we haar voor."
+    },
+    {
+      "when": "4 maanden vooraf",
+      "channel": "Taak",
+      "what": "Offerte maken en bespreken."
+    }
+  ],
+  "handover": "Offerte verstuurd: de offerteopvolging neemt het over.",
+  "next": "offerteopvolging",
+  "metrics": {
+    "volume": "Geplande vervangingen per jaar",
+    "conversion": "Deel dat bij jou als opdracht terechtkomt",
+    "leadTime": "Maanden tussen eerste contact en opdracht"
+  },
+  "fits": [
+    "Installatie en onderhoud"
+  ]
+}

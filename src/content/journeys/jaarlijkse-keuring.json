@@ -1,0 +1,41 @@
+{
+  "name": "Jaarlijkse keuring",
+  "order": 6,
+  "side": "tweede-order",
+  "stage": "Gebruik",
+  "summary": "Keuringen worden ingepland voordat de klant eraan denkt.",
+  "trigger": "6 weken voor de datum van de jaarlijkse keuring.",
+  "goal": "Elke keuring op tijd gepland, zonder belrondes.",
+  "steps": [
+    {
+      "when": "6 weken vooraf",
+      "channel": "E-mail",
+      "what": "Uitnodiging om de keuring in te plannen, met een link om zelf een moment te kiezen."
+    },
+    {
+      "when": "4 weken vooraf",
+      "channel": "Systeem",
+      "what": "Nog niet gepland? Een tweede bericht."
+    },
+    {
+      "when": "3 weken vooraf",
+      "channel": "Taak",
+      "what": "Belopdracht voor de planner."
+    },
+    {
+      "when": "Na de keuring",
+      "channel": "E-mail",
+      "what": "Uitslag en adviezen, met een offerte als er iets vervangen moet worden."
+    }
+  ],
+  "handover": "Advies om te vervangen: er wordt een offerte gemaakt en de offerteopvolging start.",
+  "next": "offerteopvolging",
+  "metrics": {
+    "volume": "Keuringen per maand",
+    "conversion": "Deel dat zonder belactie wordt ingepland",
+    "leadTime": "Dagen van uitnodiging tot geplande keuring"
+  },
+  "fits": [
+    "Installatie en onderhoud"
+  ]
+}

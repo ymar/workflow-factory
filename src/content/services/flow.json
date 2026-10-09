@@ -2,20 +2,50 @@
   "name": "Flow",
   "icon": "flow",
   "order": 3,
-  "summary": "Journeys in HubSpot of ActiveCampaign die je verhaal elke dag vertellen, tot de tweede bestelling. Geen Salesforce.",
+  "summary": "Journeys uit de bibliotheek, ingericht in HubSpot of ActiveCampaign. Ze vertellen je verhaal elke dag, tot de tweede bestelling. Geen Salesforce.",
   "duration": "3 weken per journey",
   "priceStatus": "proposal",
-  "prices": [{ "label": "Per journey", "from": 3500, "to": 6500 }],
+  "prices": [
+    {
+      "label": "Per journey",
+      "from": 3500,
+      "to": 6500
+    }
+  ],
   "priceNote": "Optioneel maandelijks beheer vanaf €750 per maand.",
   "deliverables": [
-    { "name": "Flowspecificatie", "format": "Document", "size": "1 pagina" },
-    { "name": "De flow, live", "format": "E-mails, verkooptaken met context en overdrachtsregels", "size": "1 journey" },
-    { "name": "Dashboard", "format": "Volume, conversie en doorlooptijd per stap", "size": "1 dashboard" }
+    {
+      "name": "Flowspecificatie",
+      "format": "Document",
+      "size": "1 pagina"
+    },
+    {
+      "name": "De flow, live",
+      "format": "E-mails, verkooptaken met context en overdrachtsregels",
+      "size": "1 journey"
+    },
+    {
+      "name": "Dashboard",
+      "format": "Volume, conversie en doorlooptijd per stap",
+      "size": "1 dashboard"
+    }
   ],
   "process": [
-    { "when": "Week 1", "what": "Flowspecificatie schrijven en goedkeuren", "clientTime": "60 min" },
-    { "when": "Week 2", "what": "Flow bouwen in HubSpot of ActiveCampaign", "clientTime": "30 min review" },
-    { "when": "Week 3", "what": "Testen, live zetten en dashboard opleveren", "clientTime": "60 min" }
+    {
+      "when": "Week 1",
+      "what": "Flowspecificatie schrijven en goedkeuren",
+      "clientTime": "60 min"
+    },
+    {
+      "when": "Week 2",
+      "what": "Flow bouwen in HubSpot of ActiveCampaign",
+      "clientTime": "30 min review"
+    },
+    {
+      "when": "Week 3",
+      "what": "Testen, live zetten en dashboard opleveren",
+      "clientTime": "60 min"
+    }
   ],
   "notIncluded": [
     "Campagnes op een positionering die niet klopt",
