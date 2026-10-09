@@ -1,0 +1,7 @@
+label: Telefoon afzender
+type: tekst
+object: afzender
+required: true
+source: CRM, gebruikersprofiel van de eigenaar
+example: 06 12 34 56 78
+check: Een direct nummer. De klant moet de afzender zelf aan de lijn krijgen.

@@ -11,11 +11,13 @@ import { phases } from '../../lib/loop';
 import { statusLabel } from '../../lib/status';
 import { assertLibrary } from '../../lib/library-check';
 import { sortWorkflows } from '../../lib/library';
+import { library } from '../../lib/site';
 
 await assertLibrary();
 
 const workflows = sortWorkflows(await getCollection('workflows'));
 const [fieldCount, metricCount] = [(await getCollection('fields')).length, (await getCollection('metrics')).length];
+const withMails = workflows.filter((w) => w.data.steps.some((s) => s.email)).length;
 const flow = await getEntry('services', 'flow');
 if (!flow) throw new Error('Missing services/flow.json');
 
@@ -74,7 +76,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <Section id="open" n="02" label="Open bibliotheek" title="De opbouw is open. De woorden niet." intro="Gebruik de workflows gerust, ook als je mij niet inhuurt. Vermeld alleen waar ze vandaan komen.">
+  <Section id="open" n="02" label="Open bibliotheek" title={library.emailsPublic ? 'De opbouw en de mails zijn open.' : 'De opbouw is open. De woorden niet.'} intro="Gebruik de workflows gerust, ook als je mij niet inhuurt. Vermeld alleen waar ze vandaan komen.">
     <div class="grid gap-4 md:grid-cols-2">
       <div class="rounded-3xl border border-fg/15 p-8">
         <p class="text-xs font-medium uppercase tracking-[0.18em] text-accent">Open</p>
@@ -84,13 +86,24 @@ const jsonLd = [
           <li>De overdrachtsregel</li>
           <li>Wat het dashboard meet</li>
           <li>De velden die je in je CRM nodig hebt</li>
+          {library.emailsPublic && <li>Voorbeeldmails per stap <span class="text-base text-muted">(klaar voor {withMails} van {workflows.length} workflows)</span></li>}
         </ul>
         <a href="/workflows/data/" class="mt-6 inline-flex items-center gap-2 font-medium text-accent">{fieldCount} velden en {metricCount} metingen, elk één keer gedefinieerd <span aria-hidden="true">→</span></a>
       </div>
       <div class="rounded-3xl on-dark p-8">
-        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Niet open</p>
-        <p class="mt-6 text-2xl leading-snug">De teksten in de e-mails.</p>
-        <p class="mt-3 text-fg/80">Die schrijven we op jouw positionering. Een goede flow met een vaag verhaal wordt alleen sneller vaag.</p>
+        {library.emailsPublic ? (
+          <>
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Vul je zelf in</p>
+            <p class="mt-6 text-2xl leading-snug">De gele plekken in de mails.</p>
+            <p class="mt-3 text-fg/80">Daar komt wat alleen jij kunt zeggen: wat je voor deze klant deed, en waarom ze voor jou kiezen. Een goede flow met een vaag verhaal wordt alleen sneller vaag.</p>
+          </>
+        ) : (
+          <>
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Niet open</p>
+            <p class="mt-6 text-2xl leading-snug">De teksten in de e-mails.</p>
+            <p class="mt-3 text-fg/80">Die schrijven we op jouw positionering. Een goede flow met een vaag verhaal wordt alleen sneller vaag.</p>
+          </>
+        )}
         <a href="/blueprint/" class="mt-6 inline-flex items-center gap-2 font-medium text-accent">Over Blueprint <span aria-hidden="true">→</span></a>
       </div>
     </div>

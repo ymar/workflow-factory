@@ -10,6 +10,7 @@ needs_blueprint: true
 owner: planner
 priority: 2
 summary: Keuringen worden ingepland voordat de klant eraan denkt.
+updated: 2026-10-09
 trigger: 6 weken voor de datum van de jaarlijkse keuring.
 goal: Elke keuring op tijd gepland, zonder belrondes.
 enroll:
@@ -19,17 +20,20 @@ enroll:
   - keuring.gepland = nee
 steps:
 - id: s1
+  title: Uitnodiging om in te plannen
   at: keuring.datum - 42d
   action: e-mail
   to: klant.contactpersoon
   brief: Uitnodiging om de keuring in te plannen, met een link om zelf een moment te kiezen.
 - id: s2
+  title: Tweede uitnodiging, korter
   at: keuring.datum - 28d
   if: keuring.gepland = nee
   action: e-mail
   to: klant.contactpersoon
   brief: Tweede bericht, korter.
 - id: s3
+  title: Bellen om in te plannen
   at: keuring.datum - 21d
   if: keuring.gepland = nee
   action: taak
@@ -37,6 +41,7 @@ steps:
   sla: 3 werkdagen
   brief: Bel om de keuring in te plannen.
 - id: s4
+  title: Uitslag en adviezen
   'on': keuring.uitslag is ingevuld
   action: e-mail
   to: klant.contactpersoon

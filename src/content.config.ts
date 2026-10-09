@@ -99,9 +99,21 @@ const metrics = defineCollection({
     }),
 });
 
+// An example email. In the text, {{object.field}} is a CRM field, [text] is filled in by the sender,
+// and {u|je} is the form of address (set in src/lib/site.ts). Paragraphs are separated by a blank line.
+const email = z.object({
+  goal: z.string(),
+  subject: z.string().max(80),
+  preheader: z.string().max(120),
+  body: z.string(),
+  cta: z.object({ label: z.string(), leads_to: z.string() }).optional(),
+});
+
 const step = z
   .object({
     id: z.string(),
+    // Short name for the flowchart.
+    title: z.string().max(48),
     at: z.string().optional(),
     after: z.coerce.string().optional(),
     on: z.string().optional(),
@@ -112,8 +124,12 @@ const step = z
     sla: z.string().optional(),
     sets: z.string().optional(),
     brief: z.string(),
+    // For a task or a notification: what to check, ask and record.
+    checklist: z.array(z.string()).max(4).optional(),
+    email: email.optional(),
   })
-  .refine((s) => [s.at, s.after, s.on].filter(Boolean).length === 1, { message: 'A step needs exactly one of at, after or on.' });
+  .refine((s) => [s.at, s.after, s.on].filter(Boolean).length === 1, { message: 'A step needs exactly one of at, after or on.' })
+  .refine((s) => !s.email || s.action === 'e-mail', { message: 'Only an e-mail step can have an email.' });
 
 const workflows = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/library/workflows', generateId: idFromFile }),
@@ -129,6 +145,9 @@ const workflows = defineCollection({
     owner: z.string(),
     priority: z.number().int().min(1),
     summary: z.string(),
+    // The outcome in four parts: who it is for, the problem, what changes, and the result.
+    outcome: z.object({ context: z.string(), issue: z.string(), change: z.string(), result: z.string() }).optional(),
+    updated: z.coerce.date().optional(),
     trigger: z.string(),
     goal: z.string(),
     enroll: z

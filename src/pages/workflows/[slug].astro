@@ -5,10 +5,14 @@ import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
 import Faq from '../../components/Faq.astro';
+import WorkflowFlow from '../../components/WorkflowFlow.astro';
+import EmailCard from '../../components/EmailCard.astro';
 import { priceLabel } from '../../lib/format';
 import { phaseById } from '../../lib/loop';
 import { statusLabel } from '../../lib/status';
-import { fieldAnchor, metricAnchor, objectLabel, segmentHref, segmentLabel, sortWorkflows, whenLabel, withLabels } from '../../lib/library';
+import { fieldAnchor, fieldRefsIn, fieldUsage, metricAnchor, objectLabel, segmentHref, segmentLabel, sortWorkflows, stepRefs, whenLabel, withLabels } from '../../lib/library';
+import { library } from '../../lib/site';
+import { platforms } from '../../lib/platforms';
 import { assertLibrary } from '../../lib/library-check';
 
 export async function getStaticPaths() {
@@ -21,23 +25,34 @@ export async function getStaticPaths() {
 }
 
 const { workflow, prev, following } = Astro.props;
-const { code, name, version, phase, summary, trigger, goal, enroll, steps, exit, handover, segments, needs_blueprint, owner, priority, status, seo, why, example, mistakes, faq } = workflow.data;
+const { code, name, version, phase, summary, outcome, updated, trigger, goal, enroll, steps, exit, handover, segments, needs_blueprint, owner, priority, status, seo, why, example, mistakes, faq } = workflow.data;
 const st = statusLabel[status];
 const loopPhase = phaseById(phase);
 const next = workflow.data.next ? await getEntry(workflow.data.next) : undefined;
 const fields = await getEntries(workflow.data.fields);
 const metrics = await getEntries(workflow.data.metrics);
 const labels = new Map((await getCollection('fields')).map((f) => [f.id, f.data.label]));
-const say = (text: string) => withLabels(text, labels);
+const say = (text: string) => stepRefs(withLabels(text, labels));
+const usage = fieldUsage(workflow);
+const startFields = new Set([enroll.at, enroll.on, ...enroll.if, ...enroll.not_if].flatMap(fieldRefsIn));
+const hasEmail = steps.some((s) => s.email);
+const updatedLabel = updated?.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+const startBlock = enroll.at ? 'Start op een datum (at)' : 'Start bij een wijziging (on)';
+const platformNotes = Object.values(platforms).map((p) => ({
+  name: p.name,
+  object: p.objects[enroll.object],
+  start: p.blocks.find(([term]) => term === startBlock)?.[1],
+}));
 const flow = await getEntry('services', 'flow');
 if (!flow) throw new Error('Missing services/flow.json');
 
 const actionStyle = {
-  'e-mail': 'border-fg/30 text-fg',
-  taak: 'border-accent/50 text-accent',
-  melding: 'border-muted/50 text-muted',
+  'e-mail': 'border-accent bg-accent text-white',
+  taak: 'border-fg/30 text-fg',
+  melding: 'border-forest/20 bg-mint text-forest',
   systeem: 'border-fg/20 text-fg/70',
 };
+const actionLabel = { 'e-mail': 'E-mail', taak: 'Taak', melding: 'Melding', systeem: 'Systeem' };
 const metricTypes = ['volume', 'conversie', 'doorlooptijd', 'omzet'] as const;
 const typeLabel = { volume: 'Volume', conversie: 'Conversie', doorlooptijd: 'Doorlooptijd', omzet: 'Omzet' };
 
@@ -84,6 +99,7 @@ const jsonLd = [
           <span class={`mt-0.5 shrink-0 rounded-full border px-3 py-1 text-xs font-medium ${st.style}`}>{st.label}</span>
           <span>{st.text}</span>
         </p>
+        {updatedLabel && <p class="text-sm">Bijgewerkt op {updatedLabel}.</p>}
         {!needs_blueprint && (
           <p class="flex items-start gap-3">
             <span class="mt-0.5 shrink-0 rounded-full bg-mint px-3 py-1 text-xs font-semibold text-forest">Kan meteen</span>
@@ -94,7 +110,115 @@ const jsonLd = [
     </div>
   </div>
 
-  <Section id="waarom" n="01" label="Waarom" title={`Waarom ${name.toLowerCase()}?`}>
+  {outcome && (
+    <div class="mx-auto max-w-6xl px-4 pb-4 md:px-8">
+      <dl class="grid overflow-hidden rounded-3xl border border-fg/15 md:grid-cols-4">
+        {[
+          ['Voor wie', outcome.context],
+          ['Het probleem', outcome.issue],
+          ['Wat er verandert', outcome.change],
+          ['Wat het oplevert', outcome.result],
+        ].map(([term, text], i) => (
+          <div class={`p-6 ${i > 0 ? 'border-t border-fg/15 md:border-l md:border-t-0' : ''} ${i === 3 ? 'bg-mint/20' : ''}`}>
+            <dt class="text-xs font-medium uppercase tracking-[0.18em] text-muted">{term}</dt>
+            <dd class="mt-3 leading-snug">{text}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )}
+
+  <Section id="stappen" n="01" label="Flowchart" title={`Zo loopt ${name.toLowerCase()}`} intro={hasEmail && library.emailsPublic ? 'Elke stap op zijn moment, met de volledige voorbeeldmails. Klik in de flowchart op een stap om de uitwerking te lezen.' : 'Elke stap op zijn moment. Klik in de flowchart op een stap om de uitwerking te lezen. De voorbeeldmails voor deze workflow volgen.'}>
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:order-last lg:col-span-5">
+        <div class="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+          <WorkflowFlow workflow={workflow} labels={labels} next={next} />
+        </div>
+      </div>
+      <div class="min-w-0 lg:col-span-7">
+        <div id="start" class="scroll-mt-24 rounded-3xl border border-fg/15 p-6 md:p-8">
+          <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Trigger</p>
+          <p class="mt-4 text-2xl leading-snug">{trigger}</p>
+          <dl class="mt-6 space-y-3 border-t border-fg/15 pt-5 text-sm">
+            <div class="grid grid-cols-[7.5rem_1fr] gap-3"><dt class="text-muted">Start op</dt><dd>{objectLabel[enroll.object]}, {enroll.at ? whenLabel({ at: enroll.at }, labels).toLowerCase() : `zodra ${say(enroll.on ?? '').toLowerCase()}`}</dd></div>
+            {enroll.if.length > 0 && <div class="grid grid-cols-[7.5rem_1fr] gap-3"><dt class="text-muted">Alleen als</dt><dd><ul class="space-y-1">{enroll.if.map((c) => <li>{say(c)}</li>)}</ul></dd></div>}
+            {enroll.not_if.length > 0 && <div class="grid grid-cols-[7.5rem_1fr] gap-3"><dt class="text-muted">Niet als</dt><dd><ul class="space-y-1">{enroll.not_if.map((c) => <li>{say(c)}</li>)}</ul></dd></div>}
+            <div class="grid grid-cols-[7.5rem_1fr] gap-3"><dt class="text-muted">Stopt zodra</dt><dd><ul class="space-y-1">{exit.map((c) => <li>{say(c)}</li>)}</ul></dd></div>
+            <div class="grid grid-cols-[7.5rem_1fr] gap-3"><dt class="text-muted">Doel</dt><dd>{goal}</dd></div>
+            <div class="grid grid-cols-[7.5rem_1fr] gap-3"><dt class="text-muted">Eigenaar</dt><dd class="capitalize">{owner}</dd></div>
+            <div class="grid grid-cols-[7.5rem_1fr] gap-3"><dt class="text-muted">Voorrang</dt><dd>{priority} <span class="text-fg/70">(valt een klant in meerdere workflows, dan wint het laagste getal)</span></dd></div>
+          </dl>
+          <div class="mt-6 grid gap-3 border-t border-fg/15 pt-5 text-sm sm:grid-cols-2">
+            {platformNotes.map((p) => (
+              <p><span class="font-medium">In {p.name}:</span> <span class="text-fg/80">{objectLabel[enroll.object]} wordt {p.object?.charAt(0).toLowerCase()}{p.object?.slice(1)}. {p.start}</span></p>
+            ))}
+          </div>
+        </div>
+
+        {hasEmail && library.emailsPublic && (
+          <p class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-fg/80">
+            <span><span class="mail-field">{'{{veld}}'}</span> komt uit je CRM</span>
+            <span><mark class="mail-fill">[tekst]</mark> vul je zelf in. Daar zit je positionering.</span>
+          </p>
+        )}
+
+        <ol class="mt-8 space-y-6">
+          {steps.map((s, i) => (
+            <li id={`stap-${s.id}`} class="scroll-mt-24 rounded-3xl border border-fg/15 p-6 md:p-8">
+              <p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+                <span class="font-medium">Stap {i + 1}</span>
+                <span class={`rounded-full border px-2.5 py-0.5 text-xs font-medium ${actionStyle[s.action]}`}>{actionLabel[s.action]}</span>
+                <span class="text-muted">{s.on ? `Zodra ${say(s.on).toLowerCase()}` : s.at && s.at === enroll.at ? 'Direct bij de start' : whenLabel(s, labels)}</span>
+              </p>
+              {s.if && <p class="mt-3 text-sm text-accent">Alleen als {say(s.if).toLowerCase()}</p>}
+              <h3 class="mt-4 text-2xl leading-snug">{s.title}</h3>
+              <p class="mt-2 text-fg/80">{s.brief}</p>
+              <p class="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-fg/70">
+                {s.owner && <span>Eigenaar: <span class="capitalize">{s.owner}</span></span>}
+                {s.to && <span>Aan: {say(s.to).toLowerCase()}</span>}
+                {s.sla && <span>Binnen {s.sla}</span>}
+                {s.sets && <span>Legt vast: {say(s.sets).toLowerCase()}</span>}
+              </p>
+              {s.checklist && (
+                <ul class="mt-5 space-y-2 border-t border-fg/15 pt-5">
+                  {s.checklist.map((c) => (
+                    <li class="flex gap-3">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="mt-1 size-4 shrink-0 text-accent" aria-hidden="true"><path d="m5 12 4.5 4.5L19 7" /></svg>
+                      <span>{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {s.email && (
+                <div class="mt-6 border-t border-fg/15 pt-6">
+                  <p class="text-sm"><span class="font-medium">Doel van deze mail:</span> <span class="text-fg/80">{s.email.goal}</span></p>
+                  {library.emailsPublic
+                    ? <div class="mt-5"><EmailCard email={s.email} labels={labels} /></div>
+                    : <p class="mt-3 text-sm text-fg/75">De tekst zelf schrijven we op jouw positionering.</p>}
+                </div>
+              )}
+            </li>
+          ))}
+        </ol>
+
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <div class="rounded-3xl border border-accent/35 bg-mint/20 p-6">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-accent">Gelukt</p>
+            <p class="mt-3 leading-snug">{handover.won}</p>
+          </div>
+          {handover.lost && (
+            <div class="rounded-3xl border border-fg/15 p-6">
+              <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Niet gelukt</p>
+              <p class="mt-3 leading-snug">{handover.lost}</p>
+            </div>
+          )}
+        </div>
+        {next && <div class="mt-8"><Button href={`/workflows/${next.id}/`} variant="ghost-light">Volgende workflow: {next.data.name}</Button></div>}
+      </div>
+    </div>
+  </Section>
+
+  <Section id="waarom" n="02" label="Waarom" title={`Waarom ${name.toLowerCase()}?`}>
     <div class="grid gap-10 md:grid-cols-12">
       <div class="max-w-prose space-y-5 text-lg md:col-span-7">
         <p>{why}</p>
@@ -109,91 +233,35 @@ const jsonLd = [
     </div>
   </Section>
 
-  <Section id="start" n="02" label="Start en doel" title="Wanneer hij start, en wanneer hij stopt">
-    <div class="grid gap-4 md:grid-cols-2">
-      <div class="rounded-3xl border border-fg/15 p-8">
-        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Start</p>
-        <p class="mt-6 text-2xl leading-snug">{trigger}</p>
-        <dl class="mt-8 space-y-4 border-t border-fg/15 pt-6 text-sm">
-          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Object</dt><dd>{objectLabel[enroll.object]}</dd></div>
-          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Moment</dt><dd>{enroll.at ? whenLabel({ at: enroll.at }, labels) : `Zodra ${say(enroll.on ?? '').toLowerCase()}`}</dd></div>
-          {enroll.if.length > 0 && <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Alleen als</dt><dd><ul class="space-y-1">{enroll.if.map((c) => <li>{say(c)}</li>)}</ul></dd></div>}
-          {enroll.not_if.length > 0 && <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Niet als</dt><dd><ul class="space-y-1">{enroll.not_if.map((c) => <li>{say(c)}</li>)}</ul></dd></div>}
-          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Eigenaar</dt><dd class="capitalize">{owner}</dd></div>
-          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Voorrang</dt><dd>{priority} <span class="text-fg/70">(bij overlap wint het laagste getal)</span></dd></div>
-        </dl>
-      </div>
-      <div class="rounded-3xl border border-fg/15 p-8">
-        <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Doel</p>
-        <p class="mt-6 text-2xl leading-snug">{goal}</p>
-        <dl class="mt-8 space-y-4 border-t border-fg/15 pt-6 text-sm">
-          <div class="grid grid-cols-[7rem_1fr] gap-3"><dt class="text-muted">Stopt zodra</dt><dd><ul class="space-y-1">{exit.map((c) => <li>{say(c)}</li>)}</ul></dd></div>
-        </dl>
-      </div>
-    </div>
-  </Section>
-
-  <Section id="stappen" n="03" label="Stappen" title="Zo loopt het" intro="Voorbeeldopzet. Per e-mail staat wat hij moet bereiken. De tekst zelf schrijven we op jouw positionering.">
-    <ol class="border-b border-fg/15">
-      {steps.map((s) => (
-        <li class="grid gap-2 border-t border-fg/15 py-5 md:grid-cols-[13rem_7rem_1fr] md:gap-8">
-          <span class="font-medium">{whenLabel(s, labels)}</span>
-          <span><span class={`inline-block rounded-full border px-3 py-0.5 text-xs font-medium ${actionStyle[s.action]}`}>{s.action}</span></span>
-          <div>
-            {s.if && <p class="mb-2 text-sm text-accent">Alleen als {say(s.if).toLowerCase()}</p>}
-            <p class="text-fg/85 md:text-lg">{s.brief}</p>
-            <p class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-fg/70">
-              {s.owner && <span>Eigenaar: <span class="capitalize">{s.owner}</span></span>}
-              {s.to && <span>Aan: {say(s.to).toLowerCase()}</span>}
-              {s.sla && <span>Binnen {s.sla}</span>}
-              {s.sets && <span>Legt vast: {say(s.sets).toLowerCase()}</span>}
-            </p>
-          </div>
+  <Section id="velden" n="03" label="Data" title="Wat je in je CRM nodig hebt" intro="Per veld waar deze workflow het voor gebruikt, waar het vandaan komt en hoe je controleert dat het klopt. Ontbreekt een verplicht veld, dan start de workflow niet, of op het verkeerde moment.">
+    <p class="flex flex-wrap items-center gap-2 text-sm">
+      <span class="mr-1 text-muted">Minimaal nodig om te starten:</span>
+      {fields.filter((f) => startFields.has(f.id)).map((f) => <a href={`#${fieldAnchor(f.id)}`} class="rounded-full border border-accent/40 px-3 py-1 text-accent hover:bg-accent/5">{f.data.label}</a>)}
+    </p>
+    <ul class="mt-8 grid gap-4 md:grid-cols-2">
+      {fields.map((f) => (
+        <li id={fieldAnchor(f.id)} class="scroll-mt-24 rounded-3xl border border-fg/15 p-6">
+          <p class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <span class="text-lg font-medium">{f.data.label}</span>
+            <span class="text-xs text-muted">{f.data.type}{f.data.required ? ', verplicht' : ', optioneel'}</span>
+          </p>
+          <p class="mt-1 font-mono text-xs text-muted">{f.id}</p>
+          <p class="mt-4 flex flex-wrap gap-1.5">
+            {(usage.get(f.id) ?? []).map((u) => <span class="rounded-md bg-mint/30 px-2 py-0.5 text-xs text-forest">{u}</span>)}
+          </p>
+          <dl class="mt-4 space-y-2 border-t border-fg/15 pt-4 text-sm">
+            <div class="grid grid-cols-[6rem_1fr] gap-3"><dt class="text-muted">Bron</dt><dd>{f.data.source}</dd></div>
+            <div class="grid grid-cols-[6rem_1fr] gap-3"><dt class="text-muted">Voorbeeld</dt><dd>{f.data.example}</dd></div>
+            {f.data.options && <div class="grid grid-cols-[6rem_1fr] gap-3"><dt class="text-muted">Waarden</dt><dd>{f.data.options.join(', ')}</dd></div>}
+            {f.data.check && <div class="grid grid-cols-[6rem_1fr] gap-3"><dt class="text-muted">Controle</dt><dd>{f.data.check}</dd></div>}
+          </dl>
         </li>
       ))}
-    </ol>
+    </ul>
+    <p class="mt-8 text-sm"><a href="/workflows/data/" class="font-medium text-accent hover:underline">Alle velden en metingen uit de bibliotheek →</a></p>
   </Section>
 
-  <Section id="overdracht" n="04" label="Overdracht" title="Waar het stopt">
-    <div class="grid gap-4 md:grid-cols-2">
-      <div class="rounded-3xl border border-fg/15 p-8">
-        <p class="text-xs font-medium uppercase tracking-[0.18em] text-accent">Gelukt</p>
-        <p class="mt-6 text-xl leading-snug">{handover.won}</p>
-      </div>
-      {handover.lost && (
-        <div class="rounded-3xl border border-fg/15 p-8">
-          <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted">Niet gelukt</p>
-          <p class="mt-6 text-xl leading-snug">{handover.lost}</p>
-        </div>
-      )}
-    </div>
-    {next && <div class="mt-10"><Button href={`/workflows/${next.id}/`} variant="ghost-light">Volgende workflow: {next.data.name}</Button></div>}
-  </Section>
-
-  <Section id="velden" n="05" label="Data" title="Wat je in je CRM nodig hebt" intro="Ontbreekt een verplicht veld, dan start de workflow niet, of op het verkeerde moment.">
-    <div class="overflow-x-auto">
-      <table class="w-full min-w-[40rem] text-left text-sm">
-        <thead class="text-xs uppercase tracking-[0.12em] text-muted">
-          <tr><th class="py-3 pr-4 font-medium">Veld</th><th class="py-3 pr-4 font-medium">Type</th><th class="py-3 pr-4 font-medium">Bron</th><th class="py-3 font-medium">Verplicht</th></tr>
-        </thead>
-        <tbody>
-          {fields.map((f) => (
-            <tr class="border-t border-fg/15 align-top">
-              <td class="py-4 pr-4">
-                <a href={`/workflows/data/#${fieldAnchor(f.id)}`} class="font-medium hover:text-accent hover:underline">{f.data.label}</a>
-                <span class="mt-1 block font-mono text-xs text-muted">{f.id}</span>
-              </td>
-              <td class="py-4 pr-4 text-fg/80">{f.data.type}</td>
-              <td class="py-4 pr-4 text-fg/80">{f.data.source}</td>
-              <td class="py-4 text-fg/80">{f.data.required ? 'Ja' : 'Nee'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </Section>
-
-  <Section id="dashboard" n="06" label="Dashboard" title="Wat je dashboard laat zien" intro="Elke meting is één keer gedefinieerd, zodat je workflows met elkaar kunt vergelijken.">
+  <Section id="dashboard" n="04" label="Dashboard" title="Wat je dashboard laat zien" intro="Elke meting is één keer gedefinieerd, zodat je workflows met elkaar kunt vergelijken.">
     <ul class="grid gap-4 md:grid-cols-2">
       {metricTypes.flatMap((t) => metrics.filter((m) => m.data.type === t)).map((m) => (
         <li class="rounded-3xl border border-fg/15 p-8">
@@ -209,7 +277,7 @@ const jsonLd = [
   </Section>
 
   {mistakes.length > 0 && (
-    <Section id="fouten" n="07" label="Fouten" title="Veelgemaakte fouten">
+    <Section id="fouten" n="05" label="Fouten" title="Veelgemaakte fouten">
       <ol class="border-b border-fg/15">
         {mistakes.map((m, i) => (
           <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-5 text-lg"><span class="text-muted">0{i + 1}</span>{m}</li>
@@ -219,12 +287,12 @@ const jsonLd = [
   )}
 
   {faq.length > 0 && (
-    <Section id="vragen" n="08" label="Vragen" title={`Vragen over ${name.toLowerCase()}`}>
+    <Section id="vragen" n="06" label="Vragen" title={`Vragen over ${name.toLowerCase()}`}>
       <Faq items={faq.map((f) => ({ question: f.q, answer: f.a }))} />
     </Section>
   )}
 
-  <Section id="past" n="09" label="Past bij" title="Voor wie">
+  <Section id="past" n="07" label="Past bij" title="Voor wie">
     <ul class="flex flex-wrap gap-3">
       {segments.map((s) => (
         <li>
@@ -237,7 +305,7 @@ const jsonLd = [
     <p class="mt-8 text-fg/80">Werkt in HubSpot of ActiveCampaign. Geen Salesforce.</p>
   </Section>
 
-  <Section id="prijs" n="10" label="Prijs" tone="dark" title={`${name}, ingericht in ${flow.data.duration.replace(' per workflow', '')}`}>
+  <Section id="prijs" n="08" label="Prijs" tone="dark" title={`${name}, ingericht in ${flow.data.duration.replace(' per workflow', '')}`}>
     <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
       <div>
         {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}
@@ -248,7 +316,7 @@ const jsonLd = [
   </Section>
 
   <p class="mx-auto max-w-6xl px-4 pb-8 text-sm text-fg/70 md:px-8">
-    {code} versie {version}. Opbouw vrij te gebruiken met naamsvermelding, onder <a href="https://creativecommons.org/licenses/by/4.0/deed.nl" class="underline underline-offset-4 hover:text-accent">CC BY 4.0</a>.
+    {code} versie {version}. {library.emailsPublic ? 'Opbouw en voorbeeldmails' : 'Opbouw'} vrij te gebruiken met naamsvermelding, onder <a href="https://creativecommons.org/licenses/by/4.0/deed.nl" class="underline underline-offset-4 hover:text-accent">CC BY 4.0</a>.
   </p>
   <nav aria-label="Andere workflows" class="mx-auto grid max-w-6xl gap-4 px-4 pb-24 md:grid-cols-2 md:px-8">
     {prev ? (

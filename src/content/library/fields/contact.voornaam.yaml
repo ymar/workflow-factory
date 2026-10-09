@@ -1,0 +1,7 @@
+label: Voornaam
+type: tekst
+object: contact
+required: true
+source: CRM
+example: Sandra
+check: Gevuld bij elke contactpersoon die e-mail krijgt. Anders begint de mail met "Beste ,".

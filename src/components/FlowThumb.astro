@@ -1,0 +1,51 @@
+---
+// Small left-to-right picture of a workflow for cards: start, one shape per step, the outcome.
+// Green boxes are emails, outlined boxes tasks, mint boxes notifications; a diamond marks a condition.
+import type { CollectionEntry } from 'astro:content';
+import { flowRows } from '../lib/library';
+
+interface Props {
+  workflow: CollectionEntry<'workflows'>;
+}
+const { steps, handover } = Astro.props.workflow.data;
+type Step = (typeof steps)[number];
+type Column = { kind: 'start' } | { kind: 'row'; steps: Step[] } | { kind: 'end' };
+
+const W = 320;
+const H = 96;
+const cy = H / 2;
+const columns: Column[] = [{ kind: 'start' }, ...flowRows(steps).map((r) => ({ kind: 'row' as const, steps: r })), { kind: 'end' }];
+const gap = Math.min(54, (W - 44) / (columns.length - 1));
+const x0 = (W - gap * (columns.length - 1)) / 2;
+const x = (i: number) => x0 + i * gap;
+const spread = (n: number) => (n === 1 ? [cy] : Array.from({ length: n }, (_, k) => cy - 17 + (34 / (n - 1)) * k));
+const ys = (c: Column) => (c.kind === 'row' ? spread(c.steps.length) : c.kind === 'end' ? spread(handover.lost ? 2 : 1) : [cy]);
+const half = (c: Column) => (c.kind === 'start' ? 14 : c.kind === 'end' ? 7 : 11);
+
+const edges = columns.slice(1).flatMap((c, i) => {
+  const from = ys(columns[i]);
+  const to = ys(c);
+  const pairs = from.length > 1 && to.length > 1 ? from.map((a, k) => [a, to[k] ?? to.at(-1)!]) : from.flatMap((a) => to.map((b) => [a, b]));
+  return pairs.map(([a, b]) => ({ x1: x(i) + half(columns[i]), y1: a, x2: x(i + 1) - half(c), y2: b }));
+});
+const gates = columns.flatMap((c, i) =>
+  c.kind === 'row' ? c.steps.flatMap((s, k) => (s.if ? [{ cx: (x(i - 1) + x(i)) / 2, cy: (cy + ys(c)[k]) / 2 }] : [])) : [],
+);
+const shape: Record<string, string> = {
+  'e-mail': 'fill-accent',
+  taak: 'fill-white stroke-fg/60',
+  melding: 'fill-mint stroke-forest/40',
+  systeem: 'fill-fg/15 stroke-fg/30',
+};
+---
+<svg viewBox={`0 0 ${W} ${H}`} class="block h-auto w-full" aria-hidden="true" focusable="false">
+  <g class="stroke-fg/35" stroke-width="1.5" fill="none" stroke-linecap="round">
+    {edges.map((e) => <line x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} />)}
+  </g>
+  {gates.map((g) => <rect x={g.cx - 4} y={g.cy - 4} width="8" height="8" rx="1.5" transform={`rotate(45 ${g.cx} ${g.cy})`} class="fill-bg stroke-accent" stroke-width="1.5" />)}
+  {columns.map((c, i) =>
+    c.kind === 'start' ? <rect x={x(i) - 14} y={cy - 8} width="28" height="16" rx="8" class="fill-forest" />
+    : c.kind === 'end' ? ys(c).map((y, k) => <circle cx={x(i)} cy={y} r="7" class={k === 0 ? 'fill-mint stroke-accent' : 'fill-white stroke-fg/40'} stroke-width="1.5" />)
+    : c.steps.map((s, k) => <rect x={x(i) - 11} y={ys(c)[k] - 8} width="22" height="16" rx="4" class={shape[s.action]} stroke-width="1.5" />)
+  )}
+</svg>

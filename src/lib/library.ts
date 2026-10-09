@@ -1,10 +1,10 @@
 // Helpers for the workflow library: labels, readable timing, and the build check.
 import type { CollectionEntry } from 'astro:content';
 
-export const objectIds = ['aanvraag', 'klant', 'offerte', 'project', 'installatie', 'contract', 'keuring', 'storing', 'bestelling', 'mjop'] as const;
+export const objectIds = ['aanvraag', 'klant', 'contact', 'offerte', 'project', 'installatie', 'contract', 'keuring', 'storing', 'bestelling', 'mjop', 'afzender'] as const;
 export const objectLabel: Record<string, string> = {
-  aanvraag: 'Aanvraag', klant: 'Klant', offerte: 'Offerte', project: 'Project', installatie: 'Installatie',
-  contract: 'Contract', keuring: 'Keuring', storing: 'Storing', bestelling: 'Bestelling', mjop: 'MJOP',
+  aanvraag: 'Aanvraag', klant: 'Klant', contact: 'Contactpersoon', offerte: 'Offerte', project: 'Project', installatie: 'Installatie',
+  contract: 'Contract', keuring: 'Keuring', storing: 'Storing', bestelling: 'Bestelling', mjop: 'MJOP', afzender: 'Afzender',
 };
 
 export const segmentIds = ['installatie-onderhoud', 'groothandel', 'zakelijke-dienstverlening'] as const;
@@ -27,8 +27,75 @@ type Labels = Map<string, string>;
 export function workflowFieldRefs(j: Workflow): string[] {
   const { enroll, steps, exit } = j.data;
   const texts = [enroll.at, enroll.on, ...enroll.if, ...enroll.not_if, ...exit, ...steps.flatMap((s) => [s.at, s.on, s.if, s.to, s.sets])];
-  return [...new Set(texts.flatMap(fieldRefsIn))];
+  // The greeting and signature of every example email use the first name and the sender's details.
+  const mail = steps.some((s) => s.email) ? ['contact.voornaam', 'afzender.naam', 'afzender.telefoon'] : [];
+  return [...new Set([...texts.flatMap(fieldRefsIn), ...steps.flatMap((s) => emailTexts(s).flatMap(mergeFieldsIn)), ...mail])];
 }
+
+// Example emails. `{{object.field}}` is a CRM field, `[text]` is something the sender fills in,
+// and `{u|je}` picks the form of address set in `library.form` (src/lib/site.ts).
+type Step = Workflow['data']['steps'][number];
+const MERGE = /\{\{\s*([a-z]+\.[a-z_0-9]+)\s*\}\}/g;
+const FORM = /\{([^{}|]+)\|([^{}|]+)\}/g;
+export const mergeFieldsIn = (text: string) => [...text.matchAll(MERGE)].map((m) => m[1]);
+export const emailTexts = (s: Step) => (s.email ? [s.email.subject, s.email.preheader, s.email.body, s.email.cta?.label ?? ''] : []);
+export const applyForm = (text: string, form: 'u' | 'je') => text.replace(FORM, (_, u, je) => (form === 'u' ? u : je));
+// Text left over after removing every {u|je} choice, for the check that no "u" slipped through.
+export const formFree = (text: string) => text.replace(FORM, '').replace(MERGE, '');
+
+export const mailForm = {
+  u: { greeting: 'Beste', closing: 'Met vriendelijke groet,' },
+  je: { greeting: 'Hoi', closing: 'Groet,' },
+};
+
+export type MailToken = { kind: 'text' | 'field' | 'fill'; value: string };
+export function mailTokens(text: string, form: 'u' | 'je'): MailToken[] {
+  const parts = applyForm(text, form).split(/(\{\{\s*[a-z]+\.[a-z_0-9]+\s*\}\}|\[[^\]]+\])/);
+  return parts.filter(Boolean).map((p) =>
+    p.startsWith('{{') ? { kind: 'field', value: p.replace(/[{}\s]/g, '') } : p.startsWith('[') ? { kind: 'fill', value: p } : { kind: 'text', value: p },
+  );
+}
+// Paragraphs are separated by a blank line; a block where every line starts with "- " is a list.
+export function mailBlocks(body: string) {
+  return body.trim().split(/\n\s*\n/).map((block) => {
+    const lines = block.split('\n').map((l) => l.trim()).filter(Boolean);
+    return lines.every((l) => l.startsWith('- ')) ? { list: lines.map((l) => l.slice(2)) } : { lines };
+  });
+}
+
+// What each field does in a workflow, for the data section: start, condition, stop, email.
+export function fieldUsage(j: Workflow): Map<string, string[]> {
+  const use = new Map<string, Set<string>>();
+  const add = (texts: (string | undefined)[], role: string) => texts.flatMap(fieldRefsIn).forEach((id) => use.set(id, (use.get(id) ?? new Set()).add(role)));
+  const { enroll, steps, exit } = j.data;
+  add([enroll.at, enroll.on], 'Start');
+  add(enroll.if, 'Voorwaarde om te starten');
+  add(enroll.not_if, 'Houdt buiten de workflow');
+  steps.forEach((s, i) => {
+    add([s.at], 'Bepaalt het moment');
+    add([s.on], `Start stap ${i + 1}`);
+    add([s.if], `Voorwaarde stap ${i + 1}`);
+    add([s.to], `Ontvanger stap ${i + 1}`);
+    add([s.sets], `Gevuld in stap ${i + 1}`);
+    emailTexts(s).flatMap(mergeFieldsIn).forEach((id) => use.set(id, (use.get(id) ?? new Set()).add(`In e-mail stap ${i + 1}`)));
+  });
+  add(exit, 'Stopt de workflow');
+  return new Map([...use].map(([id, roles]) => [id, [...roles]]));
+}
+
+// Steps that start at the same moment run side by side in the flowchart.
+export const momentOf = (s: Step) => s.at ?? (s.after !== undefined ? `after:${s.after}` : `on:${s.on}`);
+export function flowRows(steps: Step[]): Step[][] {
+  const rows: Step[][] = [];
+  for (const s of steps) {
+    const last = rows.at(-1);
+    if (last && momentOf(last[0]) === momentOf(s) && !s.on) last.push(s);
+    else rows.push([s]);
+  }
+  return rows;
+}
+// "s1" in a condition reads as "stap 1" on the site.
+export const stepRefs = (text: string) => text.replace(/\bs(\d+)\b/g, 'stap $1');
 
 // Replace field ids with their labels, for readable conditions on the site.
 export const withLabels = (text: string, labels: Labels) => text.replace(FIELD_REF, (id) => labels.get(id) ?? id);

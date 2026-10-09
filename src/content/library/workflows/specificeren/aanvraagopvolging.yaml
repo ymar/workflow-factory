@@ -12,6 +12,7 @@ needs_blueprint: false
 owner: verkoper
 priority: 1
 summary: Elke aanvraag krijgt binnen minuten antwoord en binnen een werkdag een telefoontje.
+updated: 2026-10-09
 trigger: Er komt een nieuwe aanvraag binnen via een formulier op je site.
 goal: Van aanvraag naar een afspraak of een offerte, zonder dat er iets blijft liggen.
 enroll:
@@ -19,29 +20,34 @@ enroll:
   'on': aanvraag.status = Nieuw
 steps:
 - id: s1
+  title: Bevestiging van de aanvraag
   after: direct
   action: e-mail
   to: klant.contactpersoon
   brief: 'Bevestiging: we hebben je vraag, dit gebeurt er nu, en dit is wie je belt.'
 - id: s2
+  title: Bellen binnen een werkdag
   after: direct
   action: taak
   owner: verkoper
   sla: 1 werkdag
   brief: Bel binnen een werkdag. Met de vraag, de pagina waar de aanvraag vandaan kwam en eerdere contacten.
 - id: s3
+  title: 'Nog niet gebeld: melding'
   after: 1 werkdag
   if: aanvraag.eerste_contact_op is leeg
   action: melding
   to: teamleider
   brief: Nog niet gebeld. Melding aan verkoper en teamleider.
 - id: s4
+  title: Link om zelf een moment te kiezen
   after: 2d
   if: aanvraag.status = Nieuw
   action: e-mail
   to: klant.contactpersoon
   brief: Korte mail met een link om zelf een moment te kiezen.
 - id: s5
+  title: Tweede belpoging
   after: 5d
   if: aanvraag.status = Nieuw
   action: taak
@@ -49,6 +55,7 @@ steps:
   sla: 1 werkdag
   brief: Tweede belpoging, met wat er al geprobeerd is.
 - id: s6
+  title: 'Laatste bericht: sluiten of contact?'
   after: 10d
   if: aanvraag.status = Nieuw
   action: e-mail

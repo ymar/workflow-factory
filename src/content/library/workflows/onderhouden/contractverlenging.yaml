@@ -12,6 +12,13 @@ owner: accountmanager      # een rol, geen persoon
 priority: 2                # valt een klant in meerdere workflows, dan wint het laagste getal
 
 summary: Onderhoudscontracten worden verlengd voordat ze aflopen. Niet erna.
+# De uitkomst in vier delen: voor wie, het probleem, wat er verandert en wat het oplevert.
+outcome:
+  context: Installatie- en onderhoudsbedrijven met jaarcontracten voor onderhoud.
+  issue: Contracten lopen af zonder dat iemand op tijd belt. Wie pas in de laatste maand belt, treft een klant die al aan het vergelijken is.
+  change: Negentig dagen vooraf krijgt de klant een voorstel met wat het contract opleverde, gevolgd door vaste belmomenten en een melding als het niet lukt.
+  result: Meer contracten verlengd vóór de einddatum. Bij 400 contracten van €1.200 is elk procentpunt €4.800 contractomzet per jaar.
+updated: 2026-10-09
 trigger: 90 dagen voor de einddatum van een onderhoudscontract.
 goal: Contract verlengd vóór de einddatum.
 
@@ -26,38 +33,88 @@ enroll:
 
 # Elke stap heeft precies één moment: at (ten opzichte van een datumveld),
 # after (ten opzichte van de start) of on (zodra iets gebeurt).
+# title is de korte naam in de flowchart. checklist: wat de eigenaar van een taak bekijkt, vraagt en vastlegt.
+# email: de voorbeeldmail. {{object.veld}} is een CRM-veld, [tekst] vult de afzender in,
+# {u|je} kiest de aanspreekvorm uit src/lib/site.ts. Aanhef en ondertekening komen er automatisch bij.
 steps:
   - id: s1
+    title: Contract en afgelopen jaar doornemen
     at: contract.einddatum - 90d
     action: taak
     owner: accountmanager
     sla: 5 werkdagen
     brief: Bekijk het contract en de storingen en keuringen van het afgelopen jaar.
+    checklist:
+      - Bekijk de storingen, de keuringsuitslag en openstaande adviezen van de afgelopen 12 maanden.
+      - Kies verlengen zoals het is, of iets aanpassen in prijs, frequentie of wat erin zit.
+      - Vul de gele plekken in de mail van stap 2 in. Die gaat 75 dagen voor de einddatum uit.
   - id: s2
+    title: Jaaroverzicht en verlengingsvoorstel
     at: contract.einddatum - 75d
     action: e-mail
     to: klant.contactpersoon
-    brief: Jaaroverzicht plus verlengingsvoorstel.   # de tekst zelf is niet open
+    brief: Jaaroverzicht plus verlengingsvoorstel.
     sets: contract.voorstel_verstuurd_op = vandaag
+    email:
+      goal: De klant ziet eerst wat het contract het afgelopen jaar opleverde, en dan pas de prijs. Zo begint het gesprek over verlengen bij wat er goed ging.
+      subject: '{Uw|Je} onderhoudscontract voor {{installatie.locatie}}'
+      preheader: Wat we dit jaar deden, en ons voorstel voor volgend jaar.
+      body: |
+        Op {{contract.einddatum}} loopt het onderhoudscontract voor {{installatie.locatie}} af. Eerst wat het afgelopen jaar opleverde:
+
+        - Storingen in de afgelopen 12 maanden: {{storing.aantal_12m}}
+        - Uitslag van de jaarlijkse keuring: {{keuring.uitslag}}
+        - [Eén ding dat we voorkwamen of verbeterden, uit stap 1]
+
+        Ons voorstel: we verlengen het contract met een jaar, voor {{contract.waarde}} per jaar. [Wat er verandert, als er iets verandert.]
+
+        Akkoord? Dan {bevestigt u|bevestig je} het met de knop hieronder. Liever eerst overleggen? Antwoord op deze mail, dan bel ik {u|je}.
+      cta:
+        label: Verlenging bevestigen
+        leads_to: Een formulier of digitale offerte die Contract verlengd op ja zet.
   - id: s3
+    title: Bellen over het voorstel
     at: contract.einddatum - 45d
     if: contract.verlengd = nee
     action: taak
     owner: accountmanager
     sla: 5 werkdagen
     brief: Bel over het voorstel.
+    checklist:
+      - Vraag of het voorstel is aangekomen, en wie er meebeslist.
+      - Vraag wat de klant anders wil. Leg het vast als notitie bij het contract.
+      - Is het rond? Zet Contract verlengd op ja. Dan stopt de workflow.
   - id: s4
+    title: Herinnering met de einddatum
     at: contract.einddatum - 30d
     if: contract.verlengd = nee
     action: e-mail
     to: klant.contactpersoon
     brief: Herinnering, met de datum waarop het contract afloopt.
+    email:
+      goal: Eén datum en één vraag. Wie het voorstel kwijt is, hoeft niet te zoeken.
+      subject: '{Uw|Je} contract loopt af op {{contract.einddatum}}'
+      preheader: Verlengen kan met één klik. Vragen? Dan bel ik {u|je}.
+      body: |
+        Op {{contract.einddatum}} loopt het onderhoudscontract voor {{installatie.locatie}} af. [Wat er daarna wegvalt, bijvoorbeeld de vaste onderhoudsbeurt en voorrang bij storingen.]
+
+        Het voorstel dat ik {u|je} op {{contract.voorstel_verstuurd_op}} stuurde, staat nog. {Wilt u|Wil je} verlengen? Dan is het met de knop hieronder geregeld.
+
+        Nog vragen of twijfels? Antwoord op deze mail, dan bel ik {u|je} deze week.
+      cta:
+        label: Contract verlengen
+        leads_to: Hetzelfde formulier als in stap 2.
   - id: s5
+    title: Melding aan de teamleider
     at: contract.einddatum - 14d
     if: contract.verlengd = nee
     action: melding
     to: teamleider
     brief: Nog niet verlengd. De teamleider beslist wie er belt.
+    checklist:
+      - Beslis binnen twee werkdagen wie er belt, de accountmanager, jijzelf of de directie.
+      - Kijk naar de contractwaarde. Boven [bedrag] bel je zelf.
+      - Zegt de klant op? Zet Contract opgezegd op ja en leg de reden vast.
 
 exit:
   - contract.verlengd = ja
@@ -66,13 +123,13 @@ handover:
   won: Nieuwe einddatum. Volgend jaar start deze workflow opnieuw.
   lost: Reden van opzegging vastleggen.
 
-fields: [contract.einddatum, contract.status, contract.waarde, contract.verlengd, contract.opgezegd, contract.voorstel_verstuurd_op, klant.open_storing, klant.contactpersoon, klant.accountmanager]
+fields: [contract.einddatum, contract.status, contract.waarde, contract.verlengd, contract.opgezegd, contract.voorstel_verstuurd_op, klant.open_storing, klant.contactpersoon, klant.accountmanager, contact.voornaam, afzender.naam, afzender.telefoon, installatie.locatie, storing.aantal_12m, keuring.uitslag]
 metrics: [contracten_aflopend, verlengd_voor_einddatum, dagen_voorstel_tot_verlenging, verlengde_waarde]
 
 # Zoekmachines en uitleg. seo.title: maximaal 45 tekens, " | Workflow Factory" komt erachter.
 seo:
   title: Contractverlenging automatiseren
-  description: 'Workflow voor het verlengen van onderhoudscontracten: 90 dagen vooraf een voorstel, vaste belmomenten en een melding als het niet lukt. Met CRM-velden.'
+  description: 'Workflow voor het verlengen van onderhoudscontracten: flowchart, twee voorbeeldmails, vaste belmomenten en de CRM-velden die je nodig hebt.'
 why: Een onderhoudscontract dat afloopt, is omzet die je al had. Wordt een contract niet verlengd, dan is het vaak niet opgezegd maar vergeten. Deze workflow start 90 dagen voor de einddatum, geeft de accountmanager het overzicht van het afgelopen jaar en stuurt de klant een voorstel met wat je deed. Wie niet reageert, wordt gebeld. Lukt het twee weken voor het einde nog niet, dan weet de teamleider het.
 example: 'Stel: 400 contracten van gemiddeld €1.200 per jaar, en 85% wordt verlengd. Dan verlies je 60 contracten, ofwel €72.000 contractomzet per jaar. Elk procentpunt dat je terugwint, is €4.800.'
 mistakes:

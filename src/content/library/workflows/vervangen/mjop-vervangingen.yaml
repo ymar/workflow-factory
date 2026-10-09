@@ -10,6 +10,7 @@ needs_blueprint: true
 owner: accountmanager
 priority: 2
 summary: Geplande vervangingen uit het meerjarenonderhoudsplan worden op tijd een offerte.
+updated: 2026-10-09
 trigger: 6 maanden voor een geplande vervanging in het MJOP.
 goal: De vervanging als opdracht bij jou, niet als spoedklus bij een ander.
 enroll:
@@ -17,17 +18,20 @@ enroll:
   at: mjop.vervanging_op - 6m
 steps:
 - id: s1
+  title: MJOP-regel en installatie bekijken
   at: mjop.vervanging_op - 6m
   action: taak
   owner: accountmanager
   sla: 10 werkdagen
   brief: Bekijk de MJOP-regel en de staat van de installatie.
 - id: s2
+  title: Aankondiging van de vervanging
   at: mjop.vervanging_op - 5m
   action: e-mail
   to: klant.contactpersoon
   brief: Deze vervanging staat gepland, en zo bereiden we haar voor.
 - id: s3
+  title: Offerte maken en bespreken
   at: mjop.vervanging_op - 4m
   action: taak
   owner: accountmanager

@@ -1,0 +1,7 @@
+label: Naam afzender
+type: tekst
+object: afzender
+required: true
+source: CRM, de eigenaar van het record
+example: Mark de Vries
+check: Een persoon, geen afdeling. Mails gaan uit op naam van wie de klant kent.

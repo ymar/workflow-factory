@@ -12,6 +12,7 @@ needs_blueprint: false
 owner: verkoper
 priority: 1
 summary: Geen offerte die stil blijft liggen. Elke offerte krijgt een vaste opvolging, tot ja of nee.
+updated: 2026-10-09
 trigger: Een offerte wordt verstuurd.
 goal: Een duidelijk ja of nee op elke offerte, en weten waarom.
 enroll:
@@ -19,23 +20,27 @@ enroll:
   'on': offerte.status = Verstuurd
 steps:
 - id: s1
+  title: Offerte met samenvatting
   after: direct
   action: e-mail
   to: klant.contactpersoon
   brief: De offerte, met een samenvatting in gewone woorden en de vraag wie er nog meebeslist.
 - id: s2
+  title: 'Bellen: aangekomen, vragen?'
   after: 3d
   action: taak
   owner: verkoper
   sla: 2 werkdagen
   brief: 'Bel: is de offerte goed aangekomen, zijn er vragen? Leg vast wie er meebeslist.'
 - id: s3
+  title: Antwoord op de vraag die altijd komt
   after: 7d
   if: offerte.status = Verstuurd
   action: e-mail
   to: klant.contactpersoon
   brief: Antwoord op de vraag die bij dit type werk het vaakst komt, of een voorbeeld van vergelijkbaar werk.
 - id: s4
+  title: 'Tweede gesprek: wat is er nodig?'
   after: 14d
   if: offerte.status = Verstuurd
   action: taak
@@ -43,6 +48,7 @@ steps:
   sla: 2 werkdagen
   brief: 'Tweede gesprek: wat is er nodig om te beslissen?'
 - id: s5
+  title: 'Nog actueel? Ja, nee of later'
   after: 21d
   if: offerte.status = Verstuurd
   action: e-mail

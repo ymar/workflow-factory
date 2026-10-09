@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { statusLabel } from '../lib/status';
 import { phaseById } from '../lib/loop';
+import FlowThumb from './FlowThumb.astro';
 interface Props {
   workflow: CollectionEntry<'workflows'>;
   showPhase?: boolean;
@@ -10,7 +11,8 @@ const { workflow, showPhase = false } = Astro.props;
 const { code, name, summary, trigger, needs_blueprint, status } = workflow.data;
 const st = statusLabel[status];
 ---
-<article class="group relative flex h-full flex-col rounded-3xl border border-fg/15 p-8 transition-colors hover:border-accent/60">
+<article class="group relative flex h-full flex-col rounded-3xl border border-fg/15 p-6 transition-colors hover:border-accent/60 md:p-8">
+  <div class="flow-canvas mb-6 rounded-2xl border border-fg/10 px-2 py-3 transition-colors group-hover:border-accent/30"><FlowThumb workflow={workflow} /></div>
   <p class="text-xs font-medium tracking-[0.1em] text-muted">{code}{showPhase && ` · ${phaseById(workflow.data.phase).name}`}</p>
   <p class="mb-6 mt-3 flex flex-wrap gap-2 text-xs">
     <span class={`rounded-full border px-3 py-1 font-medium ${st.style}`}>{st.label}</span>

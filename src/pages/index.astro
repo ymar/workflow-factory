@@ -8,6 +8,7 @@ import LoopIndex from '../components/LoopIndex.astro';
 import ServicesGrid from '../components/ServicesGrid.astro';
 import Faq from '../components/Faq.astro';
 import { sortWorkflows } from '../lib/library';
+import { library } from '../lib/site';
 
 const workflows = sortWorkflows(await getCollection('workflows'));
 const [fieldCount, metricCount] = [(await getCollection('fields')).length, (await getCollection('metrics')).length];
@@ -90,7 +91,7 @@ const contents = [
     <div class="mt-10"><Button href="/workflows/" variant="ghost-light">Naar de bibliotheek</Button></div>
   </Section>
 
-  <Section id="inhoud" n="03" label="Wat erin zit" title="Elke workflow heeft dezelfde opbouw" intro="Zodat je ze kunt vergelijken, combineren en in elk CRM kunt bouwen.">
+  <Section id="opbouw" n="03" label="Wat erin zit" title="Elke workflow heeft dezelfde opbouw" intro="Zodat je ze kunt vergelijken, combineren en in elk CRM kunt bouwen.">
     <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {contents.map(([t, d], i) => (
         <li class="rounded-3xl border border-fg/15 p-8">
@@ -101,7 +102,9 @@ const contents = [
       ))}
     </ul>
     <div class="on-dark mt-4 flex flex-col gap-4 rounded-3xl p-8 md:flex-row md:items-center md:justify-between">
-      <p class="max-w-2xl text-lg"><span class="font-medium">Wat er niet in zit: de teksten van de e-mails.</span> <span class="text-fg/80">Daar zit het verschil, dus die schrijven we op jouw positionering.</span></p>
+      {library.emailsPublic
+        ? <p class="max-w-2xl text-lg"><span class="font-medium">Wat je zelf invult: de gele plekken in de voorbeeldmails.</span> <span class="text-fg/80">Daar zit het verschil. In Blueprint schrijven we ze op jouw positionering.</span></p>
+        : <p class="max-w-2xl text-lg"><span class="font-medium">Wat er niet in zit: de teksten van de e-mails.</span> <span class="text-fg/80">Daar zit het verschil, dus die schrijven we op jouw positionering.</span></p>}
       <a href="/blueprint/" class="inline-flex shrink-0 items-center gap-2 font-medium text-accent">Over Blueprint <span aria-hidden="true">→</span></a>
     </div>
   </Section>

@@ -58,7 +58,13 @@ The file name is the id: `contract.einddatum.yaml` is field `contract.einddatum`
 
 **The build checks the library.** It fails when a workflow uses a field that is not in the dictionary, uses a field it does not list under `fields`, or sits in a folder that does not match its `phase`. Add the field to `fields/` first, then use it.
 
-`status` is `concept`, `getest` or `bewezen`. Move a workflow up only when it runs at a client (getest) or has measured results (bewezen), and raise `version` when the steps change. The structure is published under CC BY 4.0; the email copy is not part of the library, each email step only has a `brief`.
+`status` is `concept`, `getest` or `bewezen`. Move a workflow up only when it runs at a client (getest) or has measured results (bewezen), and raise `version` when the steps change. The structure and the example emails are published under CC BY 4.0.
+
+**Steps, flowchart and emails.** Every step has a short `title` for the flowchart, which the site draws from the steps: steps at the same moment sit side by side, `if` becomes a label on the arrow. A task or notification can have a `checklist` (what to check, ask and record). An email step can have an `email` with `goal`, `subject`, `preheader`, `body` and an optional `cta`. In the email text, `{{object.field}}` is a CRM field (the build checks it is in the dictionary and in the workflow's `fields`), `[text]` is a spot the sender fills in, and `{u|je}` is the form of address. The greeting and signature are added automatically and use `contact.voornaam`, `afzender.naam` and `afzender.telefoon`, so a workflow with emails lists those fields too. The build fails on a "u" or "uw" outside a `{u|je}` choice, so switching the form of address never leaves one behind. Contractverlenging is the reference.
+
+**Outcome.** `outcome` states the result in four parts: `context` (for whom), `issue` (the problem), `change` (what the workflow changes) and `result` (what it delivers, in numbers where possible). It shows at the top of the workflow page. `updated` is the date of the last real change.
+
+**Provisional choices** in `library` in `src/lib/site.ts`: whether the example emails are public (`emailsPublic`), the form of address (`form`, `u` or `je`) and on whose name the emails go out (`sender`). They were set as placeholders and still need your confirmation.
 
 To show a workflow on the segment page, add its id to `workflows` in the segment file. Glossary terms link to a field with `field` and to a workflow with `workflow`.
 
@@ -82,5 +88,7 @@ Cloudflare Web Analytics loads only when `PUBLIC_CF_ANALYTICS_TOKEN` is set as a
 - About page: career in 2 or 3 sentences, and a photo
 - Privacy page: date, retention period, name of the booking tool, and a legal check
 - Review the ten concept workflows (steps, timings, fields) before the library goes live
+- Confirm the provisional email choices in `library` in `src/lib/site.ts`: emails public, `u` or `je`, sender
+- Example emails, step checklists and outcome statements for the nine workflows other than Contractverlenging
 - Decide whether the workflow data moves to its own public repo
 - Register workflowfactory.nl (free when checked on 9 October 2026). `SITE` and `robots.txt` already use it.

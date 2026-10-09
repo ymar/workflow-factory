@@ -10,7 +10,7 @@ export const platforms = {
     intro: 'Elke workflow uit de bibliotheek, vertaald naar HubSpot: op welk object hij draait, hoe hij start en welke bouwstenen je gebruikt.',
     caveat: 'Workflows vragen in HubSpot meestal een Professional-pakket, custom objects een Enterprise-pakket. Controleer wat jouw pakket kan: HubSpot past dit regelmatig aan.',
     objects: {
-      aanvraag: 'Contact', klant: 'Bedrijf', offerte: 'Deal', project: 'Deal in een projectpijplijn, of een custom object',
+      aanvraag: 'Contact', klant: 'Bedrijf', contact: 'Contact', afzender: 'Eigenaar van het record (gebruiker)', offerte: 'Deal', project: 'Deal in een projectpijplijn, of een custom object',
       installatie: 'Custom object', contract: 'Custom object, of een deal in een contractpijplijn', keuring: 'Custom object',
       storing: 'Ticket', bestelling: 'Deal, of gegevens uit een koppeling met je ERP', mjop: 'Custom object',
     } as Record<string, string>,
@@ -38,7 +38,7 @@ export const platforms = {
     intro: 'Elke workflow uit de bibliotheek, vertaald naar ActiveCampaign: waar de gegevens staan, hoe de automation start en welke stappen je gebruikt.',
     caveat: 'Custom objects en sommige triggers zitten niet in elk ActiveCampaign-pakket. Controleer wat jouw pakket kan.',
     objects: {
-      aanvraag: 'Contact', klant: 'Account', offerte: 'Deal', project: 'Deal in een projectpijplijn',
+      aanvraag: 'Contact', klant: 'Account', contact: 'Contact', afzender: 'Eigenaar van de deal of het contact (gebruiker)', offerte: 'Deal', project: 'Deal in een projectpijplijn',
       installatie: 'Custom object', contract: 'Custom object, of een deal in een contractpijplijn', keuring: 'Custom object',
       storing: 'Deal in een servicepijplijn', bestelling: 'Bestelgegevens uit een koppeling met je webshop of ERP', mjop: 'Custom object',
     } as Record<string, string>,

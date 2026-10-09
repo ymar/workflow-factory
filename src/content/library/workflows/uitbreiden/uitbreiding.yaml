@@ -12,6 +12,7 @@ needs_blueprint: true
 owner: accountmanager
 priority: 4
 summary: Klanten die één ding van je afnemen, horen op het juiste moment over het tweede.
+updated: 2026-10-09
 trigger: Een klant neemt één dienst of installatie van je af, en een tweede past erbij.
 goal: De uitbreiding bij jou, niet bij wie er toevallig is.
 enroll:
@@ -24,17 +25,20 @@ enroll:
   - klant.laatste_contact_op korter dan 30 dagen geleden
 steps:
 - id: s1
+  title: Uitleg over de tweede dienst
   after: direct
   action: e-mail
   to: klant.contactpersoon
   brief: Uitleg over de tweede dienst, in de taal van wat de klant al heeft. Geen algemene nieuwsbrief.
 - id: s2
+  title: Bellen na een klik of reactie
   'on': klik of reactie op s1
   action: taak
   owner: accountmanager
   sla: 2 werkdagen
   brief: Bel, met wat de klant al afneemt.
 - id: s3
+  title: Terug in de lijst voor volgend kwartaal
   after: 30d
   if: geen reactie
   action: systeem

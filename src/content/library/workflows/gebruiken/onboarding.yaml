@@ -12,6 +12,7 @@ needs_blueprint: true
 owner: projectleider
 priority: 2
 summary: Een nieuwe klant weet vanaf dag één wat er gebeurt, met wie en wanneer.
+updated: 2026-10-09
 trigger: Een offerte wordt gewonnen.
 goal: Een goede start, zodat de eerste opdracht niet de laatste is.
 enroll:
@@ -19,22 +20,26 @@ enroll:
   'on': offerte.status = Gewonnen
 steps:
 - id: s1
+  title: Welkom, met planning en contactpersoon
   after: direct
   action: e-mail
   to: klant.contactpersoon
   brief: Welkom, met de planning, de vaste contactpersoon en wat de klant zelf moet regelen.
 - id: s2
+  title: Overdracht naar de uitvoering
   after: direct
   action: taak
   owner: verkoper
   sla: 2 werkdagen
   brief: 'Overdracht naar uitvoering: wat is beloofd, en wat is belangrijk voor deze klant.'
 - id: s3
+  title: Herinnering aan de planning
   at: project.startdatum - 7d
   action: e-mail
   to: klant.contactpersoon
   brief: Herinnering aan de planning en wat er klaar moet staan.
 - id: s4
+  title: 'Belmoment: loopt alles?'
   at: project.startdatum + 3d
   action: taak
   owner: projectleider
