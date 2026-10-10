@@ -1,0 +1,108 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import Faq from '../../components/Faq.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import { checks } from '../../lib/websitecheck';
+
+const faq = [
+  { question: 'Wat leest de Website check?', answer: 'Alleen de homepage die je invult. Referenties en cases op andere pagina\'s ziet hij niet. Dat staat ook in het rapport.' },
+  { question: 'Is het een audit?', answer: 'Nee. Het is een automatische eerste lezing. Hij laat zien wat een nieuwe bezoeker uit je tekst kan halen. Hij zegt niets over je conversie, en niets over wat je merk is.' },
+  { question: 'In welke talen werkt het?', answer: 'Nederlands en Engels. Bij een andere taal krijg je geen score, wel een melding.' },
+  { question: 'Wat gebeurt er met mijn gegevens?', answer: 'Je e-mailadres en de URL gebruiken we voor het rapport en voor een vervolgmail met tips. Hoe lang we ze bewaren, staat op de privacypagina zodra die is bijgewerkt.' },
+];
+const crumbs: [string, string][] = [['/', 'Home'], ['/websitecheck/', 'Website check']];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map(([href, label], i) => ({ '@type': 'ListItem', position: i + 1, name: label, item: new URL(href, Astro.site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Website check',
+    description: 'Een automatische eerste lezing van je homepage op helderheid en opvolging, met tien controles.',
+    provider: { '@type': 'ProfessionalService', name: 'Workflow Factory' },
+    areaServed: 'NL',
+    audience: { '@type': 'BusinessAudience', name: 'B2B-bedrijven met een eigen website' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+  },
+];
+---
+<Base
+  title="Website check: wat begrijpt je bezoeker? | Workflow Factory"
+  description="Gratis Website check: een score op tien controles voor helderheid en opvolging van je homepage, met de zinnen uit je site als bewijs en drie verbeteringen."
+  path="/websitecheck/"
+  jsonLd={jsonLd}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Website check · gratis"
+    title="Zegt je homepage wat je oplost,"
+    accent="voor wie, en wat het oplevert?"
+    intro="B2B-bedrijven laten bezoekers raden wat ze doen: de kop is een slogan en de volgende stap is een telefoonnummer. Vul je URL in en je krijgt een rapport met een score op tien controles, de zinnen uit je eigen site als bewijs en de drie belangrijkste verbeteringen. Zodat je weet wat een nieuwe bezoeker in vijf seconden begrijpt."
+  >
+    <Button href="#aanvragen">Vraag de Website check aan</Button>
+    <Button href="#controles" variant="ghost-dark" arrow={false}>Bekijk de tien controles ↓</Button>
+  </PageHero>
+
+  <Section id="aanvragen" n="01" label="Aanvragen" title="Vul je URL in">
+    <div class="max-w-xl rounded-xl border-2 border-dashed border-fg/40 p-6">
+      <p><Placeholder label="formulier voor de Website check: URL en e-mailadres, volgt zodra de koppeling met e-mail klaar is" /></p>
+      <p class="mt-3 text-sm text-fg/75">De Website check is nog niet live. Dit is de plek waar het formulier komt.</p>
+    </div>
+  </Section>
+
+  <Section id="controles" n="02" label="De controles" title="Tien controles, 20 punten" intro="Elke controle krijgt 0, 1 of 2 punten. Bij elk oordeel staat de zin uit je site waarop het steunt.">
+    <ol class="border-b-2 border-fg">
+      {checks.map((c) => (
+        <li class="grid gap-1 border-t-2 border-fg py-4 md:grid-cols-[3rem_14rem_1fr_11rem] md:gap-6">
+          <span class="font-bold">{String(c.n).padStart(2, '0')}</span>
+          <span class="font-bold">{c.name}</span>
+          <span class="text-fg/80">{c.ask}</span>
+          <span class="text-sm text-fg/65 md:text-right">{c.how}</span>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="krijgen" n="03" label="Het rapport" title="Wat je krijgt">
+    <ul class="grid gap-4 md:grid-cols-3">
+      {[
+        ['Wat je homepage in vijf seconden zegt', 'Eén zin, uit je eigen tekst. Is dit wat je wilt zeggen?'],
+        ['Je score, met bewijs', 'Per controle de zin uit je site waarop het oordeel steunt. Bij twijfel staat er "onzeker".'],
+        ['Een voorstel voor je kop', 'In vier delen: context, probleem, verandering en resultaat. Wat uit je tekst niet te halen is, blijft een lege plek. Altijd gelabeld als voorstel.'],
+      ].map(([t, d]) => (
+        <li class="rounded-xl border-2 border-fg bg-white p-6 text-black">
+          <h3 class="text-xl">{t}</h3>
+          <p class="mt-3 text-black/75">{d}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="grenzen" n="04" label="Wat het niet is" title="Een eerste lezing, geen audit">
+    <ul class="max-w-3xl space-y-3 text-lg">
+      <li class="grid grid-cols-[1.5rem_1fr] gap-2"><span aria-hidden="true" class="font-bold">✕</span><span>Geen belofte over conversie of omzet.</span></li>
+      <li class="grid grid-cols-[1.5rem_1fr] gap-2"><span aria-hidden="true" class="font-bold">✕</span><span>Alleen de homepage. Referenties op een andere pagina zie je hier niet.</span></li>
+      <li class="grid grid-cols-[1.5rem_1fr] gap-2"><span aria-hidden="true" class="font-bold">✕</span><span>Geen oordeel over je merk, je design, en niet of de feiten kloppen. Dat blijft werk voor een mens.</span></li>
+      <li class="grid grid-cols-[1.5rem_1fr] gap-2"><span aria-hidden="true" class="font-bold">✕</span><span>Geen score bij te weinig tekst of een andere taal dan Nederlands of Engels.</span></li>
+    </ul>
+  </Section>
+
+  <Section id="daarna" n="05" label="Daarna" tone="dark" title="En wat gebeurt er na de aanvraag?">
+    <p class="max-w-2xl text-fg/80">Tien controles gaan over helderheid. Twee gaan over wat er daarna gebeurt: is er een actieknop, een reactietijd, een manier om in beeld te blijven? Dat is waar de meeste sites een gat laten. Wil je weten waar bij jou opvolging blijft liggen, dan is dat de opvolgscan.</p>
+    <div class="mt-8"><Button href="/opvolgscan/">Doe de opvolgscan</Button></div>
+  </Section>
+
+  <Section id="vragen" n="06" label="Vragen" title="Vragen over de Website check">
+    <Faq items={faq} />
+  </Section>
+</Base>

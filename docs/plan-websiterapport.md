@@ -82,3 +82,14 @@ Faseren:
 ## Volgorde
 
 Fase 0 eerst. Als het rapport bij 10 sites bruikbare, correcte tips geeft, bouw ik fase 1. Zo niet, dan weet je dat voordat je een week bouwt.
+
+## Stand na de eerste bouwronde (10 oktober 2026)
+
+Gebouwd, zonder de open besluiten nodig te hebben:
+- **Landingspagina** `/websitecheck/` met de tien controles, wat het rapport bevat en wat het niet is. Het formulier is een zichtbare placeholder: de Website check is nog niet live.
+- **Regel-engine** `tools/websitecheck/analyze.mjs`. Haalt één pagina op (alleen publieke http(s)-adressen, met grootte- en tijdslimiet), isoleert de hoofdtekst, vindt de kop, telt holle woorden, cijfers met een onderwerp, actieknoppen en opvolgsignalen, en geeft regelscores voor controle 5, 8 en 10. `compare.mjs` draait dit op een map met opgeslagen pagina's.
+- De fouten uit fase 0 zijn opgelost: de kop is niet meer een telefoonnummer, en het filter verwijdert geen pagina's meer die "menu" in een klassenaam hebben. Op de tien proefsites vond de engine nu bij alle tien een bruikbare kop en bij negen genoeg hoofdtekst om te scoren.
+
+Nog niet gebouwd, wacht op jou: de taalmodel-controles (API-sleutel), het formulier met e-mail en opvolging (HubSpot of ActiveCampaign), het rapport zelf, en de juridische toets.
+
+Gebruik de engine lokaal met `node tools/websitecheck/analyze.mjs https://voorbeeld.nl`.

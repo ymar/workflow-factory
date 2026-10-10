@@ -20,6 +20,7 @@
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
+    "node-html-parser": "^7.0.1",
     "typescript": "5.9.3"
   }
 }
