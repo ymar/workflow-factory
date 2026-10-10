@@ -5,6 +5,7 @@ import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
 import Faq from '../../components/Faq.astro';
+import NotFor from '../../components/NotFor.astro';
 import { scan } from '../../lib/offer';
 
 const faq = (await getCollection('faq')).filter((f) => f.data.page === 'scan').sort((a, b) => a.data.order - b.data.order);
@@ -98,13 +99,17 @@ const jsonLd = [
     </ol>
   </Section>
 
-  <Section id="prijs" n="04" label="Prijs" tone="dark" title={scan.price}>
+  <Section id="niet" n="04" label="Voor wie niet" title="Past de scan bij jou?">
+    <NotFor />
+  </Section>
+
+  <Section id="prijs" n="05" label="Prijs" tone="dark" title={scan.price}>
     <p class="max-w-2xl text-fg/80">Dit is een voorstel. Daarna volgt een prijs, die we in de kennismaking bevestigen. Je bent niets verplicht na de scan: je kunt de workflows zelf bouwen, ze zijn open.</p>
     <div class="mt-8"><Button href="/contact/">Plan de scan</Button></div>
   </Section>
 
   {faq.length > 0 && (
-    <Section id="vragen" n="05" label="Vragen" title="Vragen over de scan">
+    <Section id="vragen" n="06" label="Vragen" title="Vragen over de scan">
       <Faq items={faq.map((f) => ({ question: f.data.question, answer: f.data.answer }))} />
     </Section>
   )}

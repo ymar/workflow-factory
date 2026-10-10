@@ -8,6 +8,7 @@ import Button from './Button.astro';
 import Faq from './Faq.astro';
 import OutcomeDl from './OutcomeDl.astro';
 import RouteCta from './RouteCta.astro';
+import NotFor from './NotFor.astro';
 import { fieldAnchor, sortWorkflows } from '../lib/library';
 import { tracks, trackHref } from '../lib/tracks';
 import { sectorHref } from '../lib/sectors';
@@ -114,6 +115,10 @@ const next = () => String(++n).padStart(2, '0');
       Eén uitzondering op "eerst de positionering": opvolging van aanvragen, offertes en facturen kan meteen.
       De rest begint bij <a href="/blueprint/" class="text-accent underline underline-offset-4">Blueprint</a>.
     </p>
+  </Section>
+
+  <Section id="niet" n={next()} label="Voor wie niet" title="Past dit bij jou?">
+    <NotFor />
   </Section>
 
   {faq.length > 0 && (

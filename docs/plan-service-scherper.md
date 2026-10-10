@@ -2,6 +2,8 @@
 
 Gebaseerd op onderzoek van thevisibleauthority.com (gelezen op 10 oktober 2026: de homepage en vijf artikelen). Dit plan verandert nog niets aan de site. Het zegt wat er scherper moet, in welke volgorde, en wat ik van jou nodig heb.
 
+**Stand 10 oktober 2026:** stap 1 (de wedge) en stap 2 ("voor wie niet") zijn uitgevoerd. De wedge is contractverlenging en offerteopvolging voor installatie- en onderhoudsbedrijven. De lijst van "voor wie niet" is mijn voorstel en nog niet door jou bevestigd.
+
 ## Wat The Visible Authority doet
 
 Zij helpen consultancybedrijven met één ding: een voorstel dat om één specifiek probleem draait, in plaats van een lijst met diensten. De drie programma's zijn gekozen op de situatie van de klant, niet op volgorde: Consulting Value Review (4 tot 6 weken), Value Maximisation Program (10 tot 12 weken) en Service Portfolio Optimisation Program. Er staan geen prijzen en geen stappenplan op de site. Proof is een rij logo's, quotes en één case met cijfers.

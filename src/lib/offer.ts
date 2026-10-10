@@ -38,3 +38,12 @@ export const steps = [
     output: 'Een vast bedrag per maand.',
   },
 ] as const;
+
+// Who this is not for. A strong claim lets the wrong buyer rule themselves out.
+export const notFor = [
+  'Je hebt geen CRM, of de datums (einde van het contract, oplevering, keuring) staan er niet in. Dan start geen enkele workflow.',
+  'Je verdient vooral aan eenmalige verkoop, zonder contracten of herhaalorders.',
+  'Je verkoopt vooral aan consumenten.',
+  'Je werkt in Salesforce. We bouwen alleen in HubSpot en ActiveCampaign.',
+  'Je wilt meer leads via advertenties of zoekmachineoptimalisatie. Dat doen we niet.',
+];
