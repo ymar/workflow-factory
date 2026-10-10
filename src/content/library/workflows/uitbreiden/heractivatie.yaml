@@ -64,6 +64,7 @@ fields:
 metrics:
 - klanten_zonder_contact_12m
 - heractiveerde_klanten
+- omzet_bestaande_klanten
 seo:
   title: Heractivatie van klanten automatiseren
   description: 'Voor bedrijven met klanten die stil werden: een persoonlijke mail en een telefoontje na twaalf maanden, zodat een stille klant weer klant wordt.'

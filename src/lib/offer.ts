@@ -47,3 +47,11 @@ export const notFor = [
   'Je werkt in Salesforce. We bouwen alleen in HubSpot en ActiveCampaign.',
   'Je wilt meer leads via advertenties of zoekmachineoptimalisatie. Dat doen we niet.',
 ];
+
+// Who it is for. A placeholder shows where a threshold still has to be decided.
+export const isFor = [
+  { text: 'Je bent een installatie- of onderhoudsbedrijf met onderhoudscontracten die elk jaar verlengd moeten worden.' },
+  { before: 'Je hebt minstens', placeholder: 'minimaal aantal contracten', after: 'contracten met een einddatum in je systeem.' },
+  { text: 'Je werkt in HubSpot of ActiveCampaign, of je wilt daarheen.' },
+  { text: 'Je wilt dat de opvolging loopt zonder dat je er elke week aan hoeft te denken.' },
+] as { text?: string; before?: string; placeholder?: string; after?: string }[];

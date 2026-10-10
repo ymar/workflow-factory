@@ -95,11 +95,11 @@ const jsonLd = [
     </div>
   </section>
 
-  <Section id="resultaten" label="Resultaten" title="Wat het opleverde" intro="Elke workflow is nu een concept. Zodra een pilot cijfers heeft, komen ze hier te staan. Tot dan staat er niets.">
+  <Section id="resultaten" label="Resultaten" title="Wat het opleverde" intro="Elke workflow is nu een concept. Zodra een pilot een resultaat heeft, komt het hier te staan: een cijfer, of in elk geval wat er veranderde. Tot dan staat er niets.">
     <ul class="grid gap-4 md:grid-cols-3">
       {[1, 2, 3].map((i) => (
         <li class="rounded-xl border-2 border-dashed border-fg/40 p-6">
-          <p class="text-[15px]"><Placeholder label={`citaat met een cijfer van pilot ${i}`} /></p>
+          <p class="text-[15px]"><Placeholder label={`wat er veranderde bij pilot ${i}, in de woorden van de klant`} /></p>
           <p class="mt-6 flex items-center gap-3 text-sm text-muted"><span class="size-10 shrink-0 rounded-full bg-fg/10" aria-hidden="true"></span><Placeholder label="naam en functie" /></p>
         </li>
       ))}
@@ -138,23 +138,23 @@ const jsonLd = [
     <p class="mt-5 text-sm"><a href="/branches/" class="font-medium text-accent underline underline-offset-4 hover:no-underline">Alle branches →</a></p>
   </Section>
 
-  <Section id="proces" label="Proces" title="Zo loopt het" intro="Je begint met de scan. Daarna bouwen we de workflow in drie weken, en daarna houden we hem draaiende. Alle prijzen zijn voorstellen.">
+  <Section id="proces" label="Pad" title="Van probleem naar resultaat" intro="Je begint met de scan en een nulmeting. Daarna bouwen we de workflow in drie weken en houden we hem draaiende. Elke stap heeft een eindpunt, zodat je weet wanneer hij klaar is. Alle prijzen zijn voorstellen.">
     <ol class="border-b-2 border-fg">
       <li class="grid gap-1 border-t-2 border-fg py-5 md:grid-cols-[12rem_1fr_12rem] md:gap-8">
         <span class="font-bold">Scan</span>
-        <span class="text-black/75">Een gesprek van 30 minuten en één pagina met de drie grootste lekken.</span>
+        <span class="text-black/75">Een gesprek van 30 minuten en één pagina met de drie grootste lekken.<span class="mt-1 block text-sm text-black/65">Klaar als: je de pagina hebt, met een nulmeting en een afgesproken doel per lek.</span></span>
         <span class="text-sm text-black/65 md:text-right">Jouw tijd: 10 min vooraf, 30 min</span>
       </li>
       {flow.data.process.map((step) => (
         <li class="grid gap-1 border-t-2 border-fg py-5 md:grid-cols-[12rem_1fr_12rem] md:gap-8">
           <span class="font-bold">Bouwen, {step.when.toLowerCase()}</span>
-          <span class="text-black/75">{step.what}</span>
+          <span class="text-black/75">{step.what}{step.done && <span class="mt-1 block text-sm text-black/65">{step.done}</span>}</span>
           <span class="text-sm text-black/65 md:text-right">Jouw tijd: {step.clientTime}</span>
         </li>
       ))}
       <li class="grid gap-1 border-t-2 border-fg py-5 md:grid-cols-[12rem_1fr_12rem] md:gap-8">
         <span class="font-bold">Beheren</span>
-        <span class="text-black/75">Elke maand houden we de workflows draaiende en voegen we op jouw verzoek de volgende toe.</span>
+        <span class="text-black/75">Elke maand houden we de workflows draaiende en voegen we op jouw verzoek de volgende toe.<span class="mt-1 block text-sm text-black/65">Klaar als: de eerste meting naast de nulmeting staat.</span></span>
         <span class="text-sm text-black/65 md:text-right">Jouw tijd: een korte terugblik</span>
       </li>
     </ol>

@@ -34,17 +34,20 @@
     {
       "when": "Week 1",
       "what": "Ik schrijf de flowspecificatie. Jij keurt hem goed.",
-      "clientTime": "60 min"
+      "clientTime": "60 min",
+      "done": "Klaar als: je de flowspecificatie hebt goedgekeurd."
     },
     {
       "when": "Week 2",
       "what": "Ik bouw de flow in HubSpot of ActiveCampaign.",
-      "clientTime": "30 min review"
+      "clientTime": "30 min review",
+      "done": "Klaar als: de flow in je systeem staat en jij hem hebt bekeken."
     },
     {
       "when": "Week 3",
       "what": "We testen met echte gegevens, zetten hem live en je krijgt het dashboard.",
-      "clientTime": "60 min"
+      "clientTime": "60 min",
+      "done": "Klaar als: de workflow live is, getest met echte gegevens, met een dashboard."
     }
   ],
   "notIncluded": [

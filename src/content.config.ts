@@ -23,7 +23,7 @@ const services = defineCollection({
     priceNote: z.string().optional(),
     requires: z.string().optional(),
     deliverables: z.array(z.object({ name: z.string(), format: z.string(), size: z.string() })),
-    process: z.array(z.object({ when: z.string(), what: z.string(), clientTime: z.string() })),
+    process: z.array(z.object({ when: z.string(), what: z.string(), clientTime: z.string(), done: z.string().optional() })),
     notIncluded: z.array(z.string()),
   }),
 });

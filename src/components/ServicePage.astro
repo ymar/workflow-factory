@@ -103,7 +103,7 @@ const next = () => String(++n).padStart(2, '0');
       {process.map((step) => (
         <li class="grid gap-1 border-t border-fg/15 py-5 md:grid-cols-[16rem_1fr_12rem] md:gap-8">
           <span class="font-medium">{step.when}</span>
-          <span class="text-fg/80">{step.what}</span>
+          <span class="text-fg/80">{step.what}{step.done && <span class="mt-1 block text-sm text-fg/70">{step.done}</span>}</span>
           <span class="text-sm text-fg/70 md:text-right">Jouw tijd: {step.clientTime}</span>
         </li>
       ))}

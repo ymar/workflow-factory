@@ -1,17 +1,24 @@
 ---
-// "Dit is niets voor je als ...": who the offer is not for.
-import { notFor } from '../lib/offer';
-interface Props {
-  title?: string;
-}
-const { title = 'Dit is niets voor je als' } = Astro.props;
+// "Dit is wel iets voor je als" and "Dit is niets voor je als": who the offer is for and who it is not for.
+import Placeholder from './Placeholder.astro';
+import { isFor, notFor } from '../lib/offer';
 ---
-<div class="max-w-3xl rounded-xl border-2 border-fg bg-white p-6 text-black md:p-8">
-  <h3 class="text-2xl">{title}</h3>
-  <ul class="mt-5 space-y-3">
-    {notFor.map((t) => (
-      <li class="grid grid-cols-[1.5rem_1fr] gap-2"><span aria-hidden="true" class="font-bold">✕</span><span>{t}</span></li>
-    ))}
-  </ul>
-  <p class="mt-6 text-black/75">Twijfel je of het past? Plan de scan. We zeggen het eerlijk als het niet past.</p>
+<div class="grid max-w-5xl gap-4 md:grid-cols-2">
+  <div class="rounded-xl border-2 border-fg bg-white p-6 text-black md:p-8">
+    <h3 class="text-2xl">Dit is iets voor je als</h3>
+    <ul class="mt-5 space-y-3">
+      {isFor.map((t) => (
+        <li class="grid grid-cols-[1.5rem_1fr] gap-2"><span aria-hidden="true" class="font-bold">✓</span><span>{t.text ?? <>{t.before} <Placeholder label={t.placeholder ?? ''} /> {t.after}</>}</span></li>
+      ))}
+    </ul>
+  </div>
+  <div class="rounded-xl border-2 border-fg bg-white p-6 text-black md:p-8">
+    <h3 class="text-2xl">Dit is niets voor je als</h3>
+    <ul class="mt-5 space-y-3">
+      {notFor.map((t) => (
+        <li class="grid grid-cols-[1.5rem_1fr] gap-2"><span aria-hidden="true" class="font-bold">✕</span><span>{t}</span></li>
+      ))}
+    </ul>
+  </div>
+  <p class="text-black/75 md:col-span-2 text-fg">Twijfel je of het past? Plan de scan. We zeggen het eerlijk als het niet past.</p>
 </div>

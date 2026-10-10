@@ -91,3 +91,17 @@ Tweede punt: het bewijs. Je kunt het niet verzinnen en het komt niet vanzelf. Je
 ## Volgorde in één regel
 
 Eerst de wedge en "voor wie niet" (stappen 1 en 2, één dag werk). Dan het meetbare pad (3). Dan pas bewijs verzamelen (4 en 5), want daar zit de wachttijd. Het pakket en de artikelen (6 en 7) komen daarna.
+
+## Tweede onderzoeksronde (About, testimonials, drie artikelen, aanvraagformulier)
+
+Nieuwe inzichten, en wat ik ermee deed:
+
+1. **Aantrekken, niet jagen.** TVA zegt dat koud benaderen niet werkt (hun cijfer: 12 bureaus probeerden het, nul resultaat) en dat benaderen alleen zin heeft bij mensen die je al kennen: nieuwsbrief, periodieke check-ins, cases, tijdige updates. Dat is precies wat onze workflows doen (Kennismail per seizoen, Heractivatie, Reviews en aanbevelingen). Dit is onze eigenlijke positionering: opvolging voor wie je al kent. Hun streefcijfer is 70 procent van de omzet uit bestaande klanten. Ik heb dat als meting toegevoegd (`omzet_bestaande_klanten`) en in de nulmeting van de scan gezet.
+2. **Drie niveaus van specificiteit.** Niveau 1: het probleem dat je bezit (onze homepage). Niveau 2: de context (de branchepagina's). Niveau 3: de diensten, pas bij een concrete vraag (de workflowpagina's). Onze structuur klopt hier al mee. Het menu begint nog bij niveau 3 (uitkomsten); dat is een open keuze.
+3. **Het pad is een reeks mijlpalen.** Daarom heeft elke stap nu een "Klaar als". Op de homepage, de Flow-pagina en de scan.
+4. **Bewijs hoeft niet groot te zijn.** Van hun 17 testimonials hebben er 4 een cijfer, en die zijn zelf gerapporteerd. De rest zegt wat er veranderde ("we hebben stilgevallen relaties heropend"). De lat voor onze eerste cases ligt dus lager dan ik dacht: een zin over wat er veranderde, in de woorden van de klant, telt. De resultaatblokken zeggen dat nu.
+5. **Hun zwakte is onze kans.** Hun aanvraagformulier belooft alleen "we nemen contact op", zonder termijn en zonder proces. Ik heb op de contactpagina "Dit gebeurt er na je aanvraag" gezet, met een zichtbare placeholder voor de reactietijd.
+6. **Een ideaal klantprofiel met een grens.** Zij noemen een minimale omvang. Wij hadden alleen "voor wie niet". Nu staat er ook "Dit is iets voor je als", met een zichtbare placeholder voor het minimale aantal contracten. Dat getal moet jij bepalen.
+7. **Over-ons draagt het bewijs.** Hun About-pagina leunt op de loopbaan van de oprichters. Onze Over-pagina heeft nog placeholders voor loopbaan en foto. Dat is de snelste manier om bewijs te laten zien zonder cases.
+
+Wat ik niet overneem: hun benoemde methoden ("Intentional Consultancy Design", "The Shift", "Problem-Proof-Path") als merknaam. Het idee is bruikbaar, de naam is van hen.

@@ -1,0 +1,5 @@
+label: Aandeel omzet uit bestaande klanten
+type: omzet
+definition: Omzet uit klanten die al eerder bij je kochten, als deel van de totale omzet.
+period: per jaar
+unit: '%'

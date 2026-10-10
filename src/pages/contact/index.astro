@@ -31,7 +31,15 @@ import { site } from '../../lib/site';
     </div>
   </div>
 
-  <Section id="gesprek" n="01" label="Het gesprek" title="Na 30 minuten weet je dit">
+  <Section id="daarna" n="01" label="Daarna" title="Dit gebeurt er na je aanvraag">
+    <ol class="border-b border-fg/15">
+      <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-6 text-lg md:text-2xl"><span class="text-fg/70">01</span><span>Je kiest een moment of mailt. Je hoort binnen <Placeholder label="reactietijd" /> terug.</span></li>
+      <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-6 text-lg md:text-2xl"><span class="text-fg/70">02</span><span>We lopen je cijfers door in 30 minuten.</span></li>
+      <li class="grid grid-cols-[3rem_1fr] border-t border-fg/15 py-6 text-lg md:text-2xl"><span class="text-fg/70">03</span><span>Je krijgt de pagina met de drie lekken. Past het niet bij je, dan zeggen we dat.</span></li>
+    </ol>
+  </Section>
+
+  <Section id="gesprek" n="02" label="Het gesprek" title="Na 30 minuten weet je dit">
     <ol class="border-b border-fg/15">
       {[
         'Of je klaar bent voor campagnes, of eerst je positionering moet fixen.',
