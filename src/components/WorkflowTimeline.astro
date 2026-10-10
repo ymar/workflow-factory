@@ -144,7 +144,7 @@ const sets = (s: Step) => (s.sets ? label(s.sets.split('=')[0].trim()) : undefin
             <p class="mt-0.5 text-[15px]">{handover.won}</p>
           </div>
           {handover.lost && (
-            <div class="rounded-lg border border-fg/15 bg-white px-4 py-3">
+            <div class="rounded-lg border-2 border-fg bg-white px-4 py-3">
               <p class="text-[13px] font-semibold text-muted">Niet gelukt</p>
               <p class="mt-0.5 text-[15px]">{handover.lost}</p>
             </div>

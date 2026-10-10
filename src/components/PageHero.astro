@@ -25,7 +25,7 @@ const { icon, kicker, title, accent, intro, crumbs } = Astro.props;
       </nav>
     )}
     <p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted">{icon && <ProductIcon id={icon} class="size-5 text-accent" />}{kicker}<slot name="meta" /></p>
-    <h1 class="mt-4 max-w-4xl text-[2.5rem] leading-[1.02] tracking-[-0.035em] md:text-6xl">
+    <h1 class="mt-4 max-w-4xl text-[2.5rem] leading-[0.95] tracking-[-0.035em] md:text-[4rem]">
       {title}{accent && <> <span class="neon-text">{accent}</span></>}
     </h1>
     {intro && <p class="mt-6 max-w-2xl text-lg text-fg/80 md:text-xl">{intro}</p>}

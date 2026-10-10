@@ -33,7 +33,8 @@ The preview is deliberately not a Pages project: a Pages project made by direct 
 | Workflow library (Flow) | `src/content/library/` (see below) |
 | The three outcomes: the menu and the pages at `/workflows/meer-aanvragen/`, `sneller-opvolgen/`, `klanten-houden/` | `src/lib/tracks.ts`. Each workflow has a `track` (`aantrekken`, `opvolgen`, `houden`). The six phases stay as the model on `/workflows/` |
 | Redirects (the four old topic URLs go to the outcome pages) | `astro.config.mjs` and `public/_redirects` (the `/en/*` wildcard only works in `_redirects`) |
-| Colour tokens (light theme; `.on-dark` flips them for dark blocks) | `src/styles/global.css` |
+| Colour tokens and the visual system (black text, 4px black borders, hard shadows, blue accent; `.on-dark` flips the tokens for dark blocks). Classes `.btn`, `.btn-primary`, `.card-brut`, `.marker` | `src/styles/global.css` |
+| Homepage offer card, self-test (five sentences, `src/lib/selftest.ts`), handwriting label (`Marker.astro`, Permanent Marker, self-hosted) | `OfferCard.astro`, `SelfTest.astro`, `Marker.astro` |
 | Share image | `public/og.png`, a 1200x630 render of `public/og.svg`. Social networks do not show SVG, so render a new PNG when the SVG changes |
 
 An empty value in `src/lib/site.ts` shows up on the site as a visible `[placeholder]`.

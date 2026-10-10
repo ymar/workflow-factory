@@ -13,7 +13,7 @@ const dark = tone === 'dark';
 ---
 <section id={id} class={dark ? 'on-dark' : ''} aria-labelledby={`${id}-title`}>
   <div class="mx-auto max-w-6xl px-4 md:px-8"><div class={`py-16 md:py-24 ${dark ? '' : 'border-t border-fg/10'}`}>
-    <p class="text-sm font-medium text-accent">{label}</p>
+    <p class="marker">{label}</p>
     {title ? (
       <h2 id={`${id}-title`} class="mt-2 max-w-3xl text-[2rem] leading-[1.1] md:text-[2.75rem]">{title}</h2>
     ) : (

@@ -83,7 +83,7 @@ const usedObjects = [...new Set(workflows.map((w) => w.data.enroll.object))];
             </div>
           ))}
         </dl>
-        <p class="mt-6 rounded-xl border border-fg/15 p-5 text-sm text-fg/80">{p.caveat}</p>
+        <p class="mt-6 rounded-xl border-2 border-fg p-5 text-sm text-fg/80">{p.caveat}</p>
       </div>
     </div>
   </Section>
@@ -94,7 +94,7 @@ const usedObjects = [...new Set(workflows.map((w) => w.data.enroll.object))];
 
   <section class="on-dark" aria-labelledby="cta">
     <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-32">
-      <h2 id="cta" class="max-w-4xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-6xl">Liever niet zelf bouwen?</h2>
+      <h2 id="cta" class="max-w-4xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-[4rem]">Liever niet zelf bouwen?</h2>
       <p class="mt-6 max-w-xl text-lg text-fg/80">Ik bouw een workflow uit de bibliotheek in jouw {p.name}-account, in drie weken, met dashboard.</p>
       <div class="mt-10"><Button href="/flow/">Over Flow</Button></div>
     </div>

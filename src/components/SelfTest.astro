@@ -1,0 +1,33 @@
+---
+// "Blijft jouw opvolging liggen?" Tick a sentence, see the workflow that fits. Pure CSS (:has), so no script.
+// Where :has is not supported, every answer stays visible.
+import { getCollection } from 'astro:content';
+import { selftest } from '../lib/selftest';
+const workflows = new Map((await getCollection('workflows')).map((w) => [w.id, w]));
+const rules = selftest.map((_, i) => `.st:has(#st-${i}:checked) .st-a${i}{display:flex}`).join('');
+---
+<style set:html={`@supports selector(:has(*)){.st-result{display:none}.st-ans{display:none}.st:has(input:checked) .st-result{display:block}${rules}}`} />
+<div class="st">
+  <ul class="space-y-3">
+    {selftest.map((q, i) => (
+      <li>
+        <label class="flex cursor-pointer items-start gap-3 text-lg">
+          <input type="checkbox" id={`st-${i}`} class="mt-1 size-6 shrink-0 cursor-pointer accent-[#0b5cad]" />
+          <span>{q.text}</span>
+        </label>
+      </li>
+    ))}
+  </ul>
+  <div class="st-result mt-8 max-w-xl rounded-lg border-4 border-fg bg-blue p-5 text-black shadow-[6px_6px_0_0_var(--color-fg)]" aria-live="polite">
+    <p class="font-bold">Begin hier:</p>
+    <ul class="mt-2 space-y-1">
+      {selftest.map((q, i) => (
+        <li class={`st-ans st-a${i} items-baseline justify-between gap-4`}>
+          <a href={`/workflows/${q.workflow}/`} class="font-medium underline underline-offset-4 hover:no-underline">{workflows.get(q.workflow)?.data.name}</a>
+          <span aria-hidden="true">→</span>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-4 text-sm"><a href="/opvolgscan/" class="underline underline-offset-4 hover:no-underline">Of doe de opvolgscan: we zoeken samen uit welke het eerst moet.</a></p>
+  </div>
+</div>

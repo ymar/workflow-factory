@@ -88,7 +88,7 @@ const next = () => String(++n).padStart(2, '0');
   <Section id="lever" n={next()} label="Oplevering" title={deliverablesTitle}>
     <ol class="grid gap-4 md:grid-cols-3">
       {deliverables.map((d, i) => (
-        <li class="flex flex-col rounded-xl border border-fg/15 p-8">
+        <li class="flex flex-col rounded-xl border-2 border-fg p-8">
           <p class="flex justify-between text-sm text-fg/70"><span>0{i + 1}</span><span>{d.size}</span></p>
           <h3 class="mt-10 text-3xl">{d.name}</h3>
           <p class="mt-3 text-fg/80">{d.format}.</p>
@@ -113,7 +113,7 @@ const next = () => String(++n).padStart(2, '0');
   <Section id="prijs" n={next()} label="Prijs" title={priceTitle} intro={[priceIntro, proposal ? 'Voorstel, we bevestigen de prijs in de kennismaking.' : ''].filter(Boolean).join(' ')}>
     <ul class="grid gap-4 md:grid-cols-3">
       {prices.map((p) => (
-        <li class="rounded-xl border border-fg/15 p-8">
+        <li class="rounded-xl border-2 border-fg p-8">
           <p class="text-sm text-fg/70">{p.label}</p>
           <p class="mt-6 font-display text-4xl tracking-[-0.01em] md:text-5xl">{priceLabel(p)}</p>
           <p class="mt-2 text-sm text-fg/70">{proposal ? 'Voorstel' : 'Vaste prijs'}</p>
@@ -138,7 +138,7 @@ const next = () => String(++n).padStart(2, '0');
 
   <section class="on-dark border-t border-fg/10" aria-labelledby="cta">
     <div class="mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-32">
-      <h2 id="cta" class="max-w-4xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-6xl">Is {name} nu de juiste stap?</h2>
+      <h2 id="cta" class="max-w-4xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-[4rem]">Is {name} nu de juiste stap?</h2>
       <p class="mt-6 max-w-xl text-lg text-fg/80">In 30 minuten hoor je het. Ook als het antwoord "nog niet" is.</p>
       <div class="mt-10"><Button href="/contact/">Plan een kennismaking</Button></div>
     </div>

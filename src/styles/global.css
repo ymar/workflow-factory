@@ -1,21 +1,30 @@
 @import "tailwindcss";
 
-/* Semantic colour tokens. Light by default; `.on-dark` flips them for dark blocks (footer, call to action, signs). */
+/* Semantic colour tokens. Light by default; `.on-dark` flips them for dark blocks (footer, call to action).
+   Style after a neo-brutalist system: black text, thick black borders, hard shadows, one blue accent. */
 @theme {
-  --color-bg: #f6f5f0;
-  --color-fg: #13201b;
-  --color-muted: #556660;
-  --color-accent: #0a6644;
-  --color-focus: #0f2e23;
-  /* Brand colours, used directly only for fills. */
-  --color-forest: #0f2e23;
-  --color-mint: #5ff0b8;
-  --color-sage: #a9c4b6;
-  --color-paper: #f5f3ec;
-  --color-ink: #13201b;
-  --color-dim: #7f9a8d;
+  --color-bg: #fafafa;
+  --color-fg: #000000;
+  --color-muted: #525252;
+  /* Blue for text and links: AA on the light background. */
+  --color-accent: #0b5cad;
+  --color-focus: #0b5cad;
+  /* Blue for fills (buttons, marks). Always with black text. */
+  --color-blue: #8bd6f7;
+  /* Pastels for the price steps and labels. Fills only. */
+  --color-peach: #f0ad7b;
+  --color-lilac: #c099cc;
+  --color-butter: #fcf7b8;
+  /* Older names, remapped so existing classes keep working. */
+  --color-forest: #000000;
+  --color-mint: #8bd6f7;
+  --color-sage: #b5b5b5;
+  --color-paper: #ffffff;
+  --color-ink: #000000;
+  --color-dim: #737373;
   --font-display: "Inter Variable", "Inter Fallback", system-ui, sans-serif;
   --font-sans: "Inter Variable", "Inter Fallback", system-ui, sans-serif;
+  --font-marker: "Permanent Marker", "Inter Fallback", cursive;
 }
 
 /* Local font scaled to Inter's metrics, so text does not jump when Inter loads. */
@@ -38,7 +47,8 @@
   }
   body {
     background: var(--color-bg);
-    color: var(--color-fg);
+    color: #1a1a1a;
+    letter-spacing: -0.02em;
     min-width: 320px;
     overflow-x: hidden;
     font-size: 1.0625rem;
@@ -47,7 +57,7 @@
   }
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.05;
     overflow-wrap: break-word;
@@ -59,26 +69,63 @@
     border-radius: 2px;
   }
   .on-dark {
-    --color-bg: #0f2e23;
-    --color-fg: #f5f3ec;
-    --color-muted: #a9c4b6;
-    --color-accent: #5ff0b8;
-    --color-focus: #5ff0b8;
+    --color-bg: #0d0d0d;
+    --color-fg: #fafafa;
+    --color-muted: #b3b3b3;
+    --color-accent: #8bd6f7;
+    --color-focus: #8bd6f7;
     background: var(--color-bg);
     color: var(--color-fg);
   }
 }
 
-/* Highlighted words: accent colour. On dark blocks they glow like a sign. */
+/* Highlighted words: a blue marker stroke under the words. On dark blocks the words turn blue. */
 .neon-text {
-  color: var(--color-accent);
+  color: var(--color-fg);
+  background: linear-gradient(transparent 62%, var(--color-blue) 62%, var(--color-blue) 94%, transparent 94%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 .on-dark .neon-text {
-  text-shadow: 0 0 4px rgba(95, 240, 184, 0.55), 0 0 14px rgba(95, 240, 184, 0.3);
+  color: var(--color-accent);
+  background: none;
 }
-.on-dark .neon-tube {
-  filter: drop-shadow(0 0 3px rgba(95, 240, 184, 0.6)) drop-shadow(0 0 10px rgba(95, 240, 184, 0.35));
+
+@layer components {
+/* Buttons, cards and labels. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 4px solid var(--color-fg);
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  transition: transform 120ms, box-shadow 120ms;
 }
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 0 var(--color-fg);
+}
+.btn-primary { background: var(--color-blue); color: #000; }
+.btn-ghost { background: var(--color-bg); color: var(--color-fg); }
+.card-brut {
+  border: 4px solid var(--color-fg);
+  border-radius: 14px;
+  background: #fff;
+  color: #000;
+  box-shadow: 8px 8px 0 0 var(--color-fg);
+}
+.marker {
+  font-family: var(--font-marker);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: var(--color-accent);
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -86,8 +133,9 @@
     transition-duration: 0.01ms !important;
   }
 }
+}
 
-/* Page tops: a faint mint wash in the corner. */
+/* Page tops. */
 .hero-glow {
   background: var(--color-bg);
   color: var(--color-fg);
@@ -109,14 +157,11 @@
   background: var(--color-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center / 80% no-repeat;
 }
 .on-dark .check-box:checked {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f2e23' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E");
-  box-shadow: 0 0 10px rgba(95, 240, 184, 0.5);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E");
+  box-shadow: 0 0 10px rgba(139, 214, 247, 0.5);
 }
 .check-item:has(input:checked) .check-text {
   color: var(--color-accent);
-}
-.on-dark .check-item:has(input:checked) .check-text {
-  text-shadow: 0 0 4px rgba(95, 240, 184, 0.55), 0 0 14px rgba(95, 240, 184, 0.3);
 }
 
 /* Loop diagram. Colours come from the tokens so it works on light and dark. */

@@ -11,7 +11,7 @@ const { workflow, showPhase = false } = Astro.props;
 const { code, name, summary, trigger, needs_blueprint, status } = workflow.data;
 const st = statusLabel[status];
 ---
-<article class="group relative flex h-full flex-col rounded-xl border border-fg/15 p-6 transition-colors hover:border-accent/60 md:p-8">
+<article class="group relative flex h-full flex-col rounded-xl border-2 border-fg p-6 transition-colors hover:border-accent/60 md:p-8">
   <div class="mb-6 rounded-lg bg-fg/[0.035] px-2 py-3"><FlowThumb workflow={workflow} /></div>
   <p class="text-xs font-medium tracking-[0.1em] text-muted">{code}{showPhase && ` · ${phaseById(workflow.data.phase).name}`}</p>
   <p class="mb-6 mt-3 flex flex-wrap gap-2 text-xs">

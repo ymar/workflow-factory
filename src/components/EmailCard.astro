@@ -10,7 +10,7 @@ interface Props {
 const { email, fields } = Astro.props;
 const { greeting, closing } = mailForm[library.form];
 ---
-<div class="max-w-2xl overflow-hidden rounded-xl border border-fg/15 bg-white">
+<div class="max-w-2xl overflow-hidden rounded-xl border-2 border-fg bg-white">
   <dl class="grid gap-x-3 gap-y-0.5 border-b border-fg/10 px-5 py-4 text-sm sm:grid-cols-[5.5rem_1fr] sm:gap-y-1.5">
     <dt class="text-muted">Van</dt><dd><MailText text="{{afzender.naam}}" fields={fields} /></dd>
     <dt class="mt-2 text-muted sm:mt-0">Onderwerp</dt><dd class="font-medium"><MailText text={email.subject} fields={fields} /></dd>

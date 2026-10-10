@@ -13,7 +13,7 @@ const rows = flowRows(workflow.data.steps);
 const kind: Record<string, string> = { 'e-mail': 'E-mail', taak: 'Taak', melding: 'Melding', systeem: 'Systeem' };
 const dot = (a: string) => `tl-dot tl-dot-${a === 'e-mail' ? 'mail' : a}`;
 ---
-<a href={`/workflows/${workflow.id}/`} class="group block rounded-xl border border-fg/15 bg-white p-5 transition-colors hover:border-fg/40 md:p-6">
+<a href={`/workflows/${workflow.id}/`} class="group block rounded-xl border-2 border-fg bg-white p-5 transition-colors hover:border-fg/40 md:p-6">
   <p class="flex items-baseline justify-between gap-4 text-[13px] text-muted"><span>Voorbeeld uit de bibliotheek</span><span>{workflow.data.code}</span></p>
   <p class="mt-1 text-xl font-semibold tracking-[-0.02em]">{workflow.data.name}</p>
   <ol class="tlm mt-4">

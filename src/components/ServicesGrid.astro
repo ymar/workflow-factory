@@ -16,7 +16,7 @@ const services = (await getCollection('services')).filter((s) => order.includes(
   {services.map((s) => {
     const hl = s.id === highlight;
     return (
-      <li class={`flex flex-col rounded-xl p-8 ${hl ? 'on-dark' : 'border border-fg/15'}`}>
+      <li class={`flex flex-col rounded-xl p-8 ${hl ? 'on-dark' : 'border-2 border-fg'}`}>
         <div class="flex items-center justify-between">
           <ProductIcon id={s.id} class="size-8 text-accent" />
           {hl && badge && <span class="rounded-md bg-mint px-2 py-0.5 text-xs font-semibold text-forest">{badge}</span>}

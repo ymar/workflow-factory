@@ -13,7 +13,7 @@ const price: Record<string, string> = {
 ---
 <ol class="grid gap-4 md:grid-cols-3">
   {steps.map((s) => (
-    <li id={`stap-${s.id}`} class={`flex scroll-mt-24 flex-col rounded-xl p-8 ${s.id === 'bouwen' ? 'on-dark' : 'border border-fg/15 bg-white'}`}>
+    <li id={`stap-${s.id}`} class={`flex scroll-mt-24 flex-col rounded-xl p-8 ${s.id === 'bouwen' ? 'on-dark' : 'border-2 border-fg bg-white'}`}>
       <p class="text-sm text-muted">Stap {s.n}</p>
       <h3 class="mt-6 text-4xl">{s.name}</h3>
       <p class="mt-4 text-fg/80">{s.summary}</p>

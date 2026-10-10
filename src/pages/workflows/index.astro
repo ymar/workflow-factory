@@ -97,7 +97,7 @@ const jsonLd = [
 
   <Section id="open" label="Open bibliotheek" title={library.emailsPublic ? 'De opbouw en de mails zijn open.' : 'De opbouw is open. De woorden niet.'} intro="Gebruik de workflows gerust, ook als je mij niet inhuurt. Vermeld alleen waar ze vandaan komen.">
     <div class="grid gap-4 md:grid-cols-2">
-      <div class="rounded-xl border border-fg/15 p-8">
+      <div class="rounded-xl border-2 border-fg p-8">
         <p class="text-[13px] font-medium text-accent">Open</p>
         <ul class="mt-6 space-y-2 text-lg">
           <li>De trigger en het doel</li>
@@ -109,7 +109,7 @@ const jsonLd = [
         </ul>
         <a href="/workflows/data/" class="mt-6 inline-flex items-center gap-2 font-medium text-accent">{fieldCount} velden en {metricCount} metingen, elk één keer gedefinieerd <span aria-hidden="true">→</span></a>
       </div>
-      <div class="rounded-xl on-dark p-8">
+      <div class="rounded-xl border-2 border-fg on-dark p-8">
         {library.emailsPublic ? (
           <>
             <p class="text-[13px] font-medium text-muted">Vul je zelf in</p>
@@ -150,7 +150,7 @@ const jsonLd = [
 
   <Section id="maatwerk" label="Maatwerk" title="Staat jouw workflow er niet bij?">
     <div class="grid gap-4 md:grid-cols-2">
-      <div class="rounded-xl on-dark p-8">
+      <div class="rounded-xl border-2 border-fg on-dark p-8">
         <p class="text-[13px] font-medium text-muted">Waar je begint</p>
         <p class="mt-6 text-2xl leading-snug">Aanvraag-, offerte- en factuuropvolging kunnen meteen. Die hoeven niet te wachten op je positionering.</p>
         <p class="mt-3 text-fg/80">Voor de andere workflows geldt: eerst Blueprint.</p>
@@ -167,7 +167,7 @@ const jsonLd = [
   <Section id="prijs" label="Prijs" tone="dark" title="Eén prijs per workflow">
     <div class="grid gap-10 md:grid-cols-2">
       <div>
-        {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-6xl">{priceLabel(p)}</p>)}
+        {flow.data.prices.map((p) => <p class="font-display text-5xl tracking-[-0.03em] md:text-[4rem]">{priceLabel(p)}</p>)}
         <p class="mt-4 text-fg/80">{flow.data.prices[0]?.label}, {flow.data.duration}. Voorstel.</p>
         {flow.data.priceNote && <p class="mt-2 text-fg/80">{flow.data.priceNote} Ook dit is een voorstel.</p>}
       </div>
