@@ -33,7 +33,7 @@ const jsonLd = [
 const others = tracks.filter((t) => t.id !== track.id);
 ---
 <Base title={`${track.seo.title} | Workflow Factory`} description={track.seo.description} path={path} jsonLd={jsonLd}>
-  <PageHero crumbs={crumbs} kicker={`${workflows.length} workflows · ${track.promise}`} title={track.name} intro={track.intro} />
+  <PageHero crumbs={crumbs} kicker={`${track.name} · ${workflows.length} workflows`} title={track.headline} intro={track.intro} />
 
   <div class="mx-auto max-w-6xl px-4 pb-12 md:px-8"><OutcomeDl outcome={track.statement} /></div>
 

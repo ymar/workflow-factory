@@ -131,7 +131,7 @@ metrics: [contracten_aflopend, verlengd_voor_einddatum, dagen_voorstel_tot_verle
 # Zoekmachines en uitleg. seo.title: maximaal 45 tekens, " | Workflow Factory" komt erachter.
 seo:
   title: Contractverlenging automatiseren
-  description: 'Workflow voor het verlengen van onderhoudscontracten: flowchart, twee voorbeeldmails, vaste belmomenten en de CRM-velden die je nodig hebt.'
+  description: 'Voor bedrijven met onderhouds-, service- of beheercontracten: 90 dagen vooraf een voorstel en vaste belmomenten, zodat meer contracten verlengen.'
 why: Een onderhoudscontract dat afloopt, is omzet die je al had. Wordt een contract niet verlengd, dan is het vaak niet opgezegd maar vergeten. Deze workflow start 90 dagen voor de einddatum, geeft de accountmanager het overzicht van het afgelopen jaar en stuurt de klant een voorstel met wat je deed. Wie niet reageert, wordt gebeld. Lukt het twee weken voor het einde nog niet, dan weet de teamleider het.
 example: 'Stel: 400 contracten van gemiddeld €1.200 per jaar, en 85% wordt verlengd. Dan verlies je 60 contracten, ofwel €72.000 contractomzet per jaar. Elk procentpunt dat je terugwint, is €4.800.'
 mistakes:

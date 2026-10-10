@@ -2,7 +2,7 @@
   "name": "Flow",
   "icon": "flow",
   "order": 3,
-  "summary": "Workflows uit de open bibliotheek, ingericht in HubSpot of ActiveCampaign. Ze volgen aanvragen, offertes en contracten op, tot de tweede bestelling.",
+  "summary": "Voor B2B-bedrijven waar aanvragen, offertes en contracten blijven liggen: een workflow uit de open bibliotheek, gebouwd in HubSpot of ActiveCampaign. Zodat de opvolging draait tot de tweede bestelling.",
   "duration": "3 weken per workflow",
   "priceStatus": "proposal",
   "prices": [

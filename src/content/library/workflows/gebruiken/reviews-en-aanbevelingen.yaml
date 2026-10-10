@@ -91,7 +91,7 @@ metrics:
 - aanbevelingen_per_kwartaal
 seo:
   title: Reviews en aanbevelingen automatiseren
-  description: 'Workflow die tevreden klanten om een review vraagt en daarna om een aanbeveling. Met twee voorbeeldmails, een belopdracht en de CRM-velden die je nodig hebt.'
+  description: 'Voor bedrijven die werk opleveren: de vraag om een review en aanbeveling op het juiste moment, zodat tevreden klanten aanvragen opleveren.'
 why: 'Tevreden klanten zeggen zelden uit zichzelf dat ze tevreden zijn. Je moet het vragen, op het juiste moment: kort na een goede check. Deze workflow vraagt twee dagen na de check om een review en, als die er is, een maand later om een aanbeveling. De nazorg na oplevering draagt de klant over zodra de check Goed is. Een aanbeveling is geen mailing: ze krijgt een telefoontje binnen een werkdag.'
 example: 'Stel: 80 opleveringen per jaar, waarvan 60 een goede check krijgen. Plaatst de helft van hen een review, dan zijn dat 30 reviews per jaar. Noemt een derde van die 30 een naam, dan zijn dat 10 aanbevelingen om te bellen.'
 mistakes:

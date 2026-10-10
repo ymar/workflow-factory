@@ -69,7 +69,7 @@ metrics:
 - dagen_uitnodiging_tot_planning
 seo:
   title: Jaarlijkse keuring automatisch inplannen
-  description: 'Workflow om keuringen automatisch in te plannen: een uitnodiging zes weken vooraf, een herinnering en pas daarna een belactie. Voor installatie en onderhoud.'
+  description: 'Voor bedrijven met jaarlijkse keuringen: elke keuring zes weken vooraf ingepland, zodat er geen belrondes nodig zijn en niets verloopt. Met tijdlijn.'
 why: Keuringen plannen kost planners uren aan bellen en terugbellen. En een keuring die te laat is, is een risico voor de klant. Deze workflow nodigt de klant zes weken vooraf uit om zelf een moment te kiezen. Alleen wie niet reageert, wordt gebeld. Na de keuring volgt de uitslag, met een offerte als er iets vervangen moet worden.
 example: 'Stel: 1.200 keuringen per jaar, en nu wordt voor elke keuring gebeld. Plant de helft zichzelf in, dan scheelt dat 600 belrondes.'
 mistakes:

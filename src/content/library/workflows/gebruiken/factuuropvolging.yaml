@@ -83,7 +83,7 @@ metrics:
 - dagen_tot_betaling
 seo:
   title: Factuuropvolging automatiseren
-  description: 'Workflow voor openstaande facturen: een vriendelijke herinnering, een belmoment en een melding aan de administratie. Met voorbeeldmail en CRM-velden.'
+  description: 'Voor bedrijven die op factuur werken: herinnering, belmoment en melding aan de administratie, zodat facturen sneller worden betaald. Met voorbeeldmail.'
 why: 'Een factuur die niet op tijd wordt betaald, blijft vaak liggen omdat niemand de eerste stap zet. Deze workflow zet die stap voor je: een herinnering, een belletje en een melding aan de administratie. Facturen staan in je boekhoudpakket (bijvoorbeeld Exact Online, Moneybird, AFAS of Twinfield) en niet in je CRM. Daarom heeft deze workflow een koppeling nodig die de vervaldatum, het bedrag en de betaalstatus doorgeeft. Zonder die koppeling krijgen klanten die al betaald hebben toch een herinnering.'
 example: 'Stel: 150 facturen per maand van gemiddeld €4.000, en nu is 30% een week of langer te laat. Haal je dat terug naar 20%, dan staat er elke maand ongeveer €60.000 minder langer open.'
 mistakes:

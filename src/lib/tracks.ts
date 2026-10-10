@@ -8,6 +8,8 @@ export interface Track {
   // URL part: /workflows/<slug>/
   slug: string;
   name: string;
+  // The H1: the result for the buyer.
+  headline: string;
   promise: string;
   // The outcome in four parts, same as a workflow and a sector.
   statement: { context: string; issue: string; change: string; result: string };
@@ -22,6 +24,7 @@ export const tracks: Track[] = [
     id: 'aantrekken',
     slug: 'meer-aanvragen',
     name: 'Meer aanvragen',
+    headline: 'Meer aanvragen van klanten en contacten die je al kent.',
     promise: 'Klanten komen naar jou, via reviews, aanbevelingen en mails die laten zien wat je weet.',
     statement: {
       context: 'B2B-bedrijven die verdienen aan contracten, service en herhaalorders',
@@ -34,13 +37,14 @@ export const tracks: Track[] = [
     honest: 'We draaien geen advertenties of zoekmachineoptimalisatie voor klanten. Deze workflows maken van klanten en contacten die je al hebt reviews, aanbevelingen en aandacht.',
     seo: {
       title: 'Meer aanvragen: reviews en aanbevelingen',
-      description: 'Workflows die van klanten die je al hebt reviews, aanbevelingen en aanvragen maken. Met voorbeeldmails, stappen en CRM-velden voor HubSpot en ActiveCampaign.',
+      description: 'Voor B2B-bedrijven met contracten en service: workflows die om een review en aanbeveling vragen en downloads opvolgen, zodat er meer aanvragen komen.',
     },
   },
   {
     id: 'opvolgen',
     slug: 'sneller-opvolgen',
     name: 'Sneller opvolgen',
+    headline: 'Geen aanvraag, offerte of factuur die blijft liggen.',
     promise: 'Geen aanvraag, offerte of factuur blijft liggen.',
     statement: {
       context: 'B2B-bedrijven die verdienen aan contracten, service en herhaalorders',
@@ -52,13 +56,14 @@ export const tracks: Track[] = [
       'Aanvragen, offertes en facturen blijven liggen tot iemand eraan denkt. Deze workflows bellen elke aanvraag binnen een werkdag, volgen elke offerte op tot ja of nee en sturen elke factuur op tijd een herinnering. Zodat je sneller omzet binnen hebt en minder werk verliest aan wie eerder belt.',
     seo: {
       title: 'Opvolgen: aanvragen, offertes en facturen',
-      description: 'Workflows die elke aanvraag binnen een werkdag laten bellen, offertes opvolgen tot ja of nee en facturen op tijd herinneren. Voor HubSpot en ActiveCampaign.',
+      description: 'Voor B2B-bedrijven waar aanvragen, offertes en facturen blijven liggen: workflows die binnen een werkdag bellen en opvolgen tot ja, nee of betaald.',
     },
   },
   {
     id: 'houden',
     slug: 'klanten-houden',
     name: 'Klanten houden',
+    headline: 'Klanten die verlengen, nabestellen en uitbreiden bij jou.',
     promise: 'Je klant denkt aan jou als het weer nodig is, niet aan een concurrent.',
     statement: {
       context: 'B2B-bedrijven die verdienen aan contracten, service en herhaalorders',
@@ -70,7 +75,7 @@ export const tracks: Track[] = [
       'Contracten lopen af, keuringen worden vergeten en nabestellingen gaan naar een ander. Deze workflows starten op de datums die je al hebt: oplevering, keuring, einddatum van het contract en laatste bestelling. Zodat je klanten bij jou verlengen, nabestellen en uitbreiden.',
     seo: {
       title: 'Klanten houden: verlengen en terugkomen',
-      description: 'Workflows voor contractverlenging, keuringen, nazorg en nabestellingen. Zodat klanten bij jou blijven. Met stappen, voorbeeldmails en CRM-velden.',
+      description: 'Voor B2B-bedrijven met contracten, keuringen en nabestellingen: workflows die starten op datums die je al hebt, zodat klanten verlengen en terugkomen.',
     },
   },
 ];

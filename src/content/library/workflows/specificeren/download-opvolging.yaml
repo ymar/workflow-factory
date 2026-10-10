@@ -72,7 +72,7 @@ metrics:
 - download_naar_gesprek
 seo:
   title: Download-opvolging automatiseren
-  description: 'Workflow voor het opvolgen van downloads van een checklist of gids: drie mails in twee weken en een belopdracht na twee klikken. Met CRM-velden en metingen.'
+  description: 'Voor bedrijven met checklists of gidsen op de site: drie mails in twee weken en een belopdracht na twee klikken, zodat een download een gesprek wordt.'
 why: 'Een download is een vraag om kennis. Zonder opvolging blijft het bij een bedankmail en een e-mailadres in een lijst. Deze workflow stuurt drie mails over twee weken, elk met een volgende stap, en meldt de verkoper zodra iemand twee keer klikt. Daarna neemt Aanvraagopvolging het over zodra er een aanvraag is.'
 example: 'Stel: 30 downloads per maand. Leidt 10% daarvan tot een gesprek, dan zijn dat 3 gesprekken per maand, met mensen die zelf om je kennis vroegen.'
 mistakes:

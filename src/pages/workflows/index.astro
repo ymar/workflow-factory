@@ -24,7 +24,7 @@ const flow = await getEntry('services', 'flow');
 if (!flow) throw new Error('Missing services/flow.json');
 
 const title = 'Marketing automation voorbeelden | Workflow Factory';
-const description = `${workflows.length} marketing automation workflows voor B2B, per uitkomst: meer aanvragen, sneller opvolgen, klanten houden. Voor HubSpot en ActiveCampaign.`;
+const description = `Voor B2B-bedrijven waar opvolging blijft liggen: ${workflows.length} workflows voor meer aanvragen, sneller opvolgen en klanten houden. Voor HubSpot en ActiveCampaign.`;
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -44,8 +44,9 @@ const jsonLd = [
     icon="flow"
     crumbs={[['/', 'Home'], ['/workflows/', 'Workflows']]}
     kicker="Open workflowbibliotheek"
-    title={`${workflows.length} marketing automation workflows.`}
-    intro="Per uitkomst: meer aanvragen, sneller opvolgen en klanten houden. Elke workflow met een tijdlijn, de CRM-velden die je nodig hebt en een dashboard. Voorbeeldmails staan er waar ze al geschreven zijn."
+    title="Opvolging die vanzelf loopt,"
+    accent={`${workflows.length} workflows klaar om te bouwen.`}
+    intro="B2B-bedrijven verliezen omzet aan aanvragen, offertes en facturen die blijven liggen. Elke workflow start op een datum of gebeurtenis die je al registreert en zet de opvolging in gang. Zodat je meer verlengt, wint en betaald krijgt. Kies per uitkomst."
   >
     <Button href="/opvolgscan/">Doe de opvolgscan</Button>
     <Button href="/workflows/data/" variant="ghost-dark">Velden en metingen</Button>

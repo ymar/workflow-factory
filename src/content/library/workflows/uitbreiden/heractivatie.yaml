@@ -66,7 +66,7 @@ metrics:
 - heractiveerde_klanten
 seo:
   title: Heractivatie van klanten automatiseren
-  description: 'Workflow voor klanten die een jaar niets van je hoorden: een persoonlijke mail, een telefoontje en terug naar de kennismail. Met stappen en CRM-velden.'
+  description: 'Voor bedrijven met klanten die stil werden: een persoonlijke mail en een telefoontje na twaalf maanden, zodat een stille klant weer klant wordt.'
 why: 'Klanten verdwijnen zelden met een knal. Ze bestellen een keer niet, en daarna nog een keer. Na een jaar is de relatie koud en weet niemand meer wie de laatste keer belde. Deze workflow start twaalf maanden na het laatste contact: één persoonlijke mail, een week later een telefoontje. Zodra er weer contact is, verspringt Laatste contact op en stopt de workflow vanzelf.'
 example: 'Stel: 150 klanten die een jaar niets van je hoorden. Spreekt 10% van hen je binnen twee maanden weer, dan zijn dat 15 klanten die anders stil waren gebleven.'
 mistakes:

@@ -61,7 +61,7 @@ metrics:
 - dagen_derde_storing_tot_gesprek
 seo:
   title: Storingsmeldingen opvolgen met automation
-  description: 'Workflow na een storing: een check na een dag, uitleg over een onderhoudscontract en een gesprek over vervanging na de derde storing in een jaar.'
+  description: 'Voor bedrijven die storingen afhandelen: een check na elke storing en een gesprek na de derde, zodat losse storingen een contract of vervanging worden.'
 why: 'Bij een storing denkt de klant aan je, alleen niet positief. Deze workflow maakt er een kans van: een check of het echt is opgelost, uitleg over een onderhoudscontract voor wie er geen heeft, en een gesprek over vervanging zodra dezelfde installatie voor de derde keer in een jaar stoort.'
 example: 'Stel: 48 installaties per jaar met drie of meer storingen. Kiest een kwart daarvan voor vervanging, dan zijn dat 12 opdrachten.'
 mistakes:

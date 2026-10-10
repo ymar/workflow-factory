@@ -60,7 +60,7 @@ metrics:
 - dagen_te_laat_besteld
 seo:
   title: Nabestellingen stimuleren in B2B
-  description: 'Workflow voor nabestellingen bij vaste klanten: een herinnering op het gebruikelijke bestelmoment, een telefoontje als het uitblijft en een signaal bij stilte.'
+  description: 'Voor bedrijven met vaste klanten: opvolging op het gebruikelijke bestelmoment, zodat herhaalorders niet naar een concurrent gaan. Met tijdlijn.'
 why: Vaste klanten bestellen in een ritme. Valt dat ritme stil, dan bestellen ze waarschijnlijk ergens anders, en merk je dat pas maanden later. Deze workflow berekent per klant wanneer de volgende bestelling verwacht wordt, helpt de klant daar op tijd aan herinneren, en waarschuwt de accountmanager zodra het ritme breekt.
 example: 'Stel: 200 vaste klanten die elke 6 weken voor €1.500 bestellen. Bestelt 5% van hen één keer per jaar ergens anders, dan scheelt dat €15.000 omzet.'
 mistakes:
