@@ -1,5 +1,7 @@
 # Plan: een automatisch websiterapport als lead magnet
 
+**Besluiten (10 oktober 2026):** optie B (met opvolgdeel), brede doelgroep, naam "Website check". Het platform voor e-mail en opvolging (HubSpot of ActiveCampaign) en de juridische toets zijn nog open. Fase 0 is gedaan: zie `websitecheck-fase0.md`. De rubric staat in `websitecheck-rubric.md`.
+
 Doel: een bezoeker vult de URL van zijn website en zijn e-mailadres in, en krijgt automatisch een rapport met tips over hoe helder zijn site is. Dit plan beschrijft wat het rapport meet, hoe je het bouwt, wat het kost aan risico en wat ik van jou nodig heb. Er is nog niets gebouwd.
 
 ## Eerst een eerlijke vraag: past dit bij je aanbod?
