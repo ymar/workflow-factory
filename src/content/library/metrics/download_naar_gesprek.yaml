@@ -1,0 +1,6 @@
+label: Download naar gesprek
+type: conversie
+numerator: downloads waarna een belgesprek plaatsvond
+denominator: downloads in de periode
+period: per kwartaal
+unit: '%'

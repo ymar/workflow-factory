@@ -1,0 +1,5 @@
+label: Klanten zonder contact in 12 maanden
+type: volume
+definition: Aantal klanten zonder bestelling of contact in de afgelopen twaalf maanden.
+period: per kwartaal
+unit: aantal

@@ -1,0 +1,10 @@
+label: Afgemeld voor e-mail
+type: ja/nee
+object: contact
+required: true
+source: Afmeldlink in de mail, bijgewerkt door je e-mailplatform
+example: nee
+check: Elke mail heeft een afmeldlink en deze wordt direct verwerkt.
+says:
+  ja: de contactpersoon zich heeft afgemeld
+  nee: de contactpersoon zich niet heeft afgemeld

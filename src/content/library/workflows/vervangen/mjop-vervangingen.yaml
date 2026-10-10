@@ -4,13 +4,18 @@ name: MJOP-vervangingen
 version: 1.0.0
 status: concept
 phase: vervangen
-segments:
-- installatie-onderhoud
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: accountmanager
 priority: 2
-summary: Geplande vervangingen uit het meerjarenonderhoudsplan worden op tijd een offerte.
-updated: 2026-10-09
+track: houden              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Geplande vervangingen uit het meerjarenonderhoudsplan worden op tijd een offerte. Zodat de vervanging bij jou komt en niet als spoedklus bij een ander.'
+outcome:
+  context: 'Bedrijven met geplande vervangingen: een MJOP, retrofit, het einde van de levensduur van hardware of het einde van een leaseperiode.'
+  issue: 'Na tien tot twintig jaar is de relatie afgekoeld, en de vervanging gaat naar wie als eerste een offerte stuurt.'
+  change: 'Zes maanden voor de geplande vervanging een offertevoorstel, met een belmoment en vaste opvolging.'
+  result: 'Meer vervangingen die je wint, als geplande opdracht en niet als spoedklus.'
+updated: 2026-10-10
 trigger: 6 maanden voor een geplande vervanging in het MJOP.
 goal: De vervanging als opdracht bij jou, niet als spoedklus bij een ander.
 enroll:

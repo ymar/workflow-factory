@@ -1,0 +1,6 @@
+label: Herinnering verstuurd op
+type: datum
+object: factuur
+required: false
+source: De workflow vult dit in
+example: '2027-02-17'

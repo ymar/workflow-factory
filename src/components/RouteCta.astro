@@ -1,0 +1,19 @@
+---
+// The closing step of a workflow page and a sector page: build it, or start with the scan.
+import Button from './Button.astro';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const { title = 'Laat hem bouwen, of kijk eerst waar het lekt.', text = 'De scan duurt 30 minuten en levert één pagina op: de drie grootste lekken in je opvolging en de workflow die elk lek dicht.' } = Astro.props;
+---
+<section class="on-dark border-t border-fg/10" aria-labelledby="route-title">
+  <div class="mx-auto max-w-6xl px-4 py-20 md:px-8 md:py-28">
+    <h2 id="route-title" class="max-w-3xl text-4xl leading-[1.05] tracking-[-0.02em] md:text-5xl">{title}</h2>
+    <p class="mt-6 max-w-xl text-lg text-fg/80">{text}</p>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <Button href="/contact/">Laat hem bouwen</Button>
+      <Button href="/opvolgscan/" variant="ghost-dark">Doe eerst de scan</Button>
+    </div>
+  </div>
+</section>

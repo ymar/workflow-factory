@@ -1,0 +1,9 @@
+label: Tip aangeklikt
+type: ja/nee
+object: contact
+required: false
+source: Klik op de link in de kennismail, vastgelegd door je e-mailplatform
+example: nee
+says:
+  ja: de contactpersoon een tip heeft aangeklikt
+  nee: de contactpersoon geen tip heeft aangeklikt

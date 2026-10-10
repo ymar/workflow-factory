@@ -1,0 +1,6 @@
+label: Gedownload document
+type: tekst
+object: contact
+required: false
+source: Formulier op je site
+example: Checklist onderhoudscontract

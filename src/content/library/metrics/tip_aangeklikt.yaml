@@ -1,0 +1,6 @@
+label: Tip aangeklikt
+type: conversie
+numerator: ontvangers die een tip aanklikten
+denominator: ontvangers van de kennismail
+period: per mail
+unit: '%'

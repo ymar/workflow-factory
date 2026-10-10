@@ -1,0 +1,94 @@
+{
+  "slug": "it-dienstverlening",
+  "name": "IT-dienstverlening",
+  "audience": "IT-dienstverleners",
+  "active": false,
+  "headline": {
+    "title": "Meer beheercontracten verlengd",
+    "accent": "en meer verkocht aan klanten die je al hebt."
+  },
+  "statement": {
+    "context": "IT-dienstverleners",
+    "issue": "Een beheercontract komt pas ter sprake als de klant al offertes opvraagt, en nieuwe hardware koopt de klant bij een ander.",
+    "change": "Opvolging die start op contractdatums, kwartaalgesprekken en hardware die het einde van de levensduur nadert.",
+    "result": "Meer beheercontracten verlengd en meer verkocht aan klanten die je al hebt.",
+    "line": "We helpen IT-dienstverleners meer beheercontracten te verlengen en meer te verkopen aan klanten die ze al hebben, door opvolging te starten op contractdatums, kwartaalgesprekken en hardware die het einde van de levensduur nadert."
+  },
+  "seo": {
+    "title": "Marketing automation voor IT-dienstverleners",
+    "description": "Marketing automation voor IT-dienstverleners: beheercontracten verlengen en meer verkopen aan bestaande klanten, met opvolging op contractdatum en levensduur."
+  },
+  "problems": [
+    "Een beheercontract bespreken we pas als de klant al offertes opvraagt.",
+    "Nieuwe hardware koopt de klant bij een ander.",
+    "Na de livegang hoort de klant alleen van ons bij een ticket."
+  ],
+  "terms": {
+    "nazorg-na-oplevering": "livegang",
+    "jaarlijkse-keuring": "kwartaalgesprek",
+    "storingsopvolging": "ticket",
+    "contractverlenging": "beheercontract",
+    "nabestellingen": "licenties en hardware",
+    "mjop-vervangingen": "einde levensduur hardware",
+    "kennismail-per-seizoen": "de budgetronde aan het einde van het jaar"
+  },
+  "note": {
+    "title": "Staan je tickets in een servicedesk?",
+    "text": "Tickets staan vaak in een servicedesk-pakket en niet in het CRM. Is dat bij jou zo? Dan heeft storingsopvolging een koppeling tussen die twee nodig, zodat een derde ticket een taak wordt."
+  },
+  "workflows": [
+    "aanvraagopvolging",
+    "download-opvolging",
+    "reviews-en-aanbevelingen",
+    "kennismail-per-seizoen",
+    "offerteopvolging",
+    "factuuropvolging",
+    "onboarding",
+    "nazorg-na-oplevering",
+    "jaarlijkse-keuring",
+    "storingsopvolging",
+    "contractverlenging",
+    "nabestellingen",
+    "uitbreiding",
+    "mjop-vervangingen",
+    "heractivatie"
+  ],
+  "glossary": [
+    {
+      "term": "Livegang",
+      "becomes": "De start van de nazorg. Stel: 7 dagen na de livegang een korte check of alles werkt, en na 30 dagen de vraag of er een beheercontract bij hoort.",
+      "field": "project.opleverdatum",
+      "workflow": "nazorg-na-oplevering"
+    },
+    {
+      "term": "Beheercontract",
+      "becomes": "Een deal met een einddatum. Stel: 90 dagen voor die datum start de verlengingsworkflow, met een taak voor de accountmanager.",
+      "field": "contract.einddatum",
+      "workflow": "contractverlenging"
+    },
+    {
+      "term": "Kwartaalgesprek",
+      "becomes": "Een terugkerende datum per klant. Stel: 6 weken vooraf een uitnodiging om het gesprek in te plannen, en een belactie als er geen reactie komt.",
+      "field": "keuring.datum",
+      "workflow": "jaarlijkse-keuring"
+    },
+    {
+      "term": "Ticket",
+      "becomes": "Een melding met een datum. Stel: na het derde ticket over hetzelfde systeem in een jaar een taak voor een gesprek over vervanging of beheer.",
+      "field": "storing.aantal_12m",
+      "workflow": "storingsopvolging"
+    },
+    {
+      "term": "Licenties en hardware",
+      "becomes": "Een bestelling met een verwacht volgend moment. Stel: 5 dagen voor het moment waarop de klant gewoonlijk licenties of hardware bestelt, een mail en een belopdracht.",
+      "field": "bestelling.volgende_verwacht_op",
+      "workflow": "nabestellingen"
+    },
+    {
+      "term": "Einde levensduur hardware",
+      "becomes": "Een geplande vervanging. Stel: 6 maanden voor het einde van de levensduur van de hardware een offertevoorstel.",
+      "field": "mjop.vervanging_op",
+      "workflow": "mjop-vervangingen"
+    }
+  ]
+}

@@ -1,19 +1,21 @@
 // Helpers for the workflow library: labels, readable timing, and the build check.
 import type { CollectionEntry } from 'astro:content';
 
-export const objectIds = ['aanvraag', 'klant', 'contact', 'offerte', 'project', 'installatie', 'contract', 'keuring', 'storing', 'bestelling', 'mjop', 'afzender'] as const;
+export const objectIds = ['aanvraag', 'klant', 'contact', 'offerte', 'project', 'installatie', 'contract', 'keuring', 'storing', 'bestelling', 'mjop', 'factuur', 'afzender'] as const;
 export const objectLabel: Record<string, string> = {
   aanvraag: 'Aanvraag', klant: 'Klant', contact: 'Contactpersoon', offerte: 'Offerte', project: 'Project', installatie: 'Installatie',
-  contract: 'Contract', keuring: 'Keuring', storing: 'Storing', bestelling: 'Bestelling', mjop: 'MJOP', afzender: 'Afzender',
+  contract: 'Contract', keuring: 'Keuring', storing: 'Storing', bestelling: 'Bestelling', mjop: 'MJOP', factuur: 'Factuur', afzender: 'Afzender',
 };
 
-export const segmentIds = ['installatie-onderhoud', 'groothandel', 'zakelijke-dienstverlening'] as const;
+// The four sectors. Each has a page at /<slug>/ and a file in src/content/segments/.
+export const segmentIds = ['installatie-onderhoud', 'machinebouw', 'it-dienstverlening', 'verhuur-en-lease'] as const;
 export const segmentLabel: Record<string, string> = {
   'installatie-onderhoud': 'Installatie en onderhoud',
-  groothandel: 'Groothandel',
-  'zakelijke-dienstverlening': 'Zakelijke dienstverlening',
+  machinebouw: 'Machinebouw',
+  'it-dienstverlening': 'IT-dienstverlening',
+  'verhuur-en-lease': 'Verhuur en lease van materieel',
 };
-export const segmentHref: Record<string, string> = { 'installatie-onderhoud': '/installatie-onderhoud/' };
+export const segmentHref: Record<string, string> = Object.fromEntries(segmentIds.map((id) => [id, `/${id}/`]));
 
 // A field reference looks like `object.field`, for example `contract.einddatum`.
 const FIELD_REF = /\b([a-z]+\.[a-z_0-9]+)\b/g;

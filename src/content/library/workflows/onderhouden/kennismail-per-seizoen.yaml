@@ -1,0 +1,90 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: OND-04
+name: Kennismail per seizoen
+version: 1.0.0
+status: concept
+phase: onderhouden
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
+needs_blueprint: true
+owner: accountmanager
+priority: 5
+track: aantrekken
+summary: 'Vier keer per jaar een korte mail met één nuttige tip, op het moment dat die past bij het seizoen of de cyclus van de klant. Zodat jij in beeld bent op het moment dat de klant iets nodig heeft.'
+outcome:
+  context: 'Bedrijven in installatie, machinebouw, IT-dienstverlening en verhuur met klanten en leads die jaren later weer iets nodig hebben.'
+  issue: 'Tussen twee opdrachten hoort de klant niets van je. Als er weer iets nodig is, is dat meestal iemand anders die net belde.'
+  change: 'Vier mails per jaar, elk met één tip die past bij het seizoen of de cyclus van de klant. Een klik op een tip wordt een belopdracht.'
+  result: 'Meer aanvragen van klanten en leads die je al kennen, op het moment dat het speelt.'
+updated: 2026-10-10
+trigger: Een klant of lead staat op de lijst voor de kennismail, met toestemming.
+goal: Zichtbaar blijven met iets nuttigs, en een gesprek als iemand een tip aanklikt.
+enroll:
+  object: contact
+  'on': contact.seizoensmail = ja
+  if:
+  - contact.afgemeld = nee
+steps:
+- id: s1
+  title: Eerste tip van het seizoen
+  after: direct
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: laten zien wat je weet, met één tip die nu past. Voorbeelden per branche: installatie, vóór de zomer koeling en vóór de winter verwarming. Machinebouw, het geplande onderhoudsvenster. IT, de budgetronde aan het eind van het jaar. Verhuur, de start van het bouwseizoen.'
+- id: s2
+  title: Bellen over de aangeklikte tip
+  'on': contact.tip_aangeklikt = ja
+  action: taak
+  owner: accountmanager
+  sla: 5 werkdagen
+  brief: Wie een tip aanklikt, wil er meer over weten. Bel binnen vijf werkdagen.
+  checklist:
+  - Open de mail en zie welke tip is aangeklikt.
+  - Bel met een vraag over die tip, niet met een aanbod.
+  - Leg vast wat de klant zegt. Past er een andere workflow bij, start die dan.
+- id: s3
+  title: Tweede tip
+  after: 3m
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: opnieuw iets nuttigs voor het nieuwe seizoen, met een link naar meer uitleg.'
+- id: s4
+  title: Derde tip
+  after: 6m
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: een tip die past bij het moment in de cyclus van de klant, met een link naar meer uitleg.'
+- id: s5
+  title: Vierde tip
+  after: 9m
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: een tip die de klant helpt vooruit te kijken naar het volgende jaar.'
+exit:
+- contact.afgemeld = ja
+- na s5
+handover:
+  won: Een aangeklikte tip wordt een belopdracht. Daaruit volgt een gesprek en soms een aanvraag.
+  lost: 'Na vier mails begint de reeks opnieuw, met de tips van het volgende seizoen, voor wie nog op de lijst staat.'
+fields:
+- contact.seizoensmail
+- contact.afgemeld
+- contact.tip_aangeklikt
+- klant.contactpersoon
+- klant.accountmanager
+metrics:
+- tip_aangeklikt
+- taken_na_tip
+seo:
+  title: Kennismail per seizoen automatiseren
+  description: 'Workflow voor vier nuttige tipmails per jaar aan klanten en leads, met een belopdracht na een klik. Voor installatie, machinebouw, IT en verhuur.'
+why: 'Tussen twee opdrachten hoort een klant niets van je, tot er weer iets nodig is en iemand anders net belde. Deze workflow stuurt vier keer per jaar een korte mail met één tip die past bij het seizoen of de cyclus van de klant. Het is geen nieuwsbrief met alles wat er in je bedrijf gebeurt. Het is één nuttig ding per mail. Een klik op een tip betekent dat iemand er iets mee wil, en dat wordt een belopdracht. Wie zich afmeldt, ontvangt niets meer.'
+example: 'Stel: 600 contacten ontvangen vier tips per jaar. Klikt 3% per mail op een tip, dan zijn dat 18 belopdrachten per mail en 72 per jaar, van mensen die zelf lieten zien dat het onderwerp speelt.'
+mistakes:
+- Een nieuwsbrief maken met alles wat je kwijt wilt. Eén tip per mail.
+- Mailen zonder toestemming. De lijst bestaat alleen uit mensen die dat willen.
+- Een klik negeren. Een aangeklikte tip is een telefoontje, binnen vijf werkdagen.
+faq:
+- q: Waarom vier keer per jaar?
+  a: Vaak genoeg om in beeld te blijven, weinig genoeg om niet te irriteren. Bij een kortere cyclus, zoals verhuur of IT, kan het vaker.
+- q: Wie schrijft de tips?
+  a: Jij of je accountmanager, met hulp van deze brief. De tip is wat alleen jij kunt zeggen, de rest is de workflow.

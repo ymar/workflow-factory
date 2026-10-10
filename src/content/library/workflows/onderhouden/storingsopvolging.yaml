@@ -4,13 +4,18 @@ name: Storingsopvolging
 version: 1.0.0
 status: concept
 phase: onderhouden
-segments:
-- installatie-onderhoud
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: accountmanager
 priority: 1
-summary: Na een storing volgt een check. Na de derde storing volgt een gesprek over vervanging.
-updated: 2026-10-09
+track: houden              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Na een storing volgt een check. Na de derde storing volgt een gesprek over vervanging. Zodat losse storingen een contract of een vervanging worden.'
+outcome:
+  context: 'Bedrijven die storingen of tickets afhandelen voor klanten met installaties, machines, systemen of materieel.'
+  issue: 'Een storing is afgehandeld en daarna hoort de klant niets meer, ook niet na de derde keer.'
+  change: 'Een check na elke afgesloten storing, en na de derde storing in een jaar een gesprek over vervanging of een contract.'
+  result: 'Minder losse storingen en meer contracten en vervangingen.'
+updated: 2026-10-10
 trigger: Een storingsmelding wordt afgesloten.
 goal: Minder losse storingen, meer contracten en vervangingen.
 enroll:

@@ -1,0 +1,10 @@
+label: Factuur betaald
+type: ja/nee
+object: factuur
+required: true
+source: Boekhoudpakket (Exact Online, Moneybird, AFAS, Twinfield), via een koppeling met het CRM
+example: nee
+check: Minstens dagelijks bijgewerkt. Zonder koppeling krijgen klanten die al betaald hebben toch een herinnering.
+says:
+  ja: de factuur betaald is
+  nee: de factuur nog niet betaald is

@@ -1,0 +1,5 @@
+label: Reviews per maand
+type: volume
+definition: Aantal klanten dat na een verzoek een review plaatst.
+period: per maand
+unit: aantal

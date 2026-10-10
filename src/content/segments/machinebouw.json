@@ -1,0 +1,90 @@
+{
+  "slug": "machinebouw",
+  "name": "Machinebouw",
+  "audience": "machinebouwers",
+  "active": true,
+  "headline": {
+    "title": "Meer service- en onderdelenomzet",
+    "accent": "uit machines die al draaien."
+  },
+  "statement": {
+    "context": "Machinebouwers",
+    "issue": "Na de verkoop van de machine verdwijnt de klant uit beeld, en onderdelen worden bij een ander besteld.",
+    "change": "Opvolging gekoppeld aan inbedrijfstelling, onderhoudsintervallen en servicemeldingen.",
+    "result": "Meer service- en onderdelenomzet uit machines die al draaien.",
+    "line": "We helpen machinebouwers meer service- en onderdelenomzet te halen uit machines die al draaien, door opvolging te koppelen aan inbedrijfstelling, onderhoudsintervallen en servicemeldingen."
+  },
+  "seo": {
+    "title": "Marketing automation voor machinebouwers",
+    "description": "Marketing automation voor machinebouwers: meer service- en onderdelenomzet met opvolging op inbedrijfstelling, onderhoudsintervallen en servicemeldingen."
+  },
+  "problems": [
+    "We verkopen de machine, daarna verdwijnt de klant uit beeld.",
+    "Onderdelen bestelt de klant bij een ander.",
+    "Over retrofit en vervanging horen we pas als het te laat is."
+  ],
+  "terms": {
+    "nazorg-na-oplevering": "inbedrijfstelling",
+    "jaarlijkse-keuring": "periodiek onderhoud",
+    "storingsopvolging": "servicemelding",
+    "contractverlenging": "servicecontract",
+    "nabestellingen": "onderdelen en slijtdelen",
+    "mjop-vervangingen": "retrofit",
+    "kennismail-per-seizoen": "het geplande onderhoudsvenster"
+  },
+  "workflows": [
+    "aanvraagopvolging",
+    "download-opvolging",
+    "reviews-en-aanbevelingen",
+    "kennismail-per-seizoen",
+    "offerteopvolging",
+    "factuuropvolging",
+    "onboarding",
+    "nazorg-na-oplevering",
+    "jaarlijkse-keuring",
+    "storingsopvolging",
+    "contractverlenging",
+    "nabestellingen",
+    "uitbreiding",
+    "mjop-vervangingen",
+    "heractivatie"
+  ],
+  "glossary": [
+    {
+      "term": "Inbedrijfstelling",
+      "becomes": "De start van de nazorg. Stel: 7 dagen na de inbedrijfstelling een korte check of de machine draait zoals afgesproken, en na 30 dagen de vraag of er een servicecontract bij hoort.",
+      "field": "project.opleverdatum",
+      "workflow": "nazorg-na-oplevering"
+    },
+    {
+      "term": "Servicecontract",
+      "becomes": "Een deal met een einddatum. Stel: 90 dagen voor die datum start de verlengingsworkflow, met een taak voor de accountmanager.",
+      "field": "contract.einddatum",
+      "workflow": "contractverlenging"
+    },
+    {
+      "term": "Periodiek onderhoud",
+      "becomes": "Een terugkerende datum per machine. Stel: 6 weken voor het onderhoudsinterval een uitnodiging om in te plannen, en een belactie als er geen reactie komt.",
+      "field": "keuring.datum",
+      "workflow": "jaarlijkse-keuring"
+    },
+    {
+      "term": "Servicemelding",
+      "becomes": "Een melding met een datum. Stel: na de derde servicemelding voor dezelfde machine in een jaar een taak voor een gesprek over onderhoud of vervanging.",
+      "field": "storing.aantal_12m",
+      "workflow": "storingsopvolging"
+    },
+    {
+      "term": "Onderdelen en slijtdelen",
+      "becomes": "Een bestelling met een verwacht volgend moment. Stel: 5 dagen voor het moment waarop de klant gewoonlijk slijtdelen bestelt, een mail en een belopdracht.",
+      "field": "bestelling.volgende_verwacht_op",
+      "workflow": "nabestellingen"
+    },
+    {
+      "term": "Retrofit",
+      "becomes": "Een geplande vervanging of modernisering. Stel: 6 maanden voor de geplande retrofit een offertevoorstel.",
+      "field": "mjop.vervanging_op",
+      "workflow": "mjop-vervangingen"
+    }
+  ]
+}

@@ -4,15 +4,18 @@ name: Aanvraagopvolging
 version: 1.0.0
 status: concept
 phase: specificeren
-segments:
-- installatie-onderhoud
-- groothandel
-- zakelijke-dienstverlening
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: false
 owner: verkoper
 priority: 1
-summary: Elke aanvraag krijgt binnen minuten antwoord en binnen een werkdag een telefoontje.
-updated: 2026-10-09
+track: opvolgen              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Elke aanvraag krijgt binnen minuten antwoord en binnen een werkdag een telefoontje. Zodat geen aanvraag naar wie sneller belt gaat.'
+outcome:
+  context: 'Bedrijven in installatie, machinebouw, IT-dienstverlening en verhuur die aanvragen via hun site krijgen.'
+  issue: 'Een aanvraag blijft een dag of langer liggen voordat iemand belt. Dan heeft de klant al een ander gesproken.'
+  change: 'Direct een bevestiging, een belopdracht voor binnen een werkdag en een melding aan de teamleider als er niet gebeld is.'
+  result: 'Meer aanvragen die een afspraak of een offerte worden.'
+updated: 2026-10-10
 trigger: Er komt een nieuwe aanvraag binnen via een formulier op je site.
 goal: Van aanvraag naar een afspraak of een offerte, zonder dat er iets blijft liggen.
 enroll:

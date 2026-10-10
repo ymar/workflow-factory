@@ -1,0 +1,7 @@
+label: Vervaldatum factuur
+type: datum
+object: factuur
+required: true
+source: Boekhoudpakket (Exact Online, Moneybird, AFAS, Twinfield), via een koppeling met het CRM
+example: '2027-02-14'
+check: Nooit leeg bij een verstuurde factuur.

@@ -1,0 +1,7 @@
+label: Download op
+type: datum en tijd
+object: contact
+required: true
+source: Formulier op je site
+example: '2027-03-02 10:15'
+check: Gevuld door het downloadformulier, met het e-mailadres en de naam van het bedrijf.

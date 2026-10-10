@@ -1,0 +1,126 @@
+---
+// One sector page, driven by src/content/segments/<slug>.json. The same component serves all four sectors.
+import { getCollection, getEntries, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from './PageHero.astro';
+import Section from './Section.astro';
+import Button from './Button.astro';
+import Faq from './Faq.astro';
+import OutcomeDl from './OutcomeDl.astro';
+import RouteCta from './RouteCta.astro';
+import { fieldAnchor, sortWorkflows } from '../lib/library';
+import { tracks, trackHref } from '../lib/tracks';
+import { sectorHref } from '../lib/sectors';
+
+interface Props {
+  slug: string;
+}
+const segment = await getEntry('segments', Astro.props.slug);
+if (!segment) throw new Error(`Missing segments/${Astro.props.slug}.json`);
+const { name, audience, headline, statement, seo, problems, glossary, note, faq } = segment.data;
+const path = sectorHref(segment.data.slug);
+const workflows = sortWorkflows(await getEntries(segment.data.workflows));
+const fieldLabels = new Map((await getCollection('fields')).map((f) => [f.id, f.data.label]));
+const crumbs: [string, string][] = [['/', 'Home'], ['/branches/', 'Branches'], [path, name]];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map(([href, label], i) => ({ '@type': 'ListItem', position: i + 1, name: label, item: new URL(href, Astro.site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: seo.title,
+    description: seo.description,
+    url: new URL(path, Astro.site).href,
+    provider: { '@type': 'ProfessionalService', name: 'Workflow Factory' },
+    areaServed: 'NL',
+    audience: { '@type': 'BusinessAudience', name: audience },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Workflows voor ${audience}`,
+    itemListElement: workflows.map((w, i) => ({ '@type': 'ListItem', position: i + 1, name: w.data.name, url: new URL(`/workflows/${w.id}/`, Astro.site).href })),
+  },
+  ...(faq.length
+    ? [{
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+      }]
+    : []),
+];
+let n = 0;
+const next = () => String(++n).padStart(2, '0');
+---
+<Base title={`${seo.title} | Workflow Factory`} description={seo.description} path={path} jsonLd={jsonLd}>
+  <PageHero crumbs={crumbs} kicker={`Voor ${audience}`} title={headline.title} accent={headline.accent} intro={statement.line}>
+    <Button href="/opvolgscan/">Doe de opvolgscan</Button>
+    <Button href="#workflows" variant="ghost-dark" arrow={false}>Bekijk de workflows ↓</Button>
+  </PageHero>
+
+  <div class="mx-auto max-w-6xl px-4 pb-16 md:px-8 md:pb-20"><OutcomeDl outcome={statement} /></div>
+
+  <Section id="herken" n={next()} label="Wat we vaak horen" title="Herken je dit?">
+    <ul class="border-b border-fg/15">
+      {problems.map((p) => <li class="border-t border-fg/15 py-5 font-display text-2xl md:text-3xl">“{p}”</li>)}
+    </ul>
+  </Section>
+
+  <Section id="woordenlijst" n={next()} label="Woordenlijst" title="Jouw woorden, in het systeem" intro="Elk begrip uit je vak wordt een trigger. Dit zijn voorbeelden, geen vaste regels.">
+    <dl class="border-b border-fg/15">
+      {glossary.map((g) => (
+        <div class="grid gap-2 border-t border-fg/15 py-6 md:grid-cols-[16rem_1fr] md:gap-8">
+          <dt class="font-display text-3xl">{g.term}</dt>
+          <dd class="text-fg/80 md:text-lg">
+            {g.becomes}
+            <span class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+              {g.field && <a href={`/workflows/data/#${fieldAnchor(g.field.id)}`} class="font-medium text-muted hover:text-accent hover:underline">In het systeem: {fieldLabels.get(g.field.id)}</a>}
+              {g.workflow && <a href={`/workflows/${g.workflow.id}/`} class="font-medium text-accent hover:underline">Bekijk de workflow →</a>}
+            </span>
+          </dd>
+        </div>
+      ))}
+    </dl>
+    {note && (
+      <aside class="mt-10 max-w-3xl rounded-xl border border-fg/15 bg-white p-6">
+        <p class="text-[13px] font-medium text-accent">Een vraag</p>
+        <p class="mt-2 text-lg font-medium">{note.title}</p>
+        <p class="mt-2 text-fg/80">{note.text}</p>
+      </aside>
+    )}
+  </Section>
+
+  <Section id="workflows" n={next()} label="Workflows" tone="dark" title="Workflows die hier passen" intro="Dezelfde bibliotheek voor elke branche. Op elke workflowpagina staat hoe het in jouw branche heet.">
+    <div class="grid gap-10 md:grid-cols-3">
+      {tracks.map((t) => (
+        <div>
+          <h3 class="text-2xl"><a href={trackHref(t)} class="hover:text-accent">{t.name}</a></h3>
+          <ul class="mt-4 border-b border-fg/15">
+            {workflows.filter((w) => w.data.track === t.id).map((w) => (
+              <li class="border-t border-fg/15">
+                <a href={`/workflows/${w.id}/`} class="group flex items-center justify-between gap-4 py-3 hover:text-accent">
+                  {w.data.name}<span aria-hidden="true" class="text-muted group-hover:text-accent">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <p class="mt-10 max-w-2xl text-muted">
+      Eén uitzondering op "eerst de positionering": opvolging van aanvragen, offertes en facturen kan meteen.
+      De rest begint bij <a href="/blueprint/" class="text-accent underline underline-offset-4">Blueprint</a>.
+    </p>
+  </Section>
+
+  {faq.length > 0 && (
+    <Section id="vragen" n={next()} label="Vragen" title="Vragen">
+      <Faq items={faq.map((f) => ({ question: f.q, answer: f.a }))} />
+    </Section>
+  )}
+
+  <RouteCta />
+</Base>

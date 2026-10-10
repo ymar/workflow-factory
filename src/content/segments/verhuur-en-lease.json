@@ -1,0 +1,94 @@
+{
+  "slug": "verhuur-en-lease",
+  "name": "Verhuur en lease van materieel",
+  "audience": "verhuur- en leasebedrijven voor materieel",
+  "active": false,
+  "headline": {
+    "title": "Materieel vaker opnieuw verhuurd",
+    "accent": "en contracten verlengd."
+  },
+  "statement": {
+    "context": "Verhuur- en leasebedrijven voor materieel",
+    "issue": "De huur loopt af en de klant huurt de volgende keer elders, en keuringen worden pas gepland als het materieel al stilstaat.",
+    "change": "Opvolging die start op het einde van de huur- of leaseperiode, keuringsdatums en schademeldingen.",
+    "result": "Meer contracten verlengd en materieel vaker opnieuw verhuurd.",
+    "line": "We helpen verhuur- en leasebedrijven meer contracten te verlengen en materieel vaker opnieuw te verhuren, door opvolging te starten op het einde van de huur- of leaseperiode, keuringsdatums en schademeldingen."
+  },
+  "seo": {
+    "title": "Marketing automation voor verhuurbedrijven",
+    "description": "Marketing automation voor verhuur en lease van materieel: contracten verlengen en materieel vaker verhuren, met opvolging op einde periode, keuring en schade."
+  },
+  "problems": [
+    "De huur loopt af en de volgende keer huurt de klant elders.",
+    "Keuringen plannen we pas als het materieel al stilstaat.",
+    "Na afloop van een lease horen we niets meer."
+  ],
+  "terms": {
+    "nazorg-na-oplevering": "aflevering",
+    "jaarlijkse-keuring": "periodieke keuring",
+    "storingsopvolging": "storing of schade",
+    "contractverlenging": "einde huur- of leaseperiode",
+    "nabestellingen": "extra materieel",
+    "mjop-vervangingen": "einde lease, nieuw contract",
+    "kennismail-per-seizoen": "de start van het bouwseizoen"
+  },
+  "note": {
+    "title": "Staan je contracten en keuringen in verhuursoftware?",
+    "text": "Contracten en keuringen staan vaak in verhuursoftware en niet in het CRM. Is dat bij jou zo? Dan hebben contractverlenging en jaarlijkse keuring een koppeling met het CRM nodig."
+  },
+  "workflows": [
+    "aanvraagopvolging",
+    "download-opvolging",
+    "reviews-en-aanbevelingen",
+    "kennismail-per-seizoen",
+    "offerteopvolging",
+    "factuuropvolging",
+    "onboarding",
+    "nazorg-na-oplevering",
+    "jaarlijkse-keuring",
+    "storingsopvolging",
+    "contractverlenging",
+    "nabestellingen",
+    "uitbreiding",
+    "mjop-vervangingen",
+    "heractivatie"
+  ],
+  "glossary": [
+    {
+      "term": "Aflevering",
+      "becomes": "De start van de nazorg. Stel: 7 dagen na de aflevering een korte check of het materieel werkt zoals bedoeld, en na 30 dagen de vraag of er een vast contract bij hoort.",
+      "field": "project.opleverdatum",
+      "workflow": "nazorg-na-oplevering"
+    },
+    {
+      "term": "Einde huur- of leaseperiode",
+      "becomes": "Een contract met een einddatum. Stel: 90 dagen voor die datum start de verlengingsworkflow, met een taak voor de accountmanager.",
+      "field": "contract.einddatum",
+      "workflow": "contractverlenging"
+    },
+    {
+      "term": "Periodieke keuring",
+      "becomes": "Een terugkerende datum per stuk materieel. Stel: 6 weken vooraf een uitnodiging om de keuring in te plannen, voordat het materieel stilstaat.",
+      "field": "keuring.datum",
+      "workflow": "jaarlijkse-keuring"
+    },
+    {
+      "term": "Storing of schade",
+      "becomes": "Een melding met een datum. Stel: na de derde storing of schademelding aan hetzelfde materieel in een jaar een taak voor een gesprek over vervanging of een ander contract.",
+      "field": "storing.aantal_12m",
+      "workflow": "storingsopvolging"
+    },
+    {
+      "term": "Extra materieel",
+      "becomes": "Een bestelling met een verwacht volgend moment. Stel: 5 dagen voor het moment waarop de klant gewoonlijk extra materieel huurt, een mail en een belopdracht.",
+      "field": "bestelling.volgende_verwacht_op",
+      "workflow": "nabestellingen"
+    },
+    {
+      "term": "Einde lease, nieuw contract",
+      "becomes": "Een geplande vervanging. Stel: 6 maanden voor het einde van de lease een voorstel voor een nieuw contract.",
+      "field": "mjop.vervanging_op",
+      "workflow": "mjop-vervangingen"
+    }
+  ]
+}

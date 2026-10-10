@@ -1,0 +1,5 @@
+label: Dagen tot betaling
+type: doorlooptijd
+definition: Dagen van vervaldatum tot betaling. Een factuur die op tijd is betaald telt als 0.
+period: mediaan per maand
+unit: dagen

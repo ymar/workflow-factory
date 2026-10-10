@@ -1,0 +1,5 @@
+label: Belopdrachten na een tip
+type: volume
+definition: Aantal taken voor de accountmanager dat uit een aangeklikte tip volgt.
+period: per kwartaal
+unit: aantal

@@ -1,34 +1,39 @@
 ---
-// The menu is the library: its four topics. Services and About sit small on the right, next to the call to action.
+// The menu is the three outcomes the buyer wants. Branches, Services and About sit small on the right, next to the call to action.
 import { getCollection } from 'astro:content';
 import Logo from './Logo.astro';
-import { topics, topicHref, topicOf } from '../lib/topics';
+import { tracks, trackHref, trackOf } from '../lib/tracks';
 
-const topicLinks = topics.map((t) => ({ href: topicHref(t), label: t.name }));
+const topicLinks = tracks.map((t) => ({ href: trackHref(t), label: t.name }));
 const sideLinks = [
+  { href: '/branches/', label: 'Branches' },
   { href: '/diensten/', label: 'Diensten' },
   { href: '/over/', label: 'Over' },
 ];
 const moreLinks = [
   { href: '/workflows/', label: 'Alle workflows' },
+  { href: '/opvolgscan/', label: 'Opvolgscan' },
   { href: '/workflows/hubspot/', label: 'HubSpot' },
   { href: '/workflows/activecampaign/', label: 'ActiveCampaign' },
   { href: '/workflows/data/', label: 'Velden en metingen' },
   { href: '/contact/', label: 'Contact' },
 ];
 
-// A workflow page belongs to its topic, so the topic is marked as current there too.
+// A workflow page belongs to its outcome, and a sector page to Branches, so those are marked as current there too.
 const path = Astro.url.pathname;
 const workflow = (await getCollection('workflows')).find((w) => path === `/workflows/${w.id}/`);
+const sector = (await getCollection('segments')).find((s) => path === `/${s.data.slug}/`);
 const active = workflow
-  ? topicHref(topicOf(workflow.data.phase))
-  : [...topicLinks, ...sideLinks, ...moreLinks].filter((l) => path.startsWith(l.href)).sort((a, b) => b.href.length - a.href.length)[0]?.href;
+  ? trackHref(trackOf(workflow.data.track))
+  : sector
+    ? '/branches/'
+    : [...topicLinks, ...sideLinks, ...moreLinks].filter((l) => path.startsWith(l.href)).sort((a, b) => b.href.length - a.href.length)[0]?.href;
 const current = (href: string) => (href === active ? 'page' : undefined);
 ---
 <header class="sticky top-0 z-40 border-b border-fg/10 bg-bg/90 backdrop-blur-md">
   <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 md:px-8">
     <a href="/" class="shrink-0 rounded" aria-label="Workflow Factory, naar de homepage"><Logo /></a>
-    <nav aria-label="Onderwerpen" class="hidden xl:block">
+    <nav aria-label="Uitkomsten" class="hidden xl:block">
       <ul class="flex items-center gap-4 text-[14px] min-[1360px]:gap-6">
         {topicLinks.map((l) => (
           <li><a href={l.href} aria-current={current(l.href)} class="whitespace-nowrap rounded text-fg/75 hover:text-fg aria-[current=page]:font-medium aria-[current=page]:text-fg aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-[22px]">{l.label}</a></li>
@@ -45,7 +50,7 @@ const current = (href: string) => (href === active ? 'page' : undefined);
       <details class="group xl:hidden">
         <summary class="cursor-pointer list-none rounded-[10px] border border-fg/25 px-4 py-2 text-sm [&::-webkit-details-marker]:hidden"><span class="group-open:hidden">Menu</span><span class="hidden group-open:inline">Sluit</span></summary>
         <nav aria-label="Mobiel menu" class="absolute inset-x-0 top-16 h-[calc(100svh-4rem)] overflow-y-auto border-b border-fg/10 bg-bg px-4 pb-10 pt-6 md:px-8">
-          <p class="text-[13px] text-muted">Onderwerpen</p>
+          <p class="text-[13px] text-muted">Wat wil je bereiken?</p>
           <ul class="mt-2 space-y-1">
             {topicLinks.map((l) => (
               <li><a href={l.href} aria-current={current(l.href)} class="block rounded py-1.5 text-2xl font-semibold tracking-[-0.02em] text-fg aria-[current=page]:text-accent">{l.label}</a></li>

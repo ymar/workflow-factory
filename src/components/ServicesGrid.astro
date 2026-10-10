@@ -1,5 +1,5 @@
 ---
-// The three services with prices. `highlight` gets the dark card.
+// Services with prices, in the given order. `highlight` gets the dark card. Pass fewer ids in `order` to show fewer cards.
 import { getCollection } from 'astro:content';
 import ProductIcon from './ProductIcon.astro';
 import { priceLabel } from '../lib/format';
@@ -9,10 +9,10 @@ interface Props {
   badge?: string;
   order?: string[];
 }
-const { highlight = 'flow', badge, order = ['flow', 'blueprint', 'build'] } = Astro.props;
-const services = (await getCollection('services')).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+const { highlight = '', badge, order = ['flow', 'blueprint', 'build'] } = Astro.props;
+const services = (await getCollection('services')).filter((s) => order.includes(s.id)).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 ---
-<ul class="grid gap-4 md:grid-cols-3">
+<ul class={`grid gap-4 ${services.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
   {services.map((s) => {
     const hl = s.id === highlight;
     return (

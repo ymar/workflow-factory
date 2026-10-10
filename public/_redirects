@@ -5,3 +5,7 @@
 /journeys/ /workflows/ 301
 /journeys/* /workflows/:splat 301
 /en/* / 301
+/workflows/aanvragen-en-offertes/ /workflows/sneller-opvolgen/ 301
+/workflows/onboarding-en-nazorg/ /workflows/klanten-houden/ 301
+/workflows/onderhoud-en-contracten/ /workflows/klanten-houden/ 301
+/workflows/uitbreiden-en-vervangen/ /workflows/klanten-houden/ 301

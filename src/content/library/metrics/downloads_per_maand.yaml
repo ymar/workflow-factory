@@ -1,0 +1,5 @@
+label: Downloads per maand
+type: volume
+definition: Aantal downloads van een checklist of gids, per document.
+period: per maand
+unit: aantal

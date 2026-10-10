@@ -4,15 +4,20 @@ name: Nazorg na oplevering
 version: 1.0.0
 status: concept
 phase: gebruiken
-segments:
-- installatie-onderhoud
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: accountmanager
 priority: 2
-summary: Na de oplevering hoort de klant weer van je, voordat er iets kapot is.
-updated: 2026-10-09
+track: houden              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Na de oplevering hoort de klant weer van je, voordat er iets kapot is. Zodat het gesprek over onderhoud geen klachtgesprek wordt.'
+outcome:
+  context: 'Bedrijven die installaties, machines of systemen opleveren, in installatie, machinebouw, IT-dienstverlening en verhuur.'
+  issue: 'Na de oplevering hoort de klant pas weer van je bij een storing. Dan wordt het gesprek over onderhoud een klachtgesprek.'
+  change: 'Een check na een week, een gesprek over een onderhoudscontract terwijl de klant nog tevreden is, en uitleg over wat onderhoud voorkomt.'
+  result: 'Meer onderhoudscontracten uit opleveringen.'
+updated: 2026-10-10
 trigger: De opleverdatum van een project.
-goal: Een tevreden klant, een review en een onderhoudscontract.
+goal: Een tevreden klant en een onderhoudscontract.
 enroll:
   object: project
   at: project.opleverdatum
@@ -24,15 +29,9 @@ steps:
   at: project.opleverdatum + 7d
   action: e-mail
   to: klant.contactpersoon
-  brief: 'Korte check: werkt alles? Met een directe lijn voor vragen.'
+  brief: 'Korte check: werkt alles? Met een directe lijn voor vragen. De uitkomst gaat in het CRM, zodat de volgende workflow weet of de klant tevreden is.'
+  sets: project.check_uitkomst
 - id: s2
-  title: Vraag om een review
-  at: project.opleverdatum + 30d
-  if: project.check_uitkomst = Goed
-  action: e-mail
-  to: klant.contactpersoon
-  brief: De vraag om een review.
-- id: s3
   title: Bellen over een onderhoudscontract
   at: project.opleverdatum + 30d
   if: klant.heeft_contract = nee
@@ -40,7 +39,7 @@ steps:
   owner: accountmanager
   sla: 5 werkdagen
   brief: 'Bel: hoort er een onderhoudscontract bij deze installatie?'
-- id: s4
+- id: s3
   title: Uitleg over onderhoud
   at: project.opleverdatum + 60d
   if: klant.heeft_contract = nee
@@ -50,7 +49,7 @@ steps:
 exit:
 - klant.heeft_contract = ja
 handover:
-  won: 'Contract getekend: de einddatum gaat in het systeem en de contractverlenging staat klaar.'
+  won: 'Contract getekend: de einddatum gaat in het systeem en de contractverlenging staat klaar. Was de uitkomst van de check Goed, dan vraagt Reviews en aanbevelingen om een review.'
   lost: 'Na 90 dagen geen contract: de klant blijft in beeld via storingsopvolging en keuringen.'
 next: contractverlenging
 fields:
@@ -67,12 +66,12 @@ metrics:
 - dagen_oplevering_tot_contract
 seo:
   title: Nazorg na oplevering automatiseren
-  description: 'Workflow voor nazorg na een oplevering: een check na een week, de vraag om een review en een gesprek over een onderhoudscontract. Voor installatiebedrijven.'
-why: 'Na de oplevering hoort de klant meestal pas weer iets als er iets kapot is. Dan wordt het gesprek over onderhoud een klachtgesprek. Deze workflow draait dat om: een check na een week, een review als het goed ging, en het gesprek over een contract terwijl de klant nog tevreden is.'
+  description: 'Workflow voor nazorg na een oplevering: een check na een week en een gesprek over een onderhoudscontract. Voor installatiebedrijven.'
+why: 'Na de oplevering hoort de klant meestal pas weer iets als er iets kapot is. Dan wordt het gesprek over onderhoud een klachtgesprek. Deze workflow draait dat om: een check na een week en het gesprek over een contract terwijl de klant nog tevreden is. De vraag om een review komt daarna uit Reviews en aanbevelingen, als de check goed was.'
 example: 'Stel: 80 opleveringen per jaar, en nu krijgt 20% een onderhoudscontract van €900 per jaar. Bij 35% zijn dat 12 contracten extra, ofwel €10.800 contractomzet per jaar, elk jaar opnieuw.'
 mistakes:
 - De opleverdatum niet invullen. Dan start de workflow nooit.
-- Om een review vragen voordat je weet of de klant tevreden is.
+- De uitkomst van de check niet vastleggen. Dan weet de volgende workflow niet of de klant tevreden is.
 - Het onderhoudscontract pas aanbieden na de eerste storing.
 faq:
 - q: Waarom wacht de workflow een week?

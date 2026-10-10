@@ -1,0 +1,10 @@
+label: Review geplaatst
+type: ja/nee
+object: project
+required: false
+source: Reactie van de klant, of de reviewsite
+example: nee
+check: Wordt handmatig of via de reviewsite bijgewerkt. Zonder dit veld vraagt de workflow niet om een aanbeveling.
+says:
+  ja: de klant een review heeft geplaatst
+  nee: de klant nog geen review heeft geplaatst

@@ -3,11 +3,14 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import Button from '../../components/Button.astro';
+import StepsOffer from '../../components/StepsOffer.astro';
 import ServicesGrid from '../../components/ServicesGrid.astro';
+import { monthly } from '../../lib/offer';
+import { euro } from '../../lib/format';
 ---
 <Base
-  title="Diensten: workflows laten bouwen | Workflow Factory"
-  description="Laat een workflow bouwen in HubSpot of ActiveCampaign, schrijf eerst je positionering of bouw je landingspagina's. Vaste prijs, vaste oplevering."
+  title="Diensten: scan, bouwen en beheren | Workflow Factory"
+  description="Drie stappen: de opvolgscan, een workflow laten bouwen in HubSpot of ActiveCampaign, en maandelijks beheer. Vaste prijs per workflow."
   path="/diensten/"
 >
   <PageHero
@@ -15,11 +18,27 @@ import ServicesGrid from '../../components/ServicesGrid.astro';
     kicker="Diensten"
     title="De bibliotheek is gratis."
     accent="Het bouwen niet."
-    intro="Drie diensten met een vaste prijs en een vaste oplevering. Je betaalt niet per uur."
+    intro="Drie stappen: eerst zien waar je opvolging blijft liggen, dan een workflow laten bouwen, dan laten draaien. Je betaalt niet per uur."
   >
-    <Button href="/contact/">Plan een kennismaking</Button>
+    <Button href="/opvolgscan/">Doe de opvolgscan</Button>
   </PageHero>
-  <Section id="diensten" n="01" label="Diensten" title="Waar je begint" intro="Heb je je positionering op orde, begin dan bij Flow. Klinken je teksten als die van je concurrent, begin dan bij Blueprint. Alle prijzen zijn voorstellen.">
-    <ServicesGrid highlight="flow" badge="Bouwt de workflows" />
+  <Section id="stappen" n="01" label="Drie stappen" title="Scan, bouwen, beheren" intro="Je begint bij de scan. Alle prijzen zijn voorstellen, we bevestigen ze in de kennismaking.">
+    <StepsOffer />
+  </Section>
+  <Section id="beheren" n="02" label="Beheren" title="Elke maand een workflow erbij, of alleen laten draaien">
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="max-w-prose space-y-5 text-lg md:col-span-7">
+        <p>Een workflow die draait, moet ook blijven draaien. Velden veranderen, mensen wisselen, een koppeling valt weg. Elke maand houden we de workflows draaiende en melden we per workflow het volume, de conversie en de doorlooptijd.</p>
+        <p>Er komt, als je dat wilt, elke keer de volgende workflow bij. Zo bouw je je opvolging stap voor stap op, zonder grote projecten.</p>
+      </div>
+      <aside class="self-start rounded-xl border border-fg/15 bg-white p-8 md:col-span-5">
+        <p class="text-[13px] font-medium text-muted">{monthly.label}</p>
+        <p class="mt-4 font-display text-4xl tracking-[-0.02em]">Vanaf {euro(monthly.from)}</p>
+        <p class="mt-2 text-sm text-fg/70">Voorstel.</p>
+      </aside>
+    </div>
+  </Section>
+  <Section id="extra" n="03" label="Extra" title="Als je verhaal of je pagina's de rem zijn" intro="Klinken je teksten als die van je concurrent, begin dan bij Blueprint. Staat je positionering en doen je pagina's niets, dan is er Build. Alle prijzen zijn voorstellen.">
+    <ServicesGrid order={['blueprint', 'build']} />
   </Section>
 </Base>

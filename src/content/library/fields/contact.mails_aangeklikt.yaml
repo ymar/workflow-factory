@@ -1,0 +1,7 @@
+label: Aantal aangeklikte mails
+type: getal
+object: contact
+required: false
+source: E-mailplatform
+example: '2'
+check: Telt klikken op links in de mails van deze workflow.

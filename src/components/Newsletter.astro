@@ -1,0 +1,20 @@
+---
+// "Eén nieuwe workflow per maand in je inbox." Shows the embed code from src/lib/site.ts, or a visible placeholder without a form.
+import Placeholder from './Placeholder.astro';
+import { site } from '../lib/site';
+---
+<section aria-labelledby="nieuwsbrief-title" class="border-t border-fg/10">
+  <div class="mx-auto max-w-6xl px-4 py-14 md:px-8 md:py-20">
+    <div class="grid gap-8 md:grid-cols-12 md:items-center">
+      <div class="md:col-span-6">
+        <h2 id="nieuwsbrief-title" class="text-[1.75rem] md:text-[2.25rem]">Eén nieuwe workflow per maand in je inbox.</h2>
+        <p class="mt-3 text-fg/80">Met de trigger, de stappen en de mails. Af te melden met één klik.</p>
+      </div>
+      <div class="md:col-span-6">
+        {site.newsletterEmbed
+          ? <div set:html={site.newsletterEmbed} />
+          : <p class="rounded-xl border border-dashed border-fg/30 p-6 text-fg/80"><Placeholder label="formulier voor de nieuwsbrief: embedcode van HubSpot of ActiveCampaign volgt" /></p>}
+      </div>
+    </div>
+  </div>
+</section>

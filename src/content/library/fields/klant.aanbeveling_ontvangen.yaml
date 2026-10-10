@@ -1,0 +1,10 @@
+label: Aanbeveling ontvangen
+type: ja/nee
+object: klant
+required: false
+source: Antwoord op de mail, of notitie van de accountmanager
+example: nee
+check: De accountmanager zet dit op ja zodra de klant iemand noemt.
+says:
+  ja: de klant iemand heeft aanbevolen
+  nee: de klant niemand heeft aanbevolen

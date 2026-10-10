@@ -1,0 +1,6 @@
+label: Betaald binnen de termijn
+type: conversie
+numerator: facturen betaald vóór of op de vervaldatum
+denominator: facturen met een vervaldatum in de periode
+period: per maand, op vervaldatum
+unit: '%'

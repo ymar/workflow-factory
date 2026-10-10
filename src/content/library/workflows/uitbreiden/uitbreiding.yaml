@@ -4,15 +4,18 @@ name: Uitbreiding
 version: 1.0.0
 status: concept
 phase: uitbreiden
-segments:
-- installatie-onderhoud
-- groothandel
-- zakelijke-dienstverlening
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: accountmanager
 priority: 4
-summary: Klanten die één ding van je afnemen, horen op het juiste moment over het tweede.
-updated: 2026-10-09
+track: houden              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Klanten die één ding van je afnemen, horen op het juiste moment over het tweede. Zodat de uitbreiding bij jou komt en niet bij wie er toevallig is.'
+outcome:
+  context: 'Bedrijven die klanten één dienst, installatie of machine leveren terwijl een tweede erbij past.'
+  issue: 'Niemand weet wat er bij welke klant staat, dus uitbreidingen gaan naar wie er toevallig is.'
+  change: 'Een gesprek en een voorstel voor de tweede dienst, op het moment dat het bij de klant past.'
+  result: 'Meer klanten met twee diensten in plaats van één.'
+updated: 2026-10-10
 trigger: Een klant neemt één dienst of installatie van je af, en een tweede past erbij.
 goal: De uitbreiding bij jou, niet bij wie er toevallig is.
 enroll:

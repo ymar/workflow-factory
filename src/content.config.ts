@@ -2,6 +2,7 @@ import { defineCollection, reference, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { phaseIds } from './lib/loop';
 import { objectIds, segmentIds } from './lib/library';
+import { trackIds } from './lib/tracks';
 
 const price = z.object({
   label: z.string(),
@@ -32,18 +33,36 @@ const faq = defineCollection({
   schema: z.object({
     question: z.string(),
     answer: z.string(),
-    page: z.enum(['home', 'blueprint', 'build', 'flow', 'segment', 'teardowns', 'over', 'contact', 'privacy']),
+    page: z.enum(['home', 'blueprint', 'build', 'flow', 'scan', 'teardowns', 'over', 'contact', 'privacy']),
     order: z.number(),
   }),
 });
 
+const outcome = z.object({ context: z.string(), issue: z.string(), change: z.string(), result: z.string() });
+
+// A sector: one page in the buyer's own words. The workflows are shared; `terms` and `glossary` give each sector its vocabulary.
 const segments = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/segments' }),
   schema: z.object({
+    // Same as the file name and the URL: /<slug>/.
+    slug: z.string(),
     name: z.string(),
+    // The sector name as it reads in "voor ...", for headings and the kicker.
+    audience: z.string(),
+    // Actively sold to now (from the validation calls). Active sectors come first.
+    active: z.boolean(),
+    headline: z.object({ title: z.string(), accent: z.string() }),
+    // The outcome in four parts. Read as: We helpen [context] [result] door [change].
+    statement: outcome.extend({ line: z.string() }),
+    seo: z.object({ title: z.string().max(46), description: z.string().min(50).max(160) }),
     problems: z.array(z.string()),
+    // What this sector calls the trigger of a workflow, per workflow id.
+    terms: z.record(z.string(), z.string()),
+    // A guess about the sector's software, written as a note or a question, never as a fact.
+    note: z.object({ title: z.string(), text: z.string() }).optional(),
     workflows: z.array(reference('workflows')),
     glossary: z.array(z.object({ term: z.string(), becomes: z.string(), field: reference('fields').optional(), workflow: reference('workflows').optional() })),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
   }),
 });
 
@@ -147,8 +166,10 @@ const workflows = defineCollection({
     owner: z.string(),
     priority: z.number().int().min(1),
     summary: z.string(),
+    // The menu: what the buyer wants. phase stays for the loop; track is what the site groups by.
+    track: z.enum(trackIds),
     // The outcome in four parts: who it is for, the problem, what changes, and the result.
-    outcome: z.object({ context: z.string(), issue: z.string(), change: z.string(), result: z.string() }).optional(),
+    outcome,
     updated: z.coerce.date().optional(),
     trigger: z.string(),
     goal: z.string(),

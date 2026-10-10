@@ -10,9 +10,12 @@ import { priceLabel } from '../../lib/format';
 import { phaseById } from '../../lib/loop';
 import { statusLabel } from '../../lib/status';
 import { fieldAnchor, fieldRefsIn, fieldUsage, metricAnchor, objectLabel, segmentHref, segmentLabel, sortWorkflows, stepRefs, whenLabel, withLabels } from '../../lib/library';
+import OutcomeDl from '../../components/OutcomeDl.astro';
+import RouteCta from '../../components/RouteCta.astro';
+import { getSectors } from '../../lib/sectors';
 import { library, site } from '../../lib/site';
 import { platforms } from '../../lib/platforms';
-import { topicHref, topicOf } from '../../lib/topics';
+import { trackHref, trackOf } from '../../lib/tracks';
 import { assertLibrary } from '../../lib/library-check';
 
 export async function getStaticPaths() {
@@ -59,8 +62,10 @@ const metricTypes = ['volume', 'conversie', 'doorlooptijd', 'omzet'] as const;
 const typeLabel = { volume: 'Volume', conversie: 'Conversie', doorlooptijd: 'Doorlooptijd', omzet: 'Omzet' };
 
 const pageUrl = new URL(`/workflows/${workflow.id}/`, Astro.site).href;
-const topic = topicOf(phase);
-const crumbs: [string, string][] = [['/', 'Home'], ['/workflows/', 'Workflows'], [topicHref(topic), topic.name], [`/workflows/${workflow.id}/`, name]];
+const track = trackOf(workflow.data.track);
+const crumbs: [string, string][] = [['/', 'Home'], ['/workflows/', 'Workflows'], [trackHref(track), track.name], [`/workflows/${workflow.id}/`, name]];
+// What each sector calls this workflow's trigger, from the sector files.
+const sectorTerms = (await getSectors()).filter((s) => s.data.terms[workflow.id]).map((s) => ({ slug: s.data.slug, name: s.data.name, term: s.data.terms[workflow.id] }));
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -91,34 +96,19 @@ const jsonLd = [
 ];
 ---
 <Base title={`${seo.title} | Workflow Factory`} description={seo.description} path={`/workflows/${workflow.id}/`} jsonLd={jsonLd}>
-  <PageHero crumbs={crumbs} kicker={`${code} · Fase ${loopPhase.name.toLowerCase()}`} title={name} intro={summary}>
+  <PageHero crumbs={crumbs} kicker={`${code} · ${track.name} · Fase ${loopPhase.name.toLowerCase()}`} title={name} intro={summary}>
     <Fragment slot="meta">
       <span class={`rounded-md border px-2 py-0.5 text-xs font-medium ${st.style}`} title={st.text}>{st.label}</span>
       {!needs_blueprint && <span class="rounded-md bg-mint px-2 py-0.5 text-xs font-semibold text-forest" title="Hoeft niet te wachten op je positionering">Kan meteen</span>}
       <span>Door {site.founder}{updatedLabel && `, bijgewerkt op ${updatedLabel}`}</span>
     </Fragment>
     <Button href="/contact/">Laat hem bouwen</Button>
+    <Button href="/opvolgscan/" variant="ghost-light">Doe eerst de scan</Button>
     <Button href="#stappen" variant="ghost-light" arrow={false}>Bekijk de flow ↓</Button>
     <p slot="after" class="text-sm text-muted">{st.label}: {st.text.charAt(0).toLowerCase()}{st.text.slice(1)}</p>
   </PageHero>
 
-  {outcome && (
-    <div class="mx-auto max-w-6xl px-4 pb-16 md:px-8 md:pb-20">
-      <dl class="grid border-y border-fg/10 md:grid-cols-2 lg:grid-cols-4">
-        {[
-          ['Voor wie', outcome.context],
-          ['Het probleem', outcome.issue],
-          ['Wat er verandert', outcome.change],
-          ['Wat het oplevert', outcome.result],
-        ].map(([term, text], i) => (
-          <div class={`py-6 lg:px-6 ${i > 0 ? 'border-t border-fg/10 lg:border-l lg:border-t-0' : 'lg:pl-0'} ${i === 1 ? 'md:border-t-0 md:border-l md:pl-6' : ''} ${i === 2 ? 'md:pl-0 lg:pl-6' : ''} ${i === 3 ? 'md:border-l md:pl-6' : ''}`}>
-            <dt class={`text-[13px] ${i === 3 ? 'font-medium text-accent' : 'text-muted'}`}>{term}</dt>
-            <dd class={`mt-2 leading-snug ${i === 3 ? 'font-medium' : ''}`}>{text}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  )}
+  <div class="mx-auto max-w-6xl px-4 pb-16 md:px-8 md:pb-20"><OutcomeDl outcome={outcome} /></div>
 
   <Section id="stappen" n="01" label="De flow" title={`Zo loopt ${name.toLowerCase()}`}>
     <dl class="grid grid-cols-2 gap-x-8 gap-y-6 border-b border-fg/10 pb-8 md:grid-cols-4">
@@ -211,14 +201,23 @@ const jsonLd = [
     </Section>
   )}
 
-  <Section id="past" n="07" label="Past bij" title="Voor wie">
-    <ul class="flex flex-wrap gap-3">
+  <Section id="past" n="07" label="Past bij" title={sectorTerms.length > 0 ? 'Zo heet het in jouw branche' : 'Voor welke branches'}>
+    {sectorTerms.length > 0 && (
+      <>
+        <p class="max-w-2xl text-fg/80">Zo start de workflow: {trigger} In jouw branche heet dat anders. De workflow blijft dezelfde.</p>
+        <dl class="mt-8 border-b border-fg/15">
+          {sectorTerms.map((t) => (
+            <div class="grid gap-1 border-t border-fg/15 py-4 md:grid-cols-[18rem_1fr] md:gap-8">
+              <dt class="text-fg/70"><a href={`/${t.slug}/`} class="hover:text-accent hover:underline">{t.name}</a></dt>
+              <dd class="font-medium">{t.term}</dd>
+            </div>
+          ))}
+        </dl>
+      </>
+    )}
+    <ul class="mt-8 flex flex-wrap gap-3">
       {segments.map((s) => (
-        <li>
-          {segmentHref[s]
-            ? <a href={segmentHref[s]} class="inline-block rounded-lg border border-fg/30 px-4 py-2 hover:border-accent hover:text-accent">{segmentLabel[s]} →</a>
-            : <span class="inline-block rounded-lg border border-fg/15 px-4 py-2 text-fg/80">{segmentLabel[s]}</span>}
-        </li>
+        <li><a href={segmentHref[s]} class="inline-block rounded-lg border border-fg/30 px-4 py-2 hover:border-accent hover:text-accent">{segmentLabel[s]} →</a></li>
       ))}
     </ul>
     <p class="mt-8 text-fg/80">Werkt in HubSpot of ActiveCampaign. Geen Salesforce.</p>
@@ -234,7 +233,9 @@ const jsonLd = [
     </div>
   </Section>
 
-  <p class="mx-auto max-w-6xl px-4 pb-8 text-sm text-fg/70 md:px-8">
+  <RouteCta />
+
+  <p class="mx-auto max-w-6xl px-4 pb-8 pt-12 text-sm text-fg/70 md:px-8">
     {code} versie {version}. {library.emailsPublic ? 'Opbouw en voorbeeldmails' : 'Opbouw'} vrij te gebruiken met naamsvermelding, onder <a href="https://creativecommons.org/licenses/by/4.0/deed.nl" class="underline underline-offset-4 hover:text-accent">CC BY 4.0</a>.
   </p>
   <nav aria-label="Andere workflows" class="mx-auto grid max-w-6xl gap-4 px-4 pb-24 md:grid-cols-2 md:px-8">

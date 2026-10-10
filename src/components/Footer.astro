@@ -2,13 +2,15 @@
 import Logo from './Logo.astro';
 import Placeholder from './Placeholder.astro';
 import { site } from '../lib/site';
-import { topics, topicHref } from '../lib/topics';
+import { tracks, trackHref } from '../lib/tracks';
+import { getSectors, sectorHref } from '../lib/sectors';
+const sectors = await getSectors();
 const year = new Date().getFullYear();
 const columns = [
-  { title: 'Onderwerpen', links: [['/workflows/', 'Alle workflows'], ...topics.map((t) => [topicHref(t), t.name])] },
-  { title: 'Per platform', links: [['/workflows/hubspot/', 'HubSpot'], ['/workflows/activecampaign/', 'ActiveCampaign'], ['/workflows/data/', 'Velden en metingen']] },
-  { title: 'Diensten', links: [['/blueprint/', 'Blueprint'], ['/build/', 'Build'], ['/flow/', 'Flow'], ['/installatie-onderhoud/', 'Installatie en onderhoud']] },
-  { title: 'Meer', links: [['/teardowns/', 'Teardowns'], ['/over/', 'Over'], ['/contact/', 'Contact']] },
+  { title: 'Uitkomsten', links: [['/workflows/', 'Alle workflows'], ...tracks.map((t) => [trackHref(t), t.name])] },
+  { title: 'Branches', links: [['/branches/', 'Alle branches'], ...sectors.map((s) => [sectorHref(s.data.slug), s.data.name])] },
+  { title: 'Diensten', links: [['/opvolgscan/', 'Opvolgscan'], ['/flow/', 'Bouwen'], ['/diensten/#beheren', 'Beheren'], ['/blueprint/', 'Blueprint'], ['/build/', 'Build']] },
+  { title: 'Meer', links: [['/workflows/hubspot/', 'HubSpot'], ['/workflows/activecampaign/', 'ActiveCampaign'], ['/workflows/data/', 'Velden en metingen'], ['/teardowns/', 'Teardowns'], ['/over/', 'Over'], ['/contact/', 'Contact']] },
 ];
 ---
 <footer class="on-dark">
@@ -16,7 +18,7 @@ const columns = [
     <div class="grid gap-12 md:grid-cols-12">
       <div class="md:col-span-4">
         <Logo size="lg" />
-        <p class="mt-6 max-w-sm text-lg text-fg/80">Kant-en-klare workflows voor B2B-opvolging. Open, met data en metingen.</p>
+        <p class="mt-6 max-w-sm text-lg text-fg/80">Meer klanten voor B2B-bedrijven die verdienen aan contracten, service en herhaalorders, met opvolging die vanzelf loopt.</p>
       </div>
       {columns.map((c) => (
         <div class="text-sm md:col-span-2 md:col-start-auto">

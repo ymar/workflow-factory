@@ -42,7 +42,7 @@ const usedObjects = [...new Set(workflows.map((w) => w.data.enroll.object))];
     <Button href="/flow/" variant="ghost-dark">Laat er één bouwen</Button>
   </PageHero>
 
-  <Section id="workflows" n="01" label="Workflows" title={`Tien workflows in ${p.name}`} intro="Per workflow: op welk object hij draait en hoe hij start. Klik door voor de stappen, velden en metingen.">
+  <Section id="workflows" n="01" label="Workflows" title={`${workflows.length} workflows in ${p.name}`} intro="Per workflow: op welk object hij draait en hoe hij start. Klik door voor de stappen, velden en metingen.">
     <div class="overflow-x-auto">
       <table class="w-full min-w-[44rem] text-left">
         <thead class="text-[13px] text-muted">

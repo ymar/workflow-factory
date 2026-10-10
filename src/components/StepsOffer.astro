@@ -1,0 +1,27 @@
+---
+// The offer in three steps: Scan, Bouwen, Beheren. Prices are proposals.
+import { getEntry } from 'astro:content';
+import { steps, scan, monthly } from '../lib/offer';
+import { priceLabel, euro } from '../lib/format';
+const flow = await getEntry('services', 'flow');
+if (!flow) throw new Error('Missing services/flow.json');
+const price: Record<string, string> = {
+  scan: scan.price,
+  bouwen: `${priceLabel(flow.data.prices[0])} per workflow`,
+  beheren: `Vanaf ${euro(monthly.from)} per maand`,
+};
+---
+<ol class="grid gap-4 md:grid-cols-3">
+  {steps.map((s) => (
+    <li id={`stap-${s.id}`} class={`flex scroll-mt-24 flex-col rounded-xl p-8 ${s.id === 'bouwen' ? 'on-dark' : 'border border-fg/15 bg-white'}`}>
+      <p class="text-sm text-muted">Stap {s.n}</p>
+      <h3 class="mt-6 text-4xl">{s.name}</h3>
+      <p class="mt-4 text-fg/80">{s.summary}</p>
+      <p class="mt-4 text-fg/80"><span class="text-fg">Je krijgt:</span> {s.output}</p>
+      <p class="mt-8 border-t border-fg/15 pt-5 text-sm"><span class="font-medium">{price[s.id]}</span><span class="text-muted"> · voorstel</span></p>
+      <a href={s.href} class="group mt-auto inline-flex items-center gap-2 pt-8 font-medium text-accent">
+        {s.id === 'scan' ? 'Doe de opvolgscan' : s.id === 'bouwen' ? 'Meer over bouwen' : 'Meer over beheren'} <span aria-hidden="true" class="transition-transform motion-safe:group-hover:translate-x-0.5">→</span>
+      </a>
+    </li>
+  ))}
+</ol>

@@ -4,15 +4,18 @@ name: Offerteopvolging
 version: 1.0.0
 status: concept
 phase: kiezen
-segments:
-- installatie-onderhoud
-- groothandel
-- zakelijke-dienstverlening
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: false
 owner: verkoper
 priority: 1
-summary: Geen offerte die stil blijft liggen. Elke offerte krijgt een vaste opvolging, tot ja of nee.
-updated: 2026-10-09
+track: opvolgen              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Geen offerte die stil blijft liggen. Elke offerte krijgt een vaste opvolging, tot ja of nee. Zodat je meer offertes wint en weet waarom je de rest verliest.'
+outcome:
+  context: 'Bedrijven in installatie, machinebouw, IT-dienstverlening en verhuur die offertes sturen voor projecten, contracten of leveringen.'
+  issue: 'Offertes gaan de deur uit en daarna hoor je niets meer. Na weken weet niemand of het een ja of een nee is.'
+  change: 'Een vaste opvolging na elke verstuurde offerte, met belmomenten en een melding bij stilte, tot er een ja of nee is.'
+  result: 'Meer gewonnen offertes, en een reden bij elke offerte die je verliest.'
+updated: 2026-10-10
 trigger: Een offerte wordt verstuurd.
 goal: Een duidelijk ja of nee op elke offerte, en weten waarom.
 enroll:

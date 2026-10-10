@@ -1,0 +1,22 @@
+---
+// The scan as the first step. On the homepage and on every outcome page.
+import Button from './Button.astro';
+import { scan } from '../lib/offer';
+interface Props {
+  label?: string;
+}
+const { label = 'Stap 1' } = Astro.props;
+---
+<section aria-labelledby="scan-strip-title" class="border-t border-fg/10">
+  <div class="mx-auto max-w-6xl px-4 py-12 md:px-8 md:py-16">
+    <div class="flex flex-col gap-6 rounded-xl border border-accent/30 bg-accent/5 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+      <div class="max-w-2xl">
+        <p class="text-[13px] font-medium text-accent">{label}: de {scan.name.toLowerCase()}</p>
+        <h2 id="scan-strip-title" class="mt-2 text-2xl md:text-[1.75rem]">Begin met waar het nu lekt.</h2>
+        <p class="mt-2 text-fg/80">In {scan.minutes} minuten zien we waar aanvragen, offertes en facturen blijven liggen, en wat dat per jaar kost met je eigen cijfers. Je krijgt één pagina met de drie grootste lekken.</p>
+        <p class="mt-2 text-sm text-muted">{scan.price}. Voorstel.</p>
+      </div>
+      <div class="shrink-0"><Button href={scan.slug}>Doe de opvolgscan</Button></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,97 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: GEB-04
+name: Factuuropvolging
+version: 1.0.0
+status: concept
+phase: gebruiken
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
+needs_blueprint: false
+owner: accountmanager
+priority: 2
+track: opvolgen
+summary: 'Een factuur die niet op tijd is betaald, krijgt een vriendelijke herinnering, een belletje en een melding aan de administratie. Zodat je sneller je geld hebt en niemand achter betalingen aan hoeft te jagen.'
+outcome:
+  context: 'Bedrijven in installatie, machinebouw, IT-dienstverlening en verhuur die op factuur werken.'
+  issue: 'Facturen blijven open staan tot iemand er toevallig naar kijkt. Dan is het vergeten, of denkt de klant dat het al geregeld is.'
+  change: 'Drie dagen na de vervaldatum een vriendelijke herinnering, na tien dagen een belopdracht en na eenentwintig dagen een melding aan de administratie. Zodra de factuur betaald is, stopt alles.'
+  result: 'Facturen die sneller worden betaald, zonder dat iemand ze met de hand hoeft na te lopen.'
+updated: 2026-10-10
+trigger: De vervaldatum van een factuur die nog niet is betaald.
+goal: De factuur betaald, zonder gedoe met de klant.
+enroll:
+  object: factuur
+  at: factuur.vervaldatum
+  if:
+  - factuur.betaald = nee
+steps:
+- id: s1
+  title: Vriendelijke herinnering
+  at: factuur.vervaldatum + 3d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: Eén vriendelijke mail met de vervaldatum en het bedrag.
+  sets: factuur.herinnering_verstuurd_op = vandaag
+  email:
+    goal: Een herinnering die niemand beledigt. Veel klanten zijn het gewoon vergeten, en dan is één mail genoeg.
+    subject: '{Uw|Je} factuur van {{factuur.bedrag}} stond open op {{factuur.vervaldatum}}'
+    preheader: Misschien is de betaling al onderweg. Zo niet, dan helpt dit.
+    body: |
+      Op {{factuur.vervaldatum}} liep de betaaltermijn af van onze factuur van {{factuur.bedrag}}. We hebben de betaling nog niet gezien. Het kan zijn dat die al onderweg is. Dan {hoeft u|hoef je} niets te doen.
+
+      Is er iets onduidelijk aan de factuur, of klopt er iets niet? Laat het me weten, dan zoek ik het uit. [Wie er bij jullie over facturen gaat, en hoe je die bereikt.]
+    cta:
+      label: Factuur bekijken
+      leads_to: De factuur of de betaalpagina in je boekhoudpakket.
+- id: s2
+  title: Bellen over de factuur
+  at: factuur.vervaldatum + 10d
+  action: taak
+  owner: accountmanager
+  sla: 3 werkdagen
+  brief: Bel de klant. Vraag of de factuur is aangekomen en wanneer er wordt betaald.
+  checklist:
+  - Vraag of de factuur is aangekomen en of er iets mis mee is.
+  - Vraag wanneer de betaling komt, en leg die datum vast als notitie bij de klant.
+  - Is er een geschil? Meld dat aan de administratie en pauzeer de herinneringen.
+- id: s3
+  title: Melding aan de administratie
+  at: factuur.vervaldatum + 21d
+  action: melding
+  to: financiële administratie
+  brief: Nog niet betaald. De administratie bepaalt de volgende stap.
+  checklist:
+  - Kijk naar het bedrag en de geschiedenis van de klant.
+  - Kies een tweede herinnering, een aanmaning of een gesprek op directieniveau.
+  - Leg de keuze vast bij de factuur.
+exit:
+- factuur.betaald = ja
+handover:
+  won: Factuur betaald. De workflow stopt.
+  lost: 'Na 21 dagen nog open: de administratie neemt het over met een aanmaning of een gesprek.'
+fields:
+- factuur.vervaldatum
+- factuur.bedrag
+- factuur.betaald
+- factuur.herinnering_verstuurd_op
+- klant.contactpersoon
+- klant.accountmanager
+- contact.voornaam
+- afzender.naam
+- afzender.telefoon
+metrics:
+- betaald_binnen_termijn
+- dagen_tot_betaling
+seo:
+  title: Factuuropvolging automatiseren
+  description: 'Workflow voor openstaande facturen: een vriendelijke herinnering, een belmoment en een melding aan de administratie. Met voorbeeldmail en CRM-velden.'
+why: 'Een factuur die niet op tijd wordt betaald, blijft vaak liggen omdat niemand de eerste stap zet. Deze workflow zet die stap voor je: een herinnering, een belletje en een melding aan de administratie. Facturen staan in je boekhoudpakket (bijvoorbeeld Exact Online, Moneybird, AFAS of Twinfield) en niet in je CRM. Daarom heeft deze workflow een koppeling nodig die de vervaldatum, het bedrag en de betaalstatus doorgeeft. Zonder die koppeling krijgen klanten die al betaald hebben toch een herinnering.'
+example: 'Stel: 150 facturen per maand van gemiddeld €4.000, en nu is 30% een week of langer te laat. Haal je dat terug naar 20%, dan staat er elke maand ongeveer €60.000 minder langer open.'
+mistakes:
+- Zonder koppeling met de boekhouding starten. Dan krijgen klanten die al betaald hebben een herinnering.
+- Een herinnering sturen terwijl er een geschil loopt. Pauzeer de workflow zodra de klant een probleem meldt.
+- De eerste mail streng schrijven. De meeste klanten zijn het gewoon vergeten.
+faq:
+- q: Moet de koppeling met mijn boekhouding er echt zijn?
+  a: Ja, voor de betaalstatus. Zonder die status weet de workflow niet wanneer hij moet stoppen. Een dagelijkse export van openstaande facturen is het minimum.
+- q: Past dit bij elk betaalbeleid?
+  a: De dagen (3, 10 en 21) zijn een voorstel. Pas ze aan op je betaaltermijn en op wat bij je klanten past.

@@ -1,0 +1,6 @@
+label: Review na verzoek
+type: conversie
+numerator: klanten die een review plaatsten
+denominator: klanten aan wie om een review is gevraagd
+period: per kwartaal
+unit: '%'

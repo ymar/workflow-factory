@@ -7,6 +7,8 @@ export const site = {
   bookingUrl: '',
   kvk: '',
   availability: '',
+  // Embed code of the HubSpot or ActiveCampaign form for the newsletter. Empty: the block shows a placeholder and no form.
+  newsletterEmbed: '',
 };
 
 // Provisional choices for the example emails in the library. Still to be confirmed by the owner.

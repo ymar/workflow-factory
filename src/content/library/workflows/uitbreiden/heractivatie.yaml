@@ -1,0 +1,80 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: UIT-02
+name: Heractivatie
+version: 1.0.0
+status: concept
+phase: uitbreiden
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
+needs_blueprint: true
+owner: accountmanager
+priority: 5
+track: houden
+summary: 'Een klant die een jaar niets van je hoorde, krijgt een persoonlijke mail en een telefoontje. Zodat een stille klant weer een klant wordt, voordat een ander de klant heeft overgenomen.'
+outcome:
+  context: 'Bedrijven in installatie, machinebouw, IT-dienstverlening en verhuur met klanten die jaren geleden iets kochten en daarna stil werden.'
+  issue: 'Klanten die niets meer bestellen, verdwijnen zonder dat iemand het merkt. Na een jaar stilte is de relatie koud.'
+  change: 'Twaalf maanden na het laatste contact één persoonlijke mail, een week later een telefoontje, en daarna terug naar de kennismail.'
+  result: 'Klanten die weer bestellen, of die je tenminste laten weten waarom niet.'
+updated: 2026-10-10
+trigger: Twaalf maanden na het laatste contact met een klant.
+goal: Weer contact met een klant die stil was geworden.
+enroll:
+  object: klant
+  at: klant.laatste_contact_op + 365d
+  not_if:
+  - klant.open_storing = ja
+steps:
+- id: s1
+  title: Persoonlijke mail
+  at: klant.laatste_contact_op + 365d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: één persoonlijke mail, geen mailing. Wat we samen deden, wat er sindsdien is veranderd, en een open vraag: hoe gaat het?'
+- id: s2
+  title: Bellen
+  at: klant.laatste_contact_op + 372d
+  action: taak
+  owner: accountmanager
+  sla: 5 werkdagen
+  brief: Bel de klant. Vraag hoe het gaat en of er iets is veranderd.
+  checklist:
+  - Lees het laatste contact en de laatste bestelling door.
+  - Vraag hoe het gaat. Begin niet met een aanbod.
+  - Is er een nieuwe vraag of een reden om weg te gaan? Leg het vast.
+- id: s3
+  title: Terug naar de kennismail
+  at: klant.laatste_contact_op + 400d
+  if: contact.afgemeld = nee
+  action: systeem
+  brief: Zonder reactie gaat de contactpersoon terug naar de kennismail per seizoen, als er toestemming is.
+  sets: contact.seizoensmail = ja
+exit:
+- klant.laatste_contact_op is vernieuwd
+- contact.afgemeld = ja
+handover:
+  won: 'Weer contact: Laatste contact op wordt bijgewerkt en de workflow stopt. Bij een vraag start de passende workflow.'
+  lost: Geen reactie na 400 dagen. De klant gaat terug naar de kennismail, of valt af als de contactpersoon zich afmeldt.
+fields:
+- klant.laatste_contact_op
+- klant.open_storing
+- klant.contactpersoon
+- klant.accountmanager
+- contact.afgemeld
+- contact.seizoensmail
+metrics:
+- klanten_zonder_contact_12m
+- heractiveerde_klanten
+seo:
+  title: Heractivatie van klanten automatiseren
+  description: 'Workflow voor klanten die een jaar niets van je hoorden: een persoonlijke mail, een telefoontje en terug naar de kennismail. Met stappen en CRM-velden.'
+why: 'Klanten verdwijnen zelden met een knal. Ze bestellen een keer niet, en daarna nog een keer. Na een jaar is de relatie koud en weet niemand meer wie de laatste keer belde. Deze workflow start twaalf maanden na het laatste contact: één persoonlijke mail, een week later een telefoontje. Zodra er weer contact is, verspringt Laatste contact op en stopt de workflow vanzelf.'
+example: 'Stel: 150 klanten die een jaar niets van je hoorden. Spreekt 10% van hen je binnen twee maanden weer, dan zijn dat 15 klanten die anders stil waren gebleven.'
+mistakes:
+- Een aanbod sturen aan een klant die een jaar stil was. Begin met de vraag hoe het gaat.
+- Een mailing sturen in plaats van een persoonlijke mail van de accountmanager.
+- Laatste contact op niet bijhouden. Dan start de workflow bij klanten die wel contact hebben.
+faq:
+- q: Waarom twaalf maanden?
+  a: Lang genoeg om niet te storen bij klanten met een jaarcyclus, kort genoeg dat de relatie nog niet koud is. Bij klanten die elke maand bestellen kan het veel eerder.
+- q: Wat als de klant niet reageert?
+  a: Dan gaat de contactpersoon terug naar de kennismail per seizoen, als er toestemming is. Zo blijf je in beeld zonder te jagen.

@@ -1,0 +1,86 @@
+# Zie onderhouden/contractverlenging.yaml voor uitleg bij elk veld.
+code: SPE-02
+name: Download-opvolging
+version: 1.0.0
+status: concept
+phase: specificeren
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
+needs_blueprint: true
+owner: verkoper
+priority: 4
+track: aantrekken
+summary: 'Wie een checklist of gids van je site downloadt, krijgt in twee weken drie mails, en na twee klikken een telefoontje. Zodat een download een gesprek wordt in plaats van een e-mailadres in een lijst.'
+outcome:
+  context: 'Bedrijven in installatie, machinebouw, IT-dienstverlening en verhuur die checklists of gidsen op hun site hebben staan.'
+  issue: 'Iemand downloadt een checklist, krijgt een bedankmail, en daarna hoort hij niets meer. Het e-mailadres staat in een lijst waar niemand naar kijkt.'
+  change: 'Drie mails over twee weken, elk met een volgende stap. Na twee klikken een belopdracht voor de verkoper.'
+  result: 'Meer gesprekken met mensen die zelf om je kennis vroegen.'
+updated: 2026-10-10
+trigger: Iemand downloadt een checklist of gids van de site.
+goal: Van download naar een gesprek met iemand die al wil weten hoe jij werkt.
+enroll:
+  object: contact
+  at: contact.download_op
+  if:
+  - contact.afgemeld = nee
+steps:
+- id: s1
+  title: De download en een volgende stap
+  at: contact.download_op
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: de download leveren en één vraag stellen die past bij het onderwerp. Een link naar een voorbeeld of een korte uitleg.'
+- id: s2
+  title: Een voorbeeld uit de praktijk
+  at: contact.download_op + 5d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: laten zien hoe het in de praktijk werkt, met een link naar een uitleg of een workflow.'
+- id: s3
+  title: Aanbod voor een kort gesprek
+  at: contact.download_op + 14d
+  action: e-mail
+  to: klant.contactpersoon
+  brief: 'Doel: een concreet aanbod voor een gesprek van twintig minuten, met een link om een moment te kiezen.'
+- id: s4
+  title: Bellen na twee klikken
+  'on': contact.mails_aangeklikt >= 2
+  action: taak
+  owner: verkoper
+  sla: 1 werkdag
+  brief: Twee klikken is interesse. Bel binnen een werkdag, met de download als aanleiding.
+  checklist:
+  - Bekijk welke mails zijn aangeklikt en welke download het was.
+  - Bel met een vraag over het onderwerp van de download, niet met een aanbod.
+  - Vraagt de contactpersoon om een offerte of afspraak, zet dan een aanvraag aan. Aanvraagopvolging neemt het over.
+exit:
+- contact.afgemeld = ja
+- aanvraag.status = Nieuw
+handover:
+  won: 'Gesprek gehad en een aanvraag aangemaakt: Aanvraagopvolging neemt het over, met de download erbij als context.'
+  lost: 'Geen klikken na twee weken: de contactpersoon gaat naar de kennismail, als er toestemming is.'
+next: aanvraagopvolging
+fields:
+- contact.download_op
+- contact.download_titel
+- contact.mails_aangeklikt
+- contact.afgemeld
+- aanvraag.status
+- klant.contactpersoon
+metrics:
+- downloads_per_maand
+- download_naar_gesprek
+seo:
+  title: Download-opvolging automatiseren
+  description: 'Workflow voor het opvolgen van downloads van een checklist of gids: drie mails in twee weken en een belopdracht na twee klikken. Met CRM-velden en metingen.'
+why: 'Een download is een vraag om kennis. Zonder opvolging blijft het bij een bedankmail en een e-mailadres in een lijst. Deze workflow stuurt drie mails over twee weken, elk met een volgende stap, en meldt de verkoper zodra iemand twee keer klikt. Daarna neemt Aanvraagopvolging het over zodra er een aanvraag is.'
+example: 'Stel: 30 downloads per maand. Leidt 10% daarvan tot een gesprek, dan zijn dat 3 gesprekken per maand, met mensen die zelf om je kennis vroegen.'
+mistakes:
+- Na de download alleen een bedankmail sturen.
+- Elke download dezelfde mails sturen. Pas de volgende stap aan op het onderwerp.
+- Bellen met een aanbod. Bel met een vraag over het onderwerp van de download.
+faq:
+- q: Waarom twee klikken?
+  a: Eén klik kan toeval zijn. Twee klikken in twee weken laten zien dat iemand er echt mee bezig is. Pas het aantal aan op je volume.
+- q: Moet ik een checklist hebben om te beginnen?
+  a: Ja, één is genoeg. Kies het onderwerp waar klanten het vaakst naar vragen, en begin daarmee.

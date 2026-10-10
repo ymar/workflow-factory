@@ -4,13 +4,18 @@ name: Jaarlijkse keuring
 version: 1.0.0
 status: concept
 phase: onderhouden
-segments:
-- installatie-onderhoud
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: planner
 priority: 2
-summary: Keuringen worden ingepland voordat de klant eraan denkt.
-updated: 2026-10-09
+track: houden              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Keuringen worden ingepland voordat de klant eraan denkt. Zodat geen keuring verloopt en je planner niet elke klant hoeft te bellen.'
+outcome:
+  context: 'Bedrijven met keuringen of periodiek onderhoud dat elk jaar terugkomt, in installatie, machinebouw, IT-dienstverlening en verhuur.'
+  issue: 'Keuringen worden pas gepland als de datum bijna verlopen is, en dan volgen belrondes.'
+  change: 'Zes weken vooraf een uitnodiging om zelf in te plannen, en een belactie voor wie niet reageert.'
+  result: 'Meer keuringen op tijd gepland, met minder belwerk.'
+updated: 2026-10-10
 trigger: 6 weken voor de datum van de jaarlijkse keuring.
 goal: Elke keuring op tijd gepland, zonder belrondes.
 enroll:

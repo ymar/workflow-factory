@@ -3,7 +3,6 @@
 import type { CollectionEntry } from 'astro:content';
 import Loop from './Loop.astro';
 import { phases } from '../lib/loop';
-import { topicHref, topicOf } from '../lib/topics';
 
 interface Props {
   workflows: CollectionEntry<'workflows'>[];
@@ -16,7 +15,7 @@ const count = (id: string) => workflows.filter((w) => w.data.phase === id).lengt
   <ol class="border-b border-fg/15">
     {phases.map((p, i) => (
       <li class="border-t border-fg/15">
-        <a href={`${topicHref(topicOf(p.id))}#${p.id}`} class="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-4 hover:text-accent">
+        <a href={`/workflows/#fase-${p.id}`} class="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-4 hover:text-accent">
           <span class="text-sm text-accent">0{i + 1}</span>
           <span>
             <span class="block font-medium">{p.name}</span>

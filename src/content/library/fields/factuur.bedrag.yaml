@@ -1,0 +1,7 @@
+label: Bedrag factuur
+type: bedrag
+object: factuur
+required: true
+source: Boekhoudpakket (Exact Online, Moneybird, AFAS, Twinfield), via een koppeling met het CRM
+example: '4850'
+check: Het totaalbedrag zoals op de factuur staat.

@@ -1,52 +1,96 @@
 {
+  "slug": "installatie-onderhoud",
   "name": "Installatie en onderhoud",
+  "audience": "installatie- en onderhoudsbedrijven",
+  "active": true,
+  "headline": {
+    "title": "Meer onderhoudscontracten verlengd.",
+    "accent": "Op de datums die je al hebt."
+  },
+  "statement": {
+    "context": "Installatie- en onderhoudsbedrijven",
+    "issue": "Onderhoudscontracten lopen af zonder dat iemand belt, en offertes liggen weken stil.",
+    "change": "Opvolging die start op datums die je al hebt: opleverdatum, keuringsdatum en einddatum van het contract.",
+    "result": "Meer onderhoudscontracten verlengd en meer offertes gewonnen.",
+    "line": "We helpen installatie- en onderhoudsbedrijven meer onderhoudscontracten te verlengen en meer offertes te winnen, door de opvolging te laten starten op de datums die je al hebt: opleverdatum, keuringsdatum en einddatum van het contract."
+  },
+  "seo": {
+    "title": "Marketing automation voor installateurs",
+    "description": "Marketing automation voor installatie- en onderhoudsbedrijven: contracten verlengen en offertes winnen met opvolging op oplever-, keurings- en einddatum."
+  },
   "problems": [
-    "We concurreren op uurtarief, terwijl we beter werk leveren.",
-    "Offertes gaan de deur uit en daarna horen we niets meer.",
-    "Onderhoudscontracten lopen af zonder dat iemand belt.",
-    "Klanten bellen alleen als er iets kapot is.",
-    "Op onze site staat kwaliteit en service. Net als bij iedereen."
+    "Contracten lopen af zonder dat iemand belt.",
+    "Offertes liggen weken stil.",
+    "Na de oplevering hoort de klant pas weer van ons bij een storing."
   ],
+  "terms": {
+    "nazorg-na-oplevering": "oplevering",
+    "jaarlijkse-keuring": "keuring",
+    "storingsopvolging": "storingsmelding",
+    "contractverlenging": "onderhoudscontract",
+    "nabestellingen": "filters en materiaal",
+    "mjop-vervangingen": "MJOP",
+    "kennismail-per-seizoen": "vóór de zomer koeling, vóór de winter verwarming"
+  },
   "workflows": [
     "aanvraagopvolging",
+    "download-opvolging",
+    "reviews-en-aanbevelingen",
+    "kennismail-per-seizoen",
     "offerteopvolging",
+    "factuuropvolging",
+    "onboarding",
     "nazorg-na-oplevering",
     "jaarlijkse-keuring",
-    "contractverlenging",
     "storingsopvolging",
+    "contractverlenging",
+    "nabestellingen",
     "uitbreiding",
-    "mjop-vervangingen"
+    "mjop-vervangingen",
+    "heractivatie"
   ],
   "glossary": [
     {
-      "term": "Opleverdatum",
-      "becomes": "De start van de nazorg. Stel: 7 dagen na oplevering een korte check, en na 30 dagen de vraag of er een onderhoudscontract bij hoort.",
-      "workflow": "nazorg-na-oplevering",
-      "field": "project.opleverdatum"
+      "term": "Oplevering",
+      "becomes": "De start van de nazorg. Stel: 7 dagen na de oplevering een korte check, en na 30 dagen de vraag of er een onderhoudscontract bij hoort.",
+      "field": "project.opleverdatum",
+      "workflow": "nazorg-na-oplevering"
     },
     {
       "term": "Onderhoudscontract",
       "becomes": "Een deal met een einddatum. Stel: 90 dagen voor die datum start de verlengingsworkflow, met een taak voor de accountmanager.",
-      "workflow": "contractverlenging",
-      "field": "contract.einddatum"
+      "field": "contract.einddatum",
+      "workflow": "contractverlenging"
     },
     {
-      "term": "Jaarlijkse keuring",
+      "term": "Keuring",
       "becomes": "Een terugkerende datum. Stel: 6 weken vooraf een uitnodiging om in te plannen, en een belactie als er geen reactie komt.",
-      "workflow": "jaarlijkse-keuring",
-      "field": "keuring.datum"
+      "field": "keuring.datum",
+      "workflow": "jaarlijkse-keuring"
     },
     {
       "term": "MJOP",
       "becomes": "Een lijst met geplande vervangingen per jaar. Stel: elke regel wordt 6 maanden vooraf een offertevoorstel.",
-      "workflow": "mjop-vervangingen",
-      "field": "mjop.vervanging_op"
+      "field": "mjop.vervanging_op",
+      "workflow": "mjop-vervangingen"
     },
     {
       "term": "Storingsmelding",
       "becomes": "Een ticket met een datum. Stel: na de derde storing in een jaar een taak voor een gesprek over vervanging of een contract.",
-      "workflow": "storingsopvolging",
-      "field": "storing.aantal_12m"
+      "field": "storing.aantal_12m",
+      "workflow": "storingsopvolging"
+    },
+    {
+      "term": "Filters en materiaal",
+      "becomes": "Een bestelling met een verwacht volgend moment. Stel: 5 dagen voor het moment waarop de klant gewoonlijk filters bestelt, een mail en een belopdracht.",
+      "field": "bestelling.volgende_verwacht_op",
+      "workflow": "nabestellingen"
+    }
+  ],
+  "faq": [
+    {
+      "q": "Werkt dit ook met ons planningssysteem?",
+      "a": "Dat hangt af van het systeem. In de kennismaking kijken we welke datums we eruit kunnen halen, zoals opleverdatum en contracteinde. Zonder die datums werkt geen workflow."
     }
   ]
 }

@@ -4,15 +4,18 @@ name: Onboarding
 version: 1.0.0
 status: concept
 phase: gebruiken
-segments:
-- installatie-onderhoud
-- groothandel
-- zakelijke-dienstverlening
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: projectleider
 priority: 2
-summary: Een nieuwe klant weet vanaf dag één wat er gebeurt, met wie en wanneer.
-updated: 2026-10-09
+track: opvolgen              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Een nieuwe klant weet vanaf dag één wat er gebeurt, met wie en wanneer. Zodat de eerste opdracht niet de laatste is.'
+outcome:
+  context: 'Bedrijven die na een gewonnen offerte een project of implementatie uitvoeren, van installatie tot IT-dienstverlening.'
+  issue: 'Na het ja gaat de klant van verkoop naar uitvoering, en niemand vertelt wat er nu gebeurt.'
+  change: 'Een welkomstmail met planning en contactpersoon, een overdracht van verkoper naar uitvoering en belmomenten rond de start.'
+  result: 'Klanten die tevreden starten en vaker een tweede opdracht geven.'
+updated: 2026-10-10
 trigger: Een offerte wordt gewonnen.
 goal: Een goede start, zodat de eerste opdracht niet de laatste is.
 enroll:

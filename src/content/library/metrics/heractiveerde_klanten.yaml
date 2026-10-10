@@ -1,0 +1,6 @@
+label: Heractiveerde klanten
+type: conversie
+numerator: klanten met een gesprek of bestelling binnen 60 dagen na de eerste mail
+denominator: klanten die de heractivatie ingingen
+period: per kwartaal
+unit: '%'

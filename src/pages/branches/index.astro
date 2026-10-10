@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+import { getSectors, sectorHref } from '../../lib/sectors';
+
+const sectors = await getSectors();
+const active = sectors.filter((s) => s.data.active);
+const other = sectors.filter((s) => !s.data.active);
+const crumbs: [string, string][] = [['/', 'Home'], ['/branches/', 'Branches']];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map(([href, label], i) => ({ '@type': 'ListItem', position: i + 1, name: label, item: new URL(href, Astro.site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Branches',
+    itemListElement: sectors.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.data.name, url: new URL(sectorHref(s.data.slug), Astro.site).href })),
+  },
+];
+---
+<Base
+  title="Marketing automation per branche | Workflow Factory"
+  description="Opvolging die start op de datums van jouw branche: installatie en onderhoud, machinebouw, IT-dienstverlening en verhuur en lease van materieel."
+  path="/branches/"
+  jsonLd={jsonLd}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Branches"
+    title="Eén bibliotheek,"
+    accent="in de woorden van jouw branche."
+    intro="Een oplevering, een inbedrijfstelling, een livegang of een aflevering: het is dezelfde trigger. Elke branche heeft een eigen pagina, met de problemen en de woorden die je zelf gebruikt."
+  >
+    <Button href="/opvolgscan/">Doe de opvolgscan</Button>
+  </PageHero>
+
+  {[
+    { id: 'actief', label: 'Hier richten we ons nu op', list: active },
+    { id: 'ook', label: 'Ook beschikbaar', list: other },
+  ].filter((g) => g.list.length > 0).map((g) => (
+    <Section id={g.id} label={g.label}>
+      <ul class="grid gap-4 md:grid-cols-2">
+        {g.list.map((s) => (
+          <li class="flex flex-col rounded-xl border border-fg/15 bg-white p-6 md:p-8">
+            <h2 class="text-2xl md:text-3xl"><a href={sectorHref(s.data.slug)} class="hover:text-accent">{s.data.name}</a></h2>
+            <p class="mt-4 text-fg/80">{s.data.statement.line}</p>
+            <ul class="mt-6 space-y-2 border-t border-fg/10 pt-4 text-[15px] text-fg/75">
+              {s.data.problems.map((p) => <li>“{p}”</li>)}
+            </ul>
+            <a href={sectorHref(s.data.slug)} class="mt-auto inline-flex items-center gap-2 pt-8 font-medium text-accent hover:underline">Naar {s.data.name.toLowerCase()} <span aria-hidden="true">→</span></a>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  ))}
+</Base>

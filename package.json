@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy:preview": "astro build && npx -y wrangler@4.149.0 deploy --config deploy/preview.wrangler.jsonc"
+    "deploy:preview": "astro build && npx -y wrangler@4.149.0 deploy --config deploy/preview.wrangler.jsonc",
+    "check": "node scripts/check-dist.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

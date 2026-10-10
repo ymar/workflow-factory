@@ -1,0 +1,5 @@
+label: Aanbevelingen per kwartaal
+type: volume
+definition: Aantal klanten dat iemand aanbeveelt, per bron.
+period: per kwartaal
+unit: aantal

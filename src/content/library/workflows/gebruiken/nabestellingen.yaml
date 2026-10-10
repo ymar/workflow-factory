@@ -4,13 +4,18 @@ name: Nabestellingen
 version: 1.0.0
 status: concept
 phase: gebruiken
-segments:
-- groothandel
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: binnendienst
 priority: 3
-summary: Vaste klanten bestellen opnieuw voordat ze bij een ander gaan kijken.
-updated: 2026-10-09
+track: houden              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
+summary: 'Vaste klanten bestellen opnieuw voordat ze bij een ander gaan kijken. Zodat herhaalorders niet naar een concurrent wegsijpelen.'
+outcome:
+  context: 'Bedrijven met vaste klanten die op vaste momenten bestellen: filters en materiaal, onderdelen, licenties en hardware, of extra materieel.'
+  issue: 'Een vaste klant bestelt een keer ergens anders, en niemand merkt dat het bestelmoment voorbij is.'
+  change: 'Opvolging die start op het moment dat de klant volgens eerdere orders weer iets nodig heeft.'
+  result: 'Meer herhaalorders bij jou, op het moment dat de klant ze nodig heeft.'
+updated: 2026-10-10
 trigger: Het gebruikelijke bestelmoment van een klant komt eraan, op basis van eerdere orders.
 goal: De volgende bestelling, op het moment dat de klant iets nodig heeft.
 enroll:
@@ -55,7 +60,7 @@ metrics:
 - dagen_te_laat_besteld
 seo:
   title: Nabestellingen stimuleren in B2B
-  description: 'Workflow voor nabestellingen in de groothandel: een herinnering op het gebruikelijke bestelmoment, een telefoontje als het uitblijft en een signaal bij stilte.'
+  description: 'Workflow voor nabestellingen bij vaste klanten: een herinnering op het gebruikelijke bestelmoment, een telefoontje als het uitblijft en een signaal bij stilte.'
 why: Vaste klanten bestellen in een ritme. Valt dat ritme stil, dan bestellen ze waarschijnlijk ergens anders, en merk je dat pas maanden later. Deze workflow berekent per klant wanneer de volgende bestelling verwacht wordt, helpt de klant daar op tijd aan herinneren, en waarschuwt de accountmanager zodra het ritme breekt.
 example: 'Stel: 200 vaste klanten die elke 6 weken voor €1.500 bestellen. Bestelt 5% van hen één keer per jaar ergens anders, dan scheelt dat €15.000 omzet.'
 mistakes:

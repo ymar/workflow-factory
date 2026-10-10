@@ -6,19 +6,21 @@ name: Contractverlenging
 version: 1.0.0
 status: concept            # concept | getest | bewezen
 phase: onderhouden         # moet gelijk zijn aan de map waarin dit bestand staat
-segments: [installatie-onderhoud, zakelijke-dienstverlening]
+segments: [installatie-onderhoud, machinebouw, it-dienstverlening, verhuur-en-lease]
 needs_blueprint: true
 owner: accountmanager      # een rol, geen persoon
 priority: 2                # valt een klant in meerdere workflows, dan wint het laagste getal
+track: houden              # aantrekken | opvolgen | houden: de uitkomst waaronder de workflow in het menu valt
 
-summary: Onderhoudscontracten worden verlengd voordat ze aflopen. Niet erna.
-# De uitkomst in vier delen: voor wie, het probleem, wat er verandert en wat het oplevert.
+summary: 'Onderhoudscontracten worden verlengd voordat ze aflopen. Niet erna. Zodat de omzet die je al had niet wegvalt.'
+# De uitkomst in vier delen: voor wie (een branche of bedrijfstype, niet "B2B"), het probleem in de woorden van de koper,
+# wat er verandert en wat het oplevert. Cijfers horen in `example`, niet hier.
 outcome:
-  context: Installatie- en onderhoudsbedrijven met jaarcontracten voor onderhoud.
-  issue: Contracten lopen af zonder dat iemand op tijd belt. Wie pas in de laatste maand belt, treft een klant die al aan het vergelijken is.
-  change: Negentig dagen vooraf krijgt de klant een voorstel met wat het contract opleverde, gevolgd door vaste belmomenten en een melding als het niet lukt.
-  result: Meer contracten verlengd vóór de einddatum. Bij 400 contracten van €1.200 is elk procentpunt €4.800 contractomzet per jaar.
-updated: 2026-10-09
+  context: 'Bedrijven met jaarcontracten voor onderhoud, service of beheer, in installatie, machinebouw, IT-dienstverlening en verhuur.'
+  issue: 'Contracten lopen af zonder dat iemand op tijd belt. Wie pas in de laatste maand belt, treft een klant die al aan het vergelijken is.'
+  change: 'Negentig dagen vooraf krijgt de klant een voorstel met wat het contract opleverde, gevolgd door vaste belmomenten en een melding als het niet lukt.'
+  result: 'Meer contracten verlengd vóór de einddatum.'
+updated: 2026-10-10
 trigger: 90 dagen voor de einddatum van een onderhoudscontract.
 goal: Contract verlengd vóór de einddatum.
 

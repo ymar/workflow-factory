@@ -1,0 +1,10 @@
+label: Op de lijst voor de kennismail
+type: ja/nee
+object: contact
+required: true
+source: Aanmelding of toestemming van de klant of lead, vastgelegd in het CRM
+example: ja
+check: Alleen ja met toestemming. Zonder toestemming gaat er geen mail uit.
+says:
+  ja: de contactpersoon op de lijst voor de kennismail staat
+  nee: de contactpersoon niet op de lijst voor de kennismail staat
