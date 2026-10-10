@@ -53,7 +53,7 @@ De site is statisch (Astro op Cloudflare Workers). Dat past, want een Worker kan
 3. **Analyse** in twee lagen. Eerst regels (tellen, patronen, lijsten): snel, gratis en controleerbaar. Dan een taalmodel via de Claude API met een vaste rubric en een JSON-schema als antwoord. Het model mag alleen citeren uit de tekst die het kreeg en moet de zin noemen waarop het een oordeel baseert.
 4. **Opslag** van het resultaat in R2 of KV, met een vervaldatum (bijvoorbeeld 30 dagen).
 5. **Rapportpagina** en e-mail. Het rapport komt per e-mail, zodat het e-mailadres bevestigd is (dubbele opt-in).
-6. **Opvolging** loopt via HubSpot of ActiveCampaign: het adres komt in jouw eigen workflow Download-opvolging. Dat is ook je eerste echte test van die workflow.
+6. **Opvolging** loopt CRM-onafhankelijk: de Worker stuurt de aanvraag als webhook of API-aanroep naar het CRM of e-mailplatform dat je kiest, en daar start jouw eigen workflow Download-opvolging. Dat is ook je eerste echte test van die workflow.
 7. **Metingen:** aanvragen, verzonden rapporten, geopend, klik naar de scan, gesprekken. Die staan al in de bibliotheek (`downloads_per_maand`, `download_naar_gesprek`).
 
 Faseren:
@@ -75,7 +75,7 @@ Faseren:
 1. Kies A (Blueprint-ingang) of B (met opvolgdeel). Mijn advies: B.
 2. Voor wie is het rapport: installatie- en onderhoudsbedrijven, of breder? Dat bepaalt de rubric en de voorbeeldzinnen.
 3. Naam voor het rapport. Niet "scan", want die is al van de opvolgscan. Voorstel: "Websitecheck".
-4. Welk platform voor e-mail en opvolging: HubSpot of ActiveCampaign.
+4. Welk CRM of e-mailplatform ontvangt de aanvragen? De koppeling is een webhook of API, dus het kan elk systeem zijn.
 5. Akkoord voor een dag fase 0 met 10 echte sites. Wie levert de sites? Je mag ook sites uit je netwerk (met toestemming) of mijn zoekopdracht gebruiken.
 6. Wie doet de juridische toets?
 

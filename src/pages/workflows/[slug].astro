@@ -82,7 +82,7 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: `${name}: workflow in HubSpot of ActiveCampaign`,
+    name: `${name}: workflow voor je CRM`,
     description: summary,
     url: pageUrl,
     provider: { '@type': 'ProfessionalService', name: 'Workflow Factory' },
@@ -115,7 +115,7 @@ const jsonLd = [
       <div><dt class="text-[13px] text-muted">Stappen</dt><dd class="mt-1">{stepCount}</dd></div>
       <div><dt class="text-[13px] text-muted">Eigenaar</dt><dd class="mt-1 capitalize">{owner}</dd></div>
       <div><dt class="text-[13px] text-muted">Nodig in je CRM</dt><dd class="mt-1"><a href="#velden" class="hover:text-accent hover:underline">{fields.length} velden, {startFields.size} om te starten</a></dd></div>
-      <div><dt class="text-[13px] text-muted">Werkt in</dt><dd class="mt-1"><a href="/workflows/hubspot/" class="hover:text-accent hover:underline">HubSpot</a>, <a href="/workflows/activecampaign/" class="hover:text-accent hover:underline">ActiveCampaign</a></dd></div>
+      <div><dt class="text-[13px] text-muted">Werkt in</dt><dd class="mt-1"><a href="/workflows/crm/" class="hover:text-accent hover:underline">Elk CRM met datumvelden en automatisering</a></dd></div>
     </dl>
     <div class="mt-10">
       <WorkflowTimeline workflow={workflow} fields={fieldInfo} next={next} />
@@ -220,7 +220,7 @@ const jsonLd = [
         <li><a href={segmentHref[s]} class="inline-block rounded-lg border border-fg/30 px-4 py-2 hover:border-accent hover:text-accent">{segmentLabel[s]} →</a></li>
       ))}
     </ul>
-    <p class="mt-8 text-fg/80">Werkt in HubSpot of ActiveCampaign. Geen Salesforce.</p>
+    <p class="mt-8 text-fg/80">Werkt in elk CRM met datumvelden en automatisering. <a href="/workflows/crm/" class="font-medium text-accent underline underline-offset-4 hover:no-underline">Wat je CRM nodig heeft</a>. Uitgewerkt voor <a href="/workflows/hubspot/" class="font-medium text-accent underline underline-offset-4 hover:no-underline">HubSpot</a> en <a href="/workflows/activecampaign/" class="font-medium text-accent underline underline-offset-4 hover:no-underline">ActiveCampaign</a>.</p>
   </Section>
 
   <Section id="prijs" n="08" label="Prijs" tone="dark" title={`${name}, ingericht in ${flow.data.duration.replace(' per workflow', '')}`}>

@@ -2,7 +2,7 @@
   "name": "Flow",
   "icon": "flow",
   "order": 3,
-  "summary": "Voor B2B-bedrijven waar aanvragen, offertes en contracten blijven liggen: een workflow uit de open bibliotheek, gebouwd in HubSpot of ActiveCampaign. Zodat de opvolging draait tot de tweede bestelling.",
+  "summary": "Voor B2B-bedrijven waar aanvragen, offertes en contracten blijven liggen: een workflow uit de open bibliotheek, gebouwd in jouw CRM. Zodat de opvolging draait tot de tweede bestelling.",
   "duration": "3 weken per workflow",
   "priceStatus": "proposal",
   "prices": [
@@ -39,7 +39,7 @@
     },
     {
       "when": "Week 2",
-      "what": "Ik bouw de flow in HubSpot of ActiveCampaign.",
+      "what": "Ik bouw de flow in jouw CRM.",
       "clientTime": "30 min review",
       "done": "Klaar als: de flow in je systeem staat en jij hem hebt bekeken."
     },
@@ -53,6 +53,6 @@
   "notIncluded": [
     "Campagnes op een positionering die niet klopt",
     "Koude e-mail naar gekochte lijsten",
-    "Salesforce"
+    "Een CRM-koppeling die je systeem niet ondersteunt, zonder dat we eerst in de scan kijken wat kan"
   ]
 }

@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Section from '../../../components/Section.astro';
+import Button from '../../../components/Button.astro';
+import Faq from '../../../components/Faq.astro';
+import { objectIds, objectLabel } from '../../../lib/library';
+
+const fields = await getCollection('fields');
+const perObject = objectIds.map((id) => ({ id, label: objectLabel[id], n: fields.filter((f) => f.data.object === id).length })).filter((o) => o.n > 0);
+const needs = [
+  ['Datumvelden die iets starten', 'Je CRM kan een workflow starten op een datum: 90 dagen voor de einddatum van een contract, 7 dagen na de oplevering.'],
+  ['Plekken voor je gegevens', 'Klant, contactpersoon, offerte en contract zijn te vinden. Voor keuringen, installaties of machines is een eigen object of tabel handig.'],
+  ['Automatisering', 'Wachten, een voorwaarde (als dit, dan dat), een taak aanmaken, een e-mail sturen en een melding versturen.'],
+  ['E-mail op naam van een persoon', 'Mails gaan uit op naam van de accountmanager, met velden uit het CRM in de tekst.'],
+  ['Een weg naar je andere systemen', 'Facturen, planning of verhuurgegevens staan vaak elders. Een import, koppeling of webhook brengt ze naar je CRM.'],
+];
+const faq = [
+  { question: 'Werkt dit in mijn CRM?', answer: 'Als je CRM de vijf dingen hierboven kan, in principe ja. Of ik het kan bouwen, kijken we in de opvolgscan. Gebouwd heb ik in HubSpot en ActiveCampaign.' },
+  { question: 'Moet ik overstappen?', answer: 'Nee, tenzij je CRM geen automatisering heeft. Dan is overstappen een keuze die je zelf maakt, en wij zeggen eerlijk wat het kost en oplevert.' },
+  { question: 'Wat als mijn gegevens in een ander systeem staan?', answer: 'Dat is normaal. Boekhouding, planning en verhuursoftware hebben vaak de datums. We bepalen in de scan hoe die in je CRM komen.' },
+];
+const crumbs: [string, string][] = [['/', 'Home'], ['/workflows/', 'Workflows'], ['/workflows/crm/', 'Elk CRM']];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map(([href, label], i) => ({ '@type': 'ListItem', position: i + 1, name: label, item: new URL(href, Astro.site).href })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+  },
+];
+---
+<Base
+  title="Workflows voor elk CRM | Workflow Factory"
+  description="De workflows staan los van een systeem. Dit heeft je CRM nodig: datumvelden, automatisering en een weg naar je andere systemen. Uitgewerkt voor twee CRM's."
+  path="/workflows/crm/"
+  jsonLd={jsonLd}
+>
+  <PageHero
+    crumbs={crumbs}
+    kicker="Workflowbibliotheek · elk CRM"
+    title="De workflows staan los van je CRM."
+    accent="Dit heeft je CRM nodig."
+    intro="De velden, triggers en stappen zijn beschreven zonder een systeem erbij. Heeft je CRM de vijf dingen hieronder, dan kan elke workflow erin draaien. Zodat je niet hoeft over te stappen om je opvolging te laten lopen."
+  >
+    <Button href="/opvolgscan/">Doe de opvolgscan</Button>
+    <Button href="/workflows/data/" variant="ghost-dark">Velden en metingen</Button>
+  </PageHero>
+
+  <Section id="nodig" n="01" label="Wat je nodig hebt" title="Vijf dingen">
+    <ol class="border-b-2 border-fg">
+      {needs.map(([t, d], i) => (
+        <li class="grid gap-1 border-t-2 border-fg py-5 md:grid-cols-[3rem_18rem_1fr] md:gap-6">
+          <span class="font-bold">0{i + 1}</span>
+          <span class="font-bold">{t}</span>
+          <span class="text-fg/80">{d}</span>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="objecten" n="02" label="Je gegevens" title="Welke gegevens de workflows gebruiken" intro="Elk veld is één keer gedefinieerd in de bibliotheek, met type, bron en voorbeeld. Je CRM noemt een object misschien anders: een bedrijf, account of relatie. Dat maakt niet uit.">
+    <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {perObject.map((o) => (
+        <li class="rounded-lg border-2 border-fg bg-white p-4 text-black"><span class="block font-bold">{o.label}</span><span class="text-sm text-black/65">{o.n} {o.n === 1 ? 'veld' : 'velden'}</span></li>
+      ))}
+    </ul>
+    <p class="mt-6"><a href="/workflows/data/" class="font-medium text-accent underline underline-offset-4 hover:no-underline">Alle velden en metingen →</a></p>
+  </Section>
+
+  <Section id="uitgewerkt" n="03" label="Uitgewerkt" title="Voor twee CRM's staat het uitgeschreven">
+    <ul class="grid gap-4 md:grid-cols-2">
+      <li class="rounded-xl border-2 border-fg bg-white p-6 text-black"><h3 class="text-2xl">HubSpot</h3><p class="mt-2 text-black/75">Op welk object een workflow draait en welke bouwstenen je gebruikt.</p><a href="/workflows/hubspot/" class="mt-4 inline-block font-bold text-accent underline underline-offset-4 hover:no-underline">Naar HubSpot →</a></li>
+      <li class="rounded-xl border-2 border-fg bg-white p-6 text-black"><h3 class="text-2xl">ActiveCampaign</h3><p class="mt-2 text-black/75">Waar de gegevens staan, hoe de automation start en welke stappen je gebruikt.</p><a href="/workflows/activecampaign/" class="mt-4 inline-block font-bold text-accent underline underline-offset-4 hover:no-underline">Naar ActiveCampaign →</a></li>
+    </ul>
+    <p class="mt-6 max-w-2xl text-fg/80">Staat jouw CRM er niet bij? In de opvolgscan lopen we je systeem langs: welke datums erin staan, welke automatisering kan, en wat er nog mist.</p>
+  </Section>
+
+  <Section id="vragen" n="04" label="Vragen" title="Vragen over je CRM">
+    <Faq items={faq} />
+  </Section>
+</Base>

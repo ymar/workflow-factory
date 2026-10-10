@@ -82,6 +82,10 @@ The file name is the id: `contract.einddatum.yaml` is field `contract.einddatum`
 
 Cloudflare Web Analytics loads only when `PUBLIC_CF_ANALYTICS_TOKEN` is set as an environment variable in Cloudflare Pages. It sets no cookies, so the site needs no cookie banner.
 
+### CRM-neutral
+
+The library (fields, triggers, steps) is written without a system. `/workflows/crm/` says what any CRM needs. HubSpot and ActiveCampaign are worked out as examples (`src/lib/platforms.ts`). Copy says "jouw CRM"; which systems the owner can really build in is stated in FAQ `05.json` and `16.json`, so keep those two true.
+
 ## Still to supply
 
 - Email address (`site.email`). Until then, there is no working contact link.

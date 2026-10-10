@@ -26,7 +26,7 @@ export const steps = [
     n: '2',
     name: 'Bouwen',
     href: '/flow/',
-    summary: 'Een workflow uit de bibliotheek, gebouwd in HubSpot of ActiveCampaign.',
+    summary: 'Een workflow uit de bibliotheek, gebouwd in jouw CRM.',
     output: 'Een vaste prijs per workflow.',
   },
   {
@@ -44,7 +44,7 @@ export const notFor = [
   'Je hebt geen CRM, of de datums (einde van het contract, oplevering, keuring) staan er niet in. Dan start geen enkele workflow.',
   'Je verdient vooral aan eenmalige verkoop, zonder contracten of herhaalorders.',
   'Je verkoopt vooral aan consumenten.',
-  'Je werkt in Salesforce. We bouwen alleen in HubSpot en ActiveCampaign.',
+  'Je CRM kan geen workflows draaien en je wilt er ook niet naar overstappen.',
   'Je wilt meer leads via advertenties of zoekmachineoptimalisatie. Dat doen we niet.',
 ];
 
@@ -52,6 +52,6 @@ export const notFor = [
 export const isFor = [
   { text: 'Je bent een installatie- of onderhoudsbedrijf met onderhoudscontracten die elk jaar verlengd moeten worden.' },
   { before: 'Je hebt minstens', placeholder: 'minimaal aantal contracten', after: 'contracten met een einddatum in je systeem.' },
-  { text: 'Je werkt in HubSpot of ActiveCampaign, of je wilt daarheen.' },
+  { text: 'Je CRM kan een workflow starten op een datum, of je wilt daarheen.' },
   { text: 'Je wilt dat de opvolging loopt zonder dat je er elke week aan hoeft te denken.' },
 ] as { text?: string; before?: string; placeholder?: string; after?: string }[];
